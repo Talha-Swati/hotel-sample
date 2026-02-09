@@ -1,6 +1,7 @@
 import { memo } from 'react';
 import { Link } from 'react-router-dom';
 import { QUICK_LINKS, POPULAR_DESTINATIONS, CONTACT_INFO, COMPANY_INFO, LEGAL_LINKS } from '../../constants';
+import logo from '../../assets/logo.jpg';
 
 const Footer = ({ isDarkMode }) => {
   return (
@@ -10,9 +11,19 @@ const Footer = ({ isDarkMode }) => {
       <div className="mx-auto max-w-7xl px-4 sm:px-6">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12 mb-12">
           <div>
-            <h3 className={`text-lg sm:text-xl font-bold mb-4 ${isDarkMode ? 'text-[#C9A36A]' : 'text-[#FFF4E2]'}`}>
-              {COMPANY_INFO.name}
-            </h3>
+            <div className="flex items-center gap-3 mb-4">
+              <div className="h-12 w-12 overflow-hidden rounded-xl bg-linear-to-br from-[#C9A36A] via-[#E7CFA2] to-[#8A6B45]">
+                <img
+                  src={logo}
+                  alt="The Tiny Escape logo"
+                  className="h-full w-full object-cover"
+                  loading="lazy"
+                />
+              </div>
+              <h3 className={`text-lg sm:text-xl font-bold ${isDarkMode ? 'text-[#C9A36A]' : 'text-[#FFF4E2]'}`}>
+                {COMPANY_INFO.name}
+              </h3>
+            </div>
             <p className={`text-sm sm:text-base ${isDarkMode ? 'text-[#BFAE95]' : 'text-[#EAD7C1]'}`}>
               {COMPANY_INFO.tagline}
             </p>

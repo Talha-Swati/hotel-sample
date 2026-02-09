@@ -2,6 +2,7 @@ import React, { memo, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { getNavItems } from '../../data/navigationData';
 import ThemeSelector from './ThemeSelector';
+import logo from '../../assets/logo.jpg';
 
 const Navbar = ({ isDarkMode, mobileMenuOpen, setMobileMenuOpen, setThemeMode }) => {
   const navItems = getNavItems();
@@ -25,8 +26,13 @@ const Navbar = ({ isDarkMode, mobileMenuOpen, setMobileMenuOpen, setThemeMode })
         {/* Logo */}
         <Link to="/" className="flex items-center group flex-shrink-0">
           <div className="relative">
-            <div className="relative flex h-9 w-9 lg:h-10 lg:w-10 xl:h-14 xl:w-14 items-center justify-center rounded-2xl bg-linear-to-br from-[#C9A36A] via-[#E7CFA2] to-[#8A6B45] transition-all">
-              <span className="text-base lg:text-lg xl:text-2xl font-black text-[#1A120A]">TE</span>
+            <div className="relative flex h-11 w-11 lg:h-12 lg:w-12 xl:h-16 xl:w-16 items-center justify-center overflow-hidden rounded-2xl bg-linear-to-br from-[#C9A36A] via-[#E7CFA2] to-[#8A6B45] transition-all">
+              <img
+                src={logo}
+                alt="The Tiny Escape logo"
+                className="h-full w-full object-cover"
+                loading="eager"
+              />
             </div>
           </div>
         </Link>
