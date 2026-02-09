@@ -32,7 +32,7 @@ const Home = () => {
   }, []);
 
   useEffect(() => {
-    const elements = document.querySelectorAll('[data-reveal]');
+    const elements = Array.from(document.querySelectorAll('[data-reveal]'));
     if (!elements.length) {
       return undefined;
     }
@@ -49,10 +49,18 @@ const Home = () => {
       { threshold: 0.15, rootMargin: '0px 0px -10% 0px' }
     );
 
-    elements.forEach((el) => observer.observe(el));
+    elements.forEach((el) => {
+      const rect = el.getBoundingClientRect();
+      const inView = rect.top < window.innerHeight * 0.9 && rect.bottom > 0;
+      if (inView) {
+        el.classList.add('reveal-in');
+      } else {
+        observer.observe(el);
+      }
+    });
 
     return () => observer.disconnect();
-  }, []);
+  }, [isDarkMode]);
 
   // Memoize HeroSection props
   const heroProps = {
@@ -165,37 +173,37 @@ const Home = () => {
                 {
                   title: 'Hill Country Trails',
                   note: 'Guided sunrise loops and creekside breaks.',
-                  image: 'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=900&q=80',
+                  image: 'https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=900&q=80',
                   count: '8 signature moments'
                 },
                 {
                   title: 'Stargazing Nights',
                   note: 'Low-light decks with zero city glow.',
-                  image: 'https://images.unsplash.com/photo-1444703686981-a3abbc4d4fe3?auto=format&fit=crop&w=900&q=80',
+                  image: 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=900&q=80',
                   count: '6 signature moments'
                 },
                 {
                   title: 'Creekside Mornings',
                   note: 'Coffee, quiet water, and easy trails.',
-                  image: 'https://images.unsplash.com/photo-1502082553048-f009c37129b9?auto=format&fit=crop&w=900&q=80',
+                  image: 'https://images.unsplash.com/photo-1502005097973-6a7082348e28?auto=format&fit=crop&w=900&q=80',
                   count: '7 signature moments'
                 },
                 {
                   title: 'Golden Hour Views',
                   note: 'Warm light, long shadows, slow evenings.',
-                  image: 'https://images.unsplash.com/photo-1500534314209-a26db0f5aa84?auto=format&fit=crop&w=900&q=80',
+                  image: 'https://images.unsplash.com/photo-1507089947368-19c1da9775ae?auto=format&fit=crop&w=900&q=80',
                   count: '5 signature moments'
                 },
                 {
                   title: 'Firepit Evenings',
                   note: 'Private firepits with stocked wood bundles.',
-                  image: 'https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=900&q=80',
+                  image: 'https://images.unsplash.com/photo-1505691938895-1758d7feb511?auto=format&fit=crop&w=900&q=80',
                   count: '4 signature moments'
                 },
                 {
                   title: 'Local Wineries',
                   note: 'Curated lists and easy transport add-ons.',
-                  image: 'https://images.unsplash.com/photo-1470325907602-7e7f98b8f26b?auto=format&fit=crop&w=900&q=80',
+                  image: 'https://images.unsplash.com/photo-1449844908441-8829872d2607?auto=format&fit=crop&w=900&q=80',
                   count: '6 signature moments'
                 }
               ].map((item, index) => (
