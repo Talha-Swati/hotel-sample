@@ -1,17 +1,20 @@
 import { Helmet } from 'react-helmet-async';
+import config from '../../config';
 
-const SEO = ({ 
-  title = "PakTourZone - Discover Northern Pakistan's Hidden Treasures",
-  description = "Discover Northern Pakistan with PakTourZone. Expert tour packages for Hunza, Skardu, Swat, and more. Book your adventure today!",
-  keywords = "Pakistan tours, Hunza valley, Skardu tours, Swat valley, Northern Pakistan, tour packages, adventure travel",
-  image = "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1200",
-  imageAlt = "Mountain landscape in Northern Pakistan",
-  url = "https://paktourzone.com",
+const SEO = ({
+  title = config.seo.defaultTitle,
+  description = config.seo.defaultDescription,
+  keywords = config.seo.defaultKeywords,
+  image = config.seo.defaultImage,
+  imageAlt = "Boutique hotel room interior",
+  url = "/",
   type = "website",
   structuredData = null
 }) => {
-  const siteUrl = "https://paktourzone.com";
-  const fullUrl = `${siteUrl}${url.startsWith('/') ? url : `/${url}`}`;
+  const siteUrl = config.site.url;
+  const fullUrl = url.startsWith('http')
+    ? url
+    : `${siteUrl}${url.startsWith('/') ? url : `/${url}`}`;
   
   return (
     <Helmet>
@@ -29,7 +32,7 @@ const SEO = ({
       <meta property="og:description" content={description} />
       <meta property="og:image" content={image} />
       <meta property="og:image:alt" content={imageAlt} />
-      <meta property="og:site_name" content="PakTourZone" />
+      <meta property="og:site_name" content={config.site.name} />
       <meta property="og:locale" content="en_US" />
       
       {/* Twitter */}
@@ -44,7 +47,7 @@ const SEO = ({
       <meta name="robots" content="index, follow" />
       <meta name="language" content="English" />
       <meta name="revisit-after" content="7 days" />
-      <meta name="author" content="PakTourZone" />
+      <meta name="author" content={config.site.name} />
       
       {/* Structured Data */}
       {structuredData && (

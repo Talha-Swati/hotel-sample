@@ -16,10 +16,10 @@ export const config = {
 
   // Site Configuration
   site: {
-    name: 'PakTourZone',
-    url: import.meta.env.VITE_SITE_URL || 'https://paktourzone.com',
-    tagline: 'Pakistan Tours for Overseas Travelers',
-    email: 'info@paktourzone.com',
+    name: 'The Tiny Escape',
+    url: import.meta.env.VITE_SITE_URL || 'https://tinyescape.vercel.app',
+    tagline: 'Find your next stay',
+    email: 'info@tinyescape.vercel.app',
     phone: '+92 300 1234567',
     whatsapp: '+92 300 1234567',
   },
@@ -34,10 +34,10 @@ export const config = {
 
   // SEO Defaults
   seo: {
-    defaultTitle: 'PakTourZone - Discover Northern Pakistan',
-    defaultDescription: 'Plan safe, comfortable Pakistan tours for overseas visitors. Transparent USD pricing, local experts, and curated itineraries across Northern Areas and Kashmir.',
-    defaultKeywords: 'Pakistan tourism, Pakistan tours for international travelers, Pakistan tour packages, Northern Areas tours, Hunza Valley, Skardu tours',
-    defaultImage: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1200',
+    defaultTitle: 'The Tiny Escape',
+    defaultDescription: 'Search by your own.',
+    defaultKeywords: 'The Tiny Escape, Pakistan hotels, stays in Pakistan, travel stays, hotel booking',
+    defaultImage: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=80',
   },
 
   // Feature Flags (for gradual rollout of new features)
