@@ -35,9 +35,9 @@ export const config = {
   // SEO Defaults
   seo: {
     defaultTitle: 'The Tiny Escape',
-    defaultDescription: 'Search by your own.',
+    defaultDescription: 'Find your ideal hotel in the USA with curated stays, real photos, and transparent pricing for quick, confident bookings.',
     defaultKeywords: 'The Tiny Escape, Pakistan hotels, stays in Pakistan, travel stays, hotel booking',
-    defaultImage: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=80',
+    defaultImage: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=80&v=2',
   },
 
   // Feature Flags (for gradual rollout of new features)

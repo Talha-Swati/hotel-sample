@@ -7,6 +7,9 @@ const SEO = ({
   keywords = config.seo.defaultKeywords,
   image = config.seo.defaultImage,
   imageAlt = "Boutique hotel room interior",
+  imageWidth = "1200",
+  imageHeight = "630",
+  imageType = "image/jpeg",
   url = "/",
   type = "website",
   structuredData = null
@@ -31,6 +34,9 @@ const SEO = ({
       <meta property="og:title" content={title} />
       <meta property="og:description" content={description} />
       <meta property="og:image" content={image} />
+      <meta property="og:image:width" content={imageWidth} />
+      <meta property="og:image:height" content={imageHeight} />
+      <meta property="og:image:type" content={imageType} />
       <meta property="og:image:alt" content={imageAlt} />
       <meta property="og:site_name" content={config.site.name} />
       <meta property="og:locale" content="en_US" />
