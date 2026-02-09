@@ -2,7 +2,7 @@ import React, { memo, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { getNavItems } from '../../data/navigationData';
 import ThemeSelector from './ThemeSelector';
-import logo from '../../assets/logo.jpg';
+import logo from '../../assets/logo.png';
 
 const Navbar = ({ isDarkMode, mobileMenuOpen, setMobileMenuOpen, setThemeMode }) => {
   const navItems = getNavItems();

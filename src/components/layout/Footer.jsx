@@ -1,7 +1,7 @@
 import { memo } from 'react';
 import { Link } from 'react-router-dom';
 import { QUICK_LINKS, POPULAR_DESTINATIONS, CONTACT_INFO, COMPANY_INFO, LEGAL_LINKS } from '../../constants';
-import logo from '../../assets/logo.jpg';
+import logo from '../../assets/logo.png';
 
 const Footer = ({ isDarkMode }) => {
   return (
