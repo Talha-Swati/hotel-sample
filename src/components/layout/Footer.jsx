@@ -1,0 +1,110 @@
+import { memo } from 'react';
+import { Link } from 'react-router-dom';
+import { QUICK_LINKS, POPULAR_DESTINATIONS, CONTACT_INFO, COMPANY_INFO, LEGAL_LINKS } from '../../constants';
+
+const Footer = ({ isDarkMode }) => {
+  return (
+    <footer className={`border-t pt-16 pb-8 transition-colors ${
+      isDarkMode ? 'border-[rgba(201,163,106,0.25)] bg-[#0B0C0E]' : 'border-[rgba(25,12,6,0.6)] wood-texture-light'
+    }`}>
+      <div className="mx-auto max-w-7xl px-4 sm:px-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12 mb-12">
+          <div>
+            <h3 className={`text-lg sm:text-xl font-bold mb-4 ${isDarkMode ? 'text-[#C9A36A]' : 'text-[#FFF4E2]'}`}>
+              {COMPANY_INFO.name}
+            </h3>
+            <p className={`text-sm sm:text-base ${isDarkMode ? 'text-[#BFAE95]' : 'text-[#EAD7C1]'}`}>
+              {COMPANY_INFO.tagline}
+            </p>
+          </div>
+          <div>
+            <h4 className={`font-bold mb-4 text-base ${isDarkMode ? 'text-[#F7E8D2]' : 'text-[#FFF4E2]'}`}>
+              Stay Links
+            </h4>
+            <ul className="space-y-2">
+              {QUICK_LINKS.map((link) => (
+                <li key={link.name}>
+                  <Link 
+                    to={link.path} 
+                    className={`text-sm sm:text-base hover:text-[#FFF4E2] transition hover:underline ${
+                      isDarkMode ? 'text-[#BFAE95]' : 'text-[#EAD7C1]'
+                    }`}
+                  >
+                    {link.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div>
+            <h4 className={`font-bold mb-4 text-base ${isDarkMode ? 'text-[#F7E8D2]' : 'text-[#FFF4E2]'}`}>
+              Featured Stays
+            </h4>
+            <ul className="space-y-2">
+              {POPULAR_DESTINATIONS.map((dest) => (
+                <li key={dest.slug}>
+                  <Link 
+                    to={`/destination/${dest.slug}`} 
+                    className={`text-sm sm:text-base hover:text-[#FFF4E2] transition hover:underline ${
+                      isDarkMode ? 'text-[#BFAE95]' : 'text-[#EAD7C1]'
+                    }`}
+                  >
+                    {dest.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div>
+            <h4 className={`font-bold mb-4 text-base ${isDarkMode ? 'text-[#F7E8D2]' : 'text-[#FFF4E2]'}`}>
+              Contact
+            </h4>
+            <p className={`text-sm sm:text-base ${isDarkMode ? 'text-[#BFAE95]' : 'text-[#EAD7C1]'}`}>
+              Email: {CONTACT_INFO.email}
+            </p>
+            <p className={`mt-2 text-sm sm:text-base ${isDarkMode ? 'text-[#BFAE95]' : 'text-[#EAD7C1]'}`}>
+              Phone: {CONTACT_INFO.phone}
+            </p>
+          </div>
+        </div>
+        <div className={`pt-8 border-t text-center text-xs sm:text-sm ${
+          isDarkMode ? 'border-[rgba(201,163,106,0.2)] text-[#9B8A72]' : 'border-[rgba(255,244,226,0.2)] text-[#D9C5AE]'
+        }`}>
+          <p className="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-0 flex-wrap">
+            <span>{COMPANY_INFO.copyright}</span>
+            <span className="hidden sm:inline mx-2">|</span>
+            <span>
+              Powered and maintained by{' '}
+              <a 
+                href={COMPANY_INFO.poweredBy.url}
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="font-semibold text-[#F1DDBA] hover:text-[#FFF4E2] hover:underline transition"
+              >
+                {COMPANY_INFO.poweredBy.name}
+              </a>
+            </span>
+            <span className="hidden sm:inline mx-2">|</span>
+            <span className="flex gap-2">
+              {LEGAL_LINKS.map((link, index) => (
+                <span key={link.path} className="flex items-center gap-2">
+                  {index > 0 && <span>|</span>}
+                  <Link 
+                    to={link.path}
+                    className={`hover:underline transition ${
+                      isDarkMode ? 'hover:text-[#C9A36A]' : 'hover:text-[#FFF4E2]'
+                    }`}
+                  >
+                    {link.name}
+                  </Link>
+                </span>
+              ))}
+            </span>
+          </p>
+        </div>
+      </div>
+    </footer>
+  );
+};
+
+export default memo(Footer);
