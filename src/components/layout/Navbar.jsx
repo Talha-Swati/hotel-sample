@@ -20,7 +20,7 @@ const Navbar = ({ isDarkMode, mobileMenuOpen, setMobileMenuOpen, setThemeMode })
     <header className={`fixed top-0 left-0 right-0 z-50 w-full border-b backdrop-blur-xl shadow-lg transition-colors duration-500 ${
       isDarkMode
         ? 'border-[rgba(201,163,106,0.25)] bg-[rgba(11,10,9,0.95)]'
-        : 'border-[rgba(25,12,6,0.6)] wood-texture-light'
+        : 'border-[#D4E2D4] bg-[rgba(250,247,240,0.92)]'
     }`}>
       <div className="w-full mx-auto flex items-center justify-between px-2 lg:px-3 xl:px-6 py-2 lg:py-2 xl:py-4" style={{maxWidth: 'calc(100vw - 1rem)'}}>
         {/* Logo */}
@@ -46,7 +46,7 @@ const Navbar = ({ isDarkMode, mobileMenuOpen, setMobileMenuOpen, setThemeMode })
                 className={`group/link relative px-1 xl:px-3 py-1.5 xl:py-2 text-[10px] xl:text-sm font-semibold transition-all duration-300 flex items-center gap-0.5 xl:gap-1 whitespace-nowrap ${
                   isDarkMode
                     ? 'text-[#D6C5AE] hover:text-[#F7E8D2]'
-                    : 'text-[#F7E8D2] hover:text-[#FFF4E2]'
+                    : 'text-[#1F2A1F] hover:text-[#1F3A2A]'
                 }`}
               >
                 {item.name}
@@ -61,16 +61,16 @@ const Navbar = ({ isDarkMode, mobileMenuOpen, setMobileMenuOpen, setThemeMode })
                   </svg>
                 )}
                 {location.pathname === item.path && (
-                  <span className="absolute bottom-0 left-0 h-0.5 w-full rounded-full bg-linear-to-r from-[#E7CFA2] to-[#FFF4E2]" />
+                  <span className="absolute bottom-0 left-0 h-0.5 w-full rounded-full bg-linear-to-r from-[#1F3A2A] to-[#5F8C6A]" />
                 )}
-                <span className="absolute bottom-0 left-0 h-0.5 w-0 rounded-full bg-linear-to-r from-[#E7CFA2] to-[#FFF4E2] transition-all duration-300 group-hover/link:w-full" />
+                <span className="absolute bottom-0 left-0 h-0.5 w-0 rounded-full bg-linear-to-r from-[#1F3A2A] to-[#5F8C6A] transition-all duration-300 group-hover/link:w-full" />
               </Link>
               
               {item.hasDropdown && item.dropdownItems && (
                 <div className={`absolute left-0 top-full mt-2 ${item.name === 'Destinations' ? 'w-[520px]' : 'w-64'} rounded-xl border shadow-2xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 overflow-hidden z-50 backdrop-blur-xl ${
                   isDarkMode
                     ? 'bg-[rgba(18,15,12,0.78)] border-[rgba(201,163,106,0.2)]'
-                    : 'bg-[rgba(25,12,6,0.88)] border-[rgba(255,244,226,0.2)] shadow-[rgba(0,0,0,0.25)]'
+                    : 'bg-[rgba(250,247,240,0.98)] border-[#D4E2D4] shadow-[rgba(31,58,42,0.18)]'
                 }`}>
                   <div className={item.name === 'Destinations' ? 'p-2 grid grid-cols-2 gap-1' : 'p-2'}>
                     {item.dropdownItems.map((dropItem, dropIndex) => (
@@ -80,7 +80,7 @@ const Navbar = ({ isDarkMode, mobileMenuOpen, setMobileMenuOpen, setThemeMode })
                         className={`block px-4 py-3 text-sm rounded-lg transition-all duration-200 ${
                           isDarkMode
                             ? 'text-[#D6C5AE] hover:bg-[rgba(201,163,106,0.15)] hover:text-[#F7E8D2]'
-                            : 'text-[#F7E8D2] hover:bg-[rgba(255,244,226,0.12)] hover:text-[#FFF4E2]'
+                            : 'text-[#1F2A1F] hover:bg-[rgba(31,58,42,0.08)] hover:text-[#1F3A2A]'
                         }`}
                       >
                         <div className="flex items-center gap-3">
@@ -101,7 +101,7 @@ const Navbar = ({ isDarkMode, mobileMenuOpen, setMobileMenuOpen, setThemeMode })
           <Link to="/book-now" className={`hidden lg:flex items-center gap-0.5 xl:gap-2 rounded-md xl:rounded-xl bg-linear-to-r px-1.5 xl:px-4 py-1 xl:py-2.5 text-[9px] xl:text-sm font-bold uppercase tracking-tight xl:tracking-wider shadow-lg transition-all duration-300 hover:scale-105 whitespace-nowrap ${
             isDarkMode
                 ? 'from-[#C9A36A] to-[#E7CFA2] text-[#1A120A] shadow-[0_0_20px_rgba(201,163,106,0.35)] hover:shadow-[0_0_30px_rgba(231,207,162,0.45)]'
-                : 'from-[#8A6B45] to-[#D9B882] text-[#1A120A] shadow-[0_0_20px_rgba(138,107,69,0.35)] hover:shadow-[0_0_30px_rgba(217,184,130,0.45)]'
+              : 'from-[#1F3A2A] to-[#5F8C6A] text-[#F7FBF7] shadow-[0_0_20px_rgba(31,58,42,0.3)] hover:shadow-[0_0_30px_rgba(95,140,106,0.45)]'
           }`}>
             <svg className="h-3 w-3 xl:h-4 xl:w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
@@ -120,7 +120,7 @@ const Navbar = ({ isDarkMode, mobileMenuOpen, setMobileMenuOpen, setThemeMode })
             className={`flex lg:hidden h-11 w-11 items-center justify-center rounded-xl border backdrop-blur-sm transition-colors duration-300 ${
               isDarkMode
                 ? 'border-[rgba(201,163,106,0.3)] bg-[rgba(20,16,12,0.6)] text-[#E7CFA2]'
-                : 'border-[rgba(255,244,226,0.4)] bg-[rgba(25,12,6,0.4)] text-[#FFF4E2]'
+                : 'border-[#D4E2D4] bg-[rgba(250,247,240,0.9)] text-[#1F3A2A]'
             }`}
           >
             <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -139,7 +139,7 @@ const Navbar = ({ isDarkMode, mobileMenuOpen, setMobileMenuOpen, setThemeMode })
         <div className={`border-t backdrop-blur-xl lg:hidden transition-colors duration-500 ${
           isDarkMode
             ? 'border-[rgba(201,163,106,0.25)] bg-[rgba(11,10,9,0.98)]'
-            : 'border-[rgba(25,12,6,0.6)] wood-texture-light'
+            : 'border-[#D4E2D4] bg-[rgba(250,247,240,0.96)]'
         }`}>
           <nav className="mx-auto max-w-7xl px-6 py-4 max-h-[calc(100vh-80px)] overflow-y-auto">
             {navItems.map((item, index) => (
@@ -150,7 +150,7 @@ const Navbar = ({ isDarkMode, mobileMenuOpen, setMobileMenuOpen, setThemeMode })
                     className={`flex-1 flex items-center py-3 text-base font-semibold transition-all duration-200 hover:pl-2 ${
                       isDarkMode
                         ? 'text-[#D6C5AE] hover:text-[#F7E8D2]'
-                        : 'text-[#F7E8D2] hover:text-[#FFF4E2]'
+                        : 'text-[#1F2A1F] hover:text-[#1F3A2A]'
                     }`}
                     onClick={() => !item.hasDropdown && setMobileMenuOpen(false)}
                   >
@@ -178,7 +178,7 @@ const Navbar = ({ isDarkMode, mobileMenuOpen, setMobileMenuOpen, setThemeMode })
                 </div>
                 {item.hasDropdown && item.dropdownItems && openDropdowns[index] && (
                   <div className={`ml-4 space-y-1 mt-2 pb-2 border-l-2 pl-4 ${
-                    isDarkMode ? 'border-[#C9A36A]/30' : 'border-[#FFF4E2]/35'
+                    isDarkMode ? 'border-[#C9A36A]/30' : 'border-[#1F3A2A]/35'
                   }`}>
                     {item.dropdownItems.map((dropItem, dropIndex) => (
                       <Link
@@ -187,7 +187,7 @@ const Navbar = ({ isDarkMode, mobileMenuOpen, setMobileMenuOpen, setThemeMode })
                         className={`block py-2.5 px-3 text-sm rounded-lg transition-all duration-200 hover:pl-5 ${
                           isDarkMode
                             ? 'text-[#BFAE95] hover:bg-[rgba(201,163,106,0.12)] hover:text-[#F7E8D2]'
-                            : 'text-[#EAD7C1] hover:bg-[rgba(255,244,226,0.12)] hover:text-[#FFF4E2]'
+                            : 'text-[#2F3A2F] hover:bg-[rgba(31,58,42,0.1)] hover:text-[#1F3A2A]'
                         }`}
                         onClick={() => setMobileMenuOpen(false)}
                       >
@@ -206,7 +206,7 @@ const Navbar = ({ isDarkMode, mobileMenuOpen, setMobileMenuOpen, setThemeMode })
               className={`mt-6 mb-2 w-full flex items-center justify-center gap-2 rounded-xl bg-linear-to-r px-6 py-4 text-sm font-bold uppercase tracking-wider shadow-lg transition-transform active:scale-95 ${
                 isDarkMode
                   ? 'from-[#C9A36A] to-[#E7CFA2] text-[#1A120A]'
-                  : 'from-[#8A6B45] to-[#D9B882] text-[#1A120A]'
+                  : 'from-[#1F3A2A] to-[#5F8C6A] text-[#F7FBF7]'
               }`}
               onClick={() => setMobileMenuOpen(false)}
             >

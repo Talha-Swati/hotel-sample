@@ -7,12 +7,12 @@ const ThemeSelector = ({ isDarkMode, setThemeMode }) => {
       className={`group relative p-1.5 xl:p-2.5 rounded-lg transition-all duration-300 ${
         isDarkMode
           ? 'hover:bg-[rgba(201,163,106,0.16)]'
-          : 'hover:bg-[rgba(138,107,69,0.15)]'
+          : 'hover:bg-[rgba(31,58,42,0.12)]'
       }`}
       aria-label="Toggle theme"
     >
       <svg
-        className={`h-5 w-5 xl:h-6 xl:w-6 ${isDarkMode ? 'text-[#E7CFA2]' : 'text-[#8A6B45]'}`}
+        className={`h-5 w-5 xl:h-6 xl:w-6 ${isDarkMode ? 'text-[#E7CFA2]' : 'text-[#1F3A2A]'}`}
         viewBox="0 0 24 24"
         fill="currentColor"
         aria-hidden="true"

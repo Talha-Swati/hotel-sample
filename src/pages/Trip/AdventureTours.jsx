@@ -8,7 +8,7 @@ import { staysData } from '../../data/staysData';
 const AdventureTours = () => {
   const { isDarkMode } = useTheme();
   const featuredStays = staysData.filter((stay) =>
-    ['mesa-loft', 'prairie-house', 'riverstone-retreat'].includes(stay.slug)
+    ['triangle-1-catalina-ridge', 'triangle-2-rani-ridge', 'apple-2-kona-meadows'].includes(stay.slug)
   );
 
   const highlights = [
@@ -27,7 +27,7 @@ const AdventureTours = () => {
   return (
     <PageLayout
       seo={{
-        title: 'Adventure Stays in Texas Hill Country | Tiny Escape',
+        title: 'Adventure Stays | The Tiny Escape',
         description: 'Adventure-ready tiny homes with easy access to trails, swimming holes, and outdoor escapes across Texas Hill Country.',
         keywords: 'Texas adventure stays, Hill Country cabins, hiking stays, outdoor escapes',
         url: '/trip/adventure'
@@ -194,7 +194,7 @@ const AdventureTours = () => {
               Check Availability
             </Link>
             <Link
-              to="/custom-tour"
+              to="/custom-stay"
               className={`px-8 py-3 rounded-lg font-semibold transition-colors ${
                 isDarkMode
                   ? 'bg-[#141A1F] text-white hover:bg-[#1A2229]'

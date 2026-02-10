@@ -6,7 +6,7 @@ import logo from '../../assets/logo.png';
 const Footer = ({ isDarkMode }) => {
   return (
     <footer className={`border-t pt-16 pb-8 transition-colors ${
-      isDarkMode ? 'border-[rgba(201,163,106,0.25)] bg-[#0B0C0E]' : 'border-[rgba(25,12,6,0.6)] wood-texture-light'
+      isDarkMode ? 'border-[rgba(201,163,106,0.25)] bg-[#0B0C0E]' : 'border-[#D4E2D4] bg-linear-to-b from-[#FAF7F0] via-[#E9F1E5] to-[#DCEAD8]'
     }`}>
       <div className="mx-auto max-w-7xl px-4 sm:px-6">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12 mb-12">
@@ -20,16 +20,16 @@ const Footer = ({ isDarkMode }) => {
                   loading="lazy"
                 />
               </div>
-              <h3 className={`text-lg sm:text-xl font-bold ${isDarkMode ? 'text-[#C9A36A]' : 'text-[#FFF4E2]'}`}>
+              <h3 className={`text-lg sm:text-xl font-bold ${isDarkMode ? 'text-[#C9A36A]' : 'text-[#1F2A1F]'}`}>
                 {COMPANY_INFO.name}
               </h3>
             </div>
-            <p className={`text-sm sm:text-base ${isDarkMode ? 'text-[#BFAE95]' : 'text-[#EAD7C1]'}`}>
+            <p className={`text-sm sm:text-base ${isDarkMode ? 'text-[#BFAE95]' : 'text-[#2F3A2F]'}`}>
               {COMPANY_INFO.tagline}
             </p>
           </div>
           <div>
-            <h4 className={`font-bold mb-4 text-base ${isDarkMode ? 'text-[#F7E8D2]' : 'text-[#FFF4E2]'}`}>
+            <h4 className={`font-bold mb-4 text-base ${isDarkMode ? 'text-[#F7E8D2]' : 'text-[#1F2A1F]'}`}>
               Stay Links
             </h4>
             <ul className="space-y-2">
@@ -37,8 +37,8 @@ const Footer = ({ isDarkMode }) => {
                 <li key={link.name}>
                   <Link 
                     to={link.path} 
-                    className={`text-sm sm:text-base hover:text-[#FFF4E2] transition hover:underline ${
-                      isDarkMode ? 'text-[#BFAE95]' : 'text-[#EAD7C1]'
+                    className={`text-sm sm:text-base hover:text-[#1F3A2A] transition hover:underline ${
+                      isDarkMode ? 'text-[#BFAE95]' : 'text-[#2F3A2F]'
                     }`}
                   >
                     {link.name}
@@ -48,7 +48,7 @@ const Footer = ({ isDarkMode }) => {
             </ul>
           </div>
           <div>
-            <h4 className={`font-bold mb-4 text-base ${isDarkMode ? 'text-[#F7E8D2]' : 'text-[#FFF4E2]'}`}>
+            <h4 className={`font-bold mb-4 text-base ${isDarkMode ? 'text-[#F7E8D2]' : 'text-[#1F2A1F]'}`}>
               Featured Stays
             </h4>
             <ul className="space-y-2">
@@ -56,8 +56,8 @@ const Footer = ({ isDarkMode }) => {
                 <li key={dest.slug}>
                   <Link 
                     to={`/destination/${dest.slug}`} 
-                    className={`text-sm sm:text-base hover:text-[#FFF4E2] transition hover:underline ${
-                      isDarkMode ? 'text-[#BFAE95]' : 'text-[#EAD7C1]'
+                    className={`text-sm sm:text-base hover:text-[#1F3A2A] transition hover:underline ${
+                      isDarkMode ? 'text-[#BFAE95]' : 'text-[#2F3A2F]'
                     }`}
                   >
                     {dest.name}
@@ -67,19 +67,19 @@ const Footer = ({ isDarkMode }) => {
             </ul>
           </div>
           <div>
-            <h4 className={`font-bold mb-4 text-base ${isDarkMode ? 'text-[#F7E8D2]' : 'text-[#FFF4E2]'}`}>
+            <h4 className={`font-bold mb-4 text-base ${isDarkMode ? 'text-[#F7E8D2]' : 'text-[#1F2A1F]'}`}>
               Contact
             </h4>
-            <p className={`text-sm sm:text-base ${isDarkMode ? 'text-[#BFAE95]' : 'text-[#EAD7C1]'}`}>
+            <p className={`text-sm sm:text-base ${isDarkMode ? 'text-[#BFAE95]' : 'text-[#2F3A2F]'}`}>
               Email: {CONTACT_INFO.email}
             </p>
-            <p className={`mt-2 text-sm sm:text-base ${isDarkMode ? 'text-[#BFAE95]' : 'text-[#EAD7C1]'}`}>
+            <p className={`mt-2 text-sm sm:text-base ${isDarkMode ? 'text-[#BFAE95]' : 'text-[#2F3A2F]'}`}>
               Phone: {CONTACT_INFO.phone}
             </p>
           </div>
         </div>
         <div className={`pt-8 border-t text-center text-xs sm:text-sm ${
-          isDarkMode ? 'border-[rgba(201,163,106,0.2)] text-[#9B8A72]' : 'border-[rgba(255,244,226,0.2)] text-[#D9C5AE]'
+          isDarkMode ? 'border-[rgba(201,163,106,0.2)] text-[#9B8A72]' : 'border-[rgba(31,58,42,0.2)] text-[#4B5F4B]'
         }`}>
           <p className="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-0 flex-wrap">
             <span>{COMPANY_INFO.copyright}</span>
@@ -90,7 +90,9 @@ const Footer = ({ isDarkMode }) => {
                 href={COMPANY_INFO.poweredBy.url}
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="font-semibold text-[#F1DDBA] hover:text-[#FFF4E2] hover:underline transition"
+                className={`font-semibold hover:underline transition ${
+                  isDarkMode ? 'text-[#F1DDBA] hover:text-[#FFF4E2]' : 'text-[#1F3A2A] hover:text-[#1F2A1F]'
+                }`}
               >
                 {COMPANY_INFO.poweredBy.name}
               </a>
@@ -103,7 +105,7 @@ const Footer = ({ isDarkMode }) => {
                   <Link 
                     to={link.path}
                     className={`hover:underline transition ${
-                      isDarkMode ? 'hover:text-[#C9A36A]' : 'hover:text-[#FFF4E2]'
+                      isDarkMode ? 'hover:text-[#C9A36A]' : 'hover:text-[#1F3A2A]'
                     }`}
                   >
                     {link.name}

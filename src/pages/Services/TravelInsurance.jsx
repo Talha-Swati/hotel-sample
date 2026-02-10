@@ -13,7 +13,7 @@ const TravelInsurance = () => {
   return (
     <PageLayout
       seo={{
-        title: 'Stay Protection | Tiny Escape Texas',
+        title: 'Stay Protection | The Tiny Escape',
         description: 'Optional coverage for stay interruptions, trip changes, and personal items while you travel.',
         keywords: 'stay protection, travel coverage, trip interruption, Tiny Escape insurance',
         url: '/services/insurance'
@@ -204,7 +204,7 @@ const TravelInsurance = () => {
           </p>
           <div className="flex flex-wrap gap-4 justify-center">
             <Link
-              to="/custom-tour"
+              to="/custom-stay"
               className="bg-teal-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-teal-700 transition-colors"
             >
               Get Insurance Quote

@@ -13,11 +13,10 @@ export const QUICK_LINKS = [
 
 // Popular Destinations
 export const POPULAR_DESTINATIONS = [
-  { name: 'Cedar Ridge Cabin', slug: 'cedar-ridge' },
-  { name: 'Riverstone Retreat', slug: 'riverstone-retreat' },
-  { name: 'Mesa Loft', slug: 'mesa-loft' },
-  { name: 'Prairie House', slug: 'prairie-house' },
-  { name: 'Hillcrest Tiny Home', slug: 'hillcrest-tiny-home' }
+  { name: 'Apple 1: Razoo Creek', slug: 'apple-1-razoo-creek' },
+  { name: 'Apple 2: Kona Meadows', slug: 'apple-2-kona-meadows' },
+  { name: 'Triangle 1: Catalina Ridge', slug: 'triangle-1-catalina-ridge' },
+  { name: 'Triangle 2: Rani Ridge', slug: 'triangle-2-rani-ridge' }
 ];
 
 // Contact Information
@@ -37,11 +36,11 @@ export const SOCIAL_LINKS = {
 
 // Company Information
 export const COMPANY_INFO = {
-  name: 'Tiny Escape',
+  name: 'The Tiny Escape',
   tagline: 'Design-forward tiny homes with wide open skies',
-  description: 'A calm, curated collection of tiny stays in the Texas Hill Country.',
+  description: 'A calm, curated collection of tiny stays designed for rest and reset.',
   website: 'https://tinyescape.com',
-  copyright: '© 2026 Tiny Escape. All rights reserved.',
+  copyright: '© 2026 The Tiny Escape. All rights reserved.',
   poweredBy: {
     name: 'Zentredge',
     url: 'https://zentredge.com'
@@ -63,10 +62,10 @@ export const TOUR_CATEGORIES = [
     description: 'Perfect adventures for families with children'
   },
   {
-    id: 'honeymoon',
-    name: 'Honeymoon Tours',
-    path: '/trip/honeymoon',
-    description: 'Romantic escapes for newlyweds'
+    id: 'romantic',
+    name: 'Romantic Stays',
+    path: '/trip/romantic',
+    description: 'Romantic escapes designed for slow mornings'
   },
   {
     id: 'adventure',
@@ -92,8 +91,6 @@ export const TOUR_CATEGORIES = [
 export const SERVICE_CATEGORIES = [
   { id: 'hotels', name: 'Hotel Booking', path: '/services/hotels' },
   { id: 'transport', name: 'Transport Services', path: '/services/transport' },
-  { id: 'guides', name: 'Tour Guides', path: '/services/guides' },
-  { id: 'visa', name: 'Visa Assistance', path: '/services/visa' },
   { id: 'insurance', name: 'Travel Insurance', path: '/services/insurance' },
   { id: 'photography', name: 'Photography Services', path: '/services/photography' }
 ];

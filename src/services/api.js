@@ -140,13 +140,13 @@ export const contactAPI = {
   },
 };
 
-// Custom Tour Builder API
+// Custom Stay Request API
 export const customTourAPI = {
-  // Submit custom tour request
+  // Submit custom stay request
   submit: async (tourData) => {
     // TODO: Replace with actual API call
-    // return apiRequest('/custom-tours', { method: 'POST', body: JSON.stringify(tourData) });
-    console.log('Custom tour request:', tourData);
+    // return apiRequest('/custom-stays', { method: 'POST', body: JSON.stringify(tourData) });
+    console.log('Custom stay request:', tourData);
     return Promise.resolve({ 
       success: true, 
       requestId: `CT-${Date.now()}`,

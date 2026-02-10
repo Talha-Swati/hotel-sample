@@ -62,7 +62,7 @@ const SpecialOffers = () => {
   return (
     <PageLayout
       seo={{
-        title: 'Tiny Escape Offers | Limited-Time Stays',
+        title: 'The Tiny Escape Offers | Limited-Time Stays',
         description: 'Limited time savings on Tiny Escape stays across Texas. Book midweek resets, extended stays, and weekend specials.',
         keywords: 'Tiny Escape offers, Texas cabin deals, tiny home discounts, weekend specials',
         url: '/offers',

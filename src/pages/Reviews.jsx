@@ -82,7 +82,7 @@ const Reviews = () => {
   return (
     <PageLayout
       seo={{
-        title: "Tiny Escape Reviews | Verified Guest Feedback",
+        title: "The Tiny Escape Reviews | Verified Guest Feedback",
         description: `Read ${reviews.length} verified guest reviews. Rated ${averageRating}/5 for Tiny Escape stays, comfort, and service.`,
         keywords: "Tiny Escape reviews, Texas tiny home reviews, cabin stay testimonials, guest ratings",
         url: "/reviews",

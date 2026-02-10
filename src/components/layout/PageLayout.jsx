@@ -43,7 +43,7 @@ const PageLayout = ({
     <>
       {seo.title && <SEO {...seo} />}
       
-      <div className={`min-h-screen transition-colors duration-500 ${
+      <div className={`min-h-screen transition-colors duration-500 theme-text ${
         isDarkMode 
           ? 'bg-linear-to-b from-[#0B0C0E] to-[#0F1419] text-[#E0E7EE]' 
           : 'light-page-bg text-[#2E2117]'

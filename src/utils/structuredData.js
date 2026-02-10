@@ -3,7 +3,7 @@
 export const getOrganizationSchema = () => ({
   "@context": "https://schema.org",
   "@type": "LodgingBusiness",
-  "name": "Tiny Escape",
+  "name": "The Tiny Escape",
   "description": "Design-forward tiny homes and cabin stays in the Texas Hill Country.",
   "url": "https://tinyescape.com",
   "logo": "https://tinyescape.com/logo.png",
@@ -44,7 +44,7 @@ export const getStaySchema = (stay) => ({
   },
   "provider": {
     "@type": "LodgingBusiness",
-    "name": "Tiny Escape"
+    "name": "The Tiny Escape"
   }
 });
 

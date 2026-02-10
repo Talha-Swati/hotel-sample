@@ -1,9 +1,11 @@
+import tinyHouse1 from '../assets/tiny house1.webp';
+
 export const staysData = [
   {
-    id: 'cedar-ridge',
-    slug: 'cedar-ridge',
-    name: 'Cedar Ridge Cabin',
-    tagline: 'Sunset ridge views',
+    id: 'apple-1-razoo-creek',
+    slug: 'apple-1-razoo-creek',
+    name: 'Apple 1: Razoo Creek',
+    tagline: 'Apple 1 stay',
     location: 'Texas Hill Country',
     shortDescription: 'A quiet couples cabin with panoramic views, private firepit, and a warm, modern interior.',
     description: 'Cedar Ridge is designed for slow mornings and golden-hour evenings. Enjoy a private deck, a full kitchen, and a cozy interior wrapped in warm wood and soft light. Perfect for a restorative weekend for two.',
@@ -17,12 +19,12 @@ export const staysData = [
     checkIn: '3:00 PM',
     checkOut: '11:00 AM',
     petFriendly: false,
-    heroImage: 'https://images.unsplash.com/photo-1505691938895-1758d7feb511?w=1600&q=80',
+    heroImage: tinyHouse1,
     gallery: [
-      'https://images.unsplash.com/photo-1505691938895-1758d7feb511?w=1600&q=80',
-      'https://images.unsplash.com/photo-1507089947368-19c1da9775ae?w=1600&q=80',
-      'https://images.unsplash.com/photo-1470770841072-f978cf4d019e?w=1600&q=80',
-      'https://images.unsplash.com/photo-1449844908441-8829872d2607?w=1600&q=80'
+      tinyHouse1,
+      tinyHouse1,
+      tinyHouse1,
+      tinyHouse1
     ],
     highlights: [
       'Private firepit with sunset views',
@@ -80,13 +82,13 @@ export const staysData = [
     }
   },
   {
-    id: 'riverstone-retreat',
-    slug: 'riverstone-retreat',
-    name: 'Riverstone Retreat',
-    tagline: 'Creekside calm',
+    id: 'apple-2-kona-meadows',
+    slug: 'apple-2-kona-meadows',
+    name: 'Apple 2: Kona Meadows',
+    tagline: 'Apple 2 stay',
     location: 'Wimberley, TX',
     shortDescription: 'Family-friendly tiny home steps from the water with generous outdoor space.',
-    description: 'Riverstone Retreat is ideal for relaxed family stays with a creek nearby, shaded seating, and an open-plan living area. Unplug and enjoy nature with plenty of space to gather.',
+    description: 'Apple 2: Kona Meadows is ideal for relaxed family stays with a creek nearby, shaded seating, and an open-plan living area. Unplug and enjoy nature with plenty of space to gather.',
     category: 'family',
     rating: 4.8,
     reviews: 96,
@@ -97,12 +99,12 @@ export const staysData = [
     checkIn: '3:00 PM',
     checkOut: '11:00 AM',
     petFriendly: true,
-    heroImage: 'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=1600&q=80',
+    heroImage: tinyHouse1,
     gallery: [
-      'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=1600&q=80',
-      'https://images.unsplash.com/photo-1507089947368-19c1da9775ae?w=1600&q=80',
-      'https://images.unsplash.com/photo-1502005097973-6a7082348e28?w=1600&q=80',
-      'https://images.unsplash.com/photo-1470770841072-f978cf4d019e?w=1600&q=80'
+      tinyHouse1,
+      tinyHouse1,
+      tinyHouse1,
+      tinyHouse1
     ],
     highlights: [
       'Creekside seating and hammock',
@@ -160,13 +162,13 @@ export const staysData = [
     }
   },
   {
-    id: 'mesa-loft',
-    slug: 'mesa-loft',
-    name: 'Mesa Loft',
-    tagline: 'Design-forward and minimal',
+    id: 'triangle-1-catalina-ridge',
+    slug: 'triangle-1-catalina-ridge',
+    name: 'Triangle 1: Catalina Ridge',
+    tagline: 'Triangle 1 stay',
     location: 'Dripping Springs, TX',
     shortDescription: 'Minimalist loft with vaulted ceilings, expansive glass, and a stargazing deck.',
-    description: 'Mesa Loft blends modern architecture with Texas skies. Relax inside an airy, light-filled space or unwind outside under the stars.',
+    description: 'Triangle 1: Catalina Ridge blends modern architecture with Texas skies. Relax inside an airy, light-filled space or unwind outside under the stars.',
     category: 'value',
     rating: 4.7,
     reviews: 74,
@@ -177,12 +179,12 @@ export const staysData = [
     checkIn: '3:00 PM',
     checkOut: '11:00 AM',
     petFriendly: false,
-    heroImage: 'https://images.unsplash.com/photo-1449844908441-8829872d2607?w=1600&q=80',
+    heroImage: tinyHouse1,
     gallery: [
-      'https://images.unsplash.com/photo-1449844908441-8829872d2607?w=1600&q=80',
-      'https://images.unsplash.com/photo-1502005097973-6a7082348e28?w=1600&q=80',
-      'https://images.unsplash.com/photo-1505691938895-1758d7feb511?w=1600&q=80',
-      'https://images.unsplash.com/photo-1500534314209-a26db0f5aa84?w=1600&q=80'
+      tinyHouse1,
+      tinyHouse1,
+      tinyHouse1,
+      tinyHouse1
     ],
     highlights: [
       'Vaulted ceilings and tall glass',
@@ -238,13 +240,13 @@ export const staysData = [
     }
   },
   {
-    id: 'prairie-house',
-    slug: 'prairie-house',
-    name: 'Prairie House',
-    tagline: 'Open skies and quiet mornings',
+    id: 'triangle-2-rani-ridge',
+    slug: 'triangle-2-rani-ridge',
+    name: 'Triangle 2: Rani Ridge',
+    tagline: 'Triangle 2 stay',
     location: 'Marble Falls, TX',
     shortDescription: 'Spacious tiny home with wide views, a private deck, and room to unwind.',
-    description: 'Prairie House offers a peaceful hideaway with soft interiors and a large outdoor deck. Ideal for small groups who want a calm, comfortable base.',
+    description: 'Triangle 2: Rani Ridge offers a peaceful hideaway with soft interiors and a large outdoor deck. Ideal for small groups who want a calm, comfortable base.',
     category: 'group',
     rating: 4.8,
     reviews: 88,
@@ -255,12 +257,12 @@ export const staysData = [
     checkIn: '3:00 PM',
     checkOut: '11:00 AM',
     petFriendly: true,
-    heroImage: 'https://images.unsplash.com/photo-1500534314209-a26db0f5aa84?w=1600&q=80',
+    heroImage: tinyHouse1,
     gallery: [
-      'https://images.unsplash.com/photo-1500534314209-a26db0f5aa84?w=1600&q=80',
-      'https://images.unsplash.com/photo-1470770841072-f978cf4d019e?w=1600&q=80',
-      'https://images.unsplash.com/photo-1507089947368-19c1da9775ae?w=1600&q=80',
-      'https://images.unsplash.com/photo-1502005097973-6a7082348e28?w=1600&q=80'
+      tinyHouse1,
+      tinyHouse1,
+      tinyHouse1,
+      tinyHouse1
     ],
     highlights: [
       'Large deck with open views',

@@ -17,8 +17,8 @@ const PageHero = ({
     <section
       className={`relative py-20 overflow-hidden ${
         isDarkMode 
-          ? 'bg-linear-to-br from-[#0B0C0E] via-[#0A3A67] to-[#0B0C0E]' 
-          : 'bg-linear-to-br from-white via-[#EBF8FF] to-white'
+          ? 'bg-linear-to-br from-[#0B0C0E] via-[#171310] to-[#0B0C0E]' 
+          : 'bg-linear-to-br from-[#FFFDF9] via-[#F7EFE6] to-[#FFF9F1]'
       } ${className}`}
     >
       <div className="container mx-auto px-4">
@@ -26,11 +26,11 @@ const PageHero = ({
           {/* Badge */}
           {badge && (
             <div className={`inline-block px-4 py-2 rounded-full mb-6 ${
-              isDarkMode ? 'bg-[#22D3EE]/10 border border-[#22D3EE]' : 'bg-blue-50 border border-blue-200'
+              isDarkMode ? 'bg-[#C9A36A]/10 border border-[#C9A36A]' : 'bg-[#F2E7DA] border border-[#D9B882]'
             }`}>
               {typeof badge === 'string' ? (
                 <span className={`text-sm font-semibold ${
-                  isDarkMode ? 'text-[#22D3EE]' : 'text-[#3B82F6]'
+                  isDarkMode ? 'text-[#E7CFA2]' : 'text-[#8A6B45]'
                 }`}>
                   {badge}
                 </span>
@@ -46,8 +46,8 @@ const PageHero = ({
               className={`text-4xl md:text-5xl lg:text-6xl font-bold mb-6 ${
                 gradient
                   ? isDarkMode
-                    ? 'bg-linear-to-r from-[#22D3EE] to-[#4DBBFF]'
-                    : 'bg-linear-to-r from-[#3B82F6] to-[#60A5FA]'
+                    ? 'bg-linear-to-r from-[#C9A36A] to-[#E7CFA2]'
+                    : 'bg-linear-to-r from-[#8A6B45] to-[#C9A36A]'
                   : isDarkMode
                   ? 'text-[#E0E7EE]'
                   : 'text-[#1F2937]'
@@ -60,7 +60,7 @@ const PageHero = ({
           {/* Subtitle */}
           {subtitle && (
             <p className={`text-lg md:text-xl mb-8 ${
-              isDarkMode ? 'text-[#C4CCD4]' : 'text-[#4A5568]'
+              isDarkMode ? 'text-[#C4CCD4]' : 'text-[#5B4A3A]'
             }`}>
               {subtitle}
             </p>

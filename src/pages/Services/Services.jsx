@@ -22,18 +22,6 @@ const Services = () => {
       gradient: 'from-green-500 to-emerald-600'
     },
     {
-      ...servicesData.guides,
-      path: '/services/guides',
-      color: 'purple',
-      gradient: 'from-purple-500 to-pink-600'
-    },
-    {
-      ...servicesData.visa,
-      path: '/services/visa',
-      color: 'orange',
-      gradient: 'from-orange-500 to-red-600'
-    },
-    {
       ...servicesData.insurance,
       path: '/services/insurance',
       color: 'teal',
@@ -50,9 +38,9 @@ const Services = () => {
   return (
     <PageLayout
       seo={{
-        title: 'Guest Services | Tiny Escape Texas',
-        description: 'Complete stay services for Tiny Escape guests: curated stays, transfers, local guides, concierge planning, protection, and memory sessions.',
-        keywords: 'Texas tiny stays services, Hill Country concierge, local guides, airport transfers, stay add-ons',
+        title: 'Guest Services | The Tiny Escape',
+        description: 'Complete stay services for Tiny Escape guests: curated stays, transfers, protection, and memory sessions.',
+        keywords: 'tiny stays services, stay protection, airport transfers, stay add-ons',
         url: '/services'
       }}
       className={`transition-colors duration-500 ${isDarkMode ? 'bg-linear-to-b from-[#0B0C0E] to-[#0F1419] text-[#E0E7EE]' : 'bg-linear-to-b from-[#F8FAFC] to-white text-[#0F172A]'}`}
@@ -64,10 +52,10 @@ const Services = () => {
         </div>
         <div className="relative h-full flex items-center justify-center px-4">
           <div className="max-w-4xl mx-auto text-center text-white">
-            <h1 className="text-5xl md:text-6xl font-bold mb-6">Complete Travel Services</h1>
-            <p className="text-xl md:text-2xl mb-8 text-gray-200">Concierge, local guides, and thoughtful add-ons for Texas Hill Country stays</p>
+            <h1 className="text-5xl md:text-6xl font-bold mb-6">Complete Stay Services</h1>
+            <p className="text-xl md:text-2xl mb-8 text-gray-200">Thoughtful add-ons, transfers, and support for calm, design-forward stays</p>
             <div className="flex flex-wrap gap-4 justify-center">
-              <Link to="/custom-tour" className="bg-white text-blue-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors">Plan a Custom Stay</Link>
+              <Link to="/custom-stay" className="bg-white text-blue-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors">Plan a Custom Stay</Link>
               <a href="#services" className="border-2 border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-blue-600 transition-all">Explore Services</a>
             </div>
           </div>
@@ -113,7 +101,7 @@ const Services = () => {
           <h2 className={`text-4xl font-bold mb-6 ${isDarkMode ? 'text-white' : 'text-[#0F172A]'}`}>Ready to Plan Your Stay?</h2>
           <p className={`text-xl mb-8 ${isDarkMode ? 'text-[#C4CCD4]' : 'text-[#475569]'}`}>We handle the details, you enjoy the quiet, the views, and the reset</p>
           <div className="flex flex-wrap gap-4 justify-center">
-            <Link to="/custom-tour" className={`px-8 py-4 rounded-lg font-semibold transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-1 ${isDarkMode ? 'bg-linear-to-r from-[#22D3EE] to-[#4DBBFF] text-[#0B0C0E] hover:from-[#4DBBFF] hover:to-[#22D3EE]' : 'bg-linear-to-r from-blue-600 to-purple-600 text-white hover:from-blue-700 hover:to-purple-700'}`}>Plan Your Custom Stay</Link>
+            <Link to="/custom-stay" className={`px-8 py-4 rounded-lg font-semibold transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-1 ${isDarkMode ? 'bg-linear-to-r from-[#22D3EE] to-[#4DBBFF] text-[#0B0C0E] hover:from-[#4DBBFF] hover:to-[#22D3EE]' : 'bg-linear-to-r from-blue-600 to-purple-600 text-white hover:from-blue-700 hover:to-purple-700'}`}>Plan Your Custom Stay</Link>
             <Link to="/contact" className={`px-8 py-4 rounded-lg font-semibold transition-all ${isDarkMode ? 'bg-[#141A1F] text-white hover:bg-[#1A2229] border border-[rgba(34,211,238,0.2)]' : 'bg-white text-[#0F172A] hover:bg-[#F1F5F9] border border-[#E2E8F0]'} shadow-lg`}>Contact Us</Link>
           </div>
         </div>

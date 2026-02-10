@@ -16,6 +16,12 @@ import SectionHeader from '../components/common/SectionHeader';
 
 // Data
 import { heroImages } from '../data/navigationData';
+import tinyEscape2 from '../assets/tiny escape 2.jpg';
+import tinyEscape3 from '../assets/tiny escape 3.jpg';
+import tinyEscape4 from '../assets/tiny escape 4.jpg';
+import tinyEscape5 from '../assets/tiny escape 5.jpg';
+import tinyHouse1 from '../assets/tiny house1.webp';
+import newYearVideo from '../assets/videos/New Year Celebration video.mp4';
 
 const Home = () => {
   const { isDarkMode } = useTheme();
@@ -67,7 +73,7 @@ const Home = () => {
     isDarkMode,
     currentSlide,
     setCurrentSlide,
-    heroImages,
+    heroImages
   };
 
   // Structured data for SEO
@@ -76,12 +82,22 @@ const Home = () => {
     ...getReviewSchema({ averageRating: "4.9", count: "1250" })
   };
 
+  const recentMoments = [
+    {
+      title: 'New Year Celebration',
+      src: newYearVideo,
+      poster: tinyEscape3,
+      description: 'Grateful for your support as we welcome a year of peaceful escapes.'
+    }
+  ];
+
+
   return (
     <PageLayout
       seo={{
-        title: "Tiny Escape Texas | Tiny Homes and Resort Stays",
-        description: "Tiny Escape offers calm, design-forward tiny homes and cabins in Texas. Private decks, wide skies, and easy check-in for a restorative stay.",
-        keywords: "Tiny Escape Texas, tiny home resort, cabins in Texas, hill country stay, weekend getaway",
+        title: "The Tiny Escape | Tiny Homes and Resort Stays",
+        description: "The Tiny Escape offers calm, design-forward tiny homes and cabins. Private decks, wide skies, and easy check-in for a restorative stay.",
+        keywords: "The Tiny Escape, tiny home resort, cabin stays, weekend getaway, design-forward stays",
         url: "/",
         structuredData
       }}
@@ -92,22 +108,19 @@ const Home = () => {
           {/* Featured Stays Section */}
           <FeaturedTours isDarkMode={isDarkMode} />
 
-          {/* Section Separator */}
-          <hr className={`border-t ${isDarkMode ? 'border-gray-800' : 'border-[#E2E8F0]'}`} aria-hidden="true" />
-
           {/* Why Choose Us Section */}
           <section aria-labelledby="why-choose-us" className={`relative py-32 overflow-hidden transition-colors duration-500 ${
-            isDarkMode ? 'bg-[#14110E]' : 'bg-[#F7F0E6]'
+            isDarkMode ? 'bg-[#14110E]' : 'bg-[#EAF3EA]'
           }`}>
         <div className="relative z-10 mx-auto max-w-7xl px-6">
             <header className="text-center mb-20 reveal-on-scroll" data-reveal>
               <h2 id="why-choose-us" className="text-4xl md:text-5xl font-bold mb-6">
-                <span className={isDarkMode ? 'text-[#F2F6F9]' : 'text-[#1A202C]'}>Why Choose </span>
+                <span className={isDarkMode ? 'text-[#F2F6F9]' : 'text-[#1F2A1F]'}>Why Choose </span>
                 <span className={`bg-clip-text text-transparent ${
-                  isDarkMode ? 'bg-linear-to-r from-[#C9A36A] to-[#E7CFA2]' : 'bg-linear-to-r from-[#8A6B45] to-[#C9A36A]'
+                  isDarkMode ? 'bg-linear-to-r from-[#C9A36A] to-[#E7CFA2]' : 'bg-linear-to-r from-[#2F5D3A] to-[#7BAF7C]'
                 }`}>Tiny Escape</span>
               </h2>
-              <p className={`text-lg md:text-xl ${isDarkMode ? 'text-[#A79C8C]' : 'text-[#374151]'}`}>
+              <p className={`text-lg md:text-xl ${isDarkMode ? 'text-[#A79C8C]' : 'text-[#3E4F3E]'}`}>
                 A Texas tiny home escape designed for slow mornings, warm sunsets, and quiet, private stays
               </p>
             </header>
@@ -149,21 +162,21 @@ const Home = () => {
         </section>
 
         {/* Section Separator */}
-        <hr className={`border-t ${isDarkMode ? 'border-gray-800' : 'border-[#E2E8F0]'}`} aria-hidden="true" />
+        <hr className={`border-t ${isDarkMode ? 'border-gray-800' : 'border-[#DDE8DD]'}`} aria-hidden="true" />
 
         {/* Experiences Grid */}
         <section aria-labelledby="destinations" className={`relative py-32 overflow-hidden transition-colors duration-500 ${
-          isDarkMode ? 'bg-linear-to-b from-[#0F0D0A] via-[#171310] to-[#0F0D0A]' : 'bg-linear-to-b from-white via-[#F7F0E6] to-[#FFF9F1]'
+          isDarkMode ? 'bg-linear-to-b from-[#0F0D0A] via-[#171310] to-[#0F0D0A]' : 'bg-linear-to-b from-[#F6FAF4] via-[#EAF3EA] to-[#F3F7F2]'
         }`}>
           <div className="relative z-10 mx-auto max-w-7xl px-6">
             <header className="text-center mb-20 reveal-on-scroll" data-reveal>
               <h2 id="destinations" className="text-4xl md:text-5xl font-bold mb-6">
-                <span className={isDarkMode ? 'text-[#F2F6F9]' : 'text-[#1A202C]'}>Explore </span>
+                <span className={isDarkMode ? 'text-[#F2F6F9]' : 'text-[#1F2A1F]'}>Explore </span>
                 <span className={`bg-clip-text text-transparent ${
-                  isDarkMode ? 'bg-linear-to-r from-[#C9A36A] to-[#E7CFA2]' : 'bg-linear-to-r from-[#8A6B45] to-[#C9A36A]'
+                  isDarkMode ? 'bg-linear-to-r from-[#C9A36A] to-[#E7CFA2]' : 'bg-linear-to-r from-[#2F5D3A] to-[#7BAF7C]'
                 }`}>Experiences</span>
               </h2>
-              <p className={`text-lg md:text-xl ${isDarkMode ? 'text-[#A79C8C]' : 'text-[#374151]'}`}>
+              <p className={`text-lg md:text-xl ${isDarkMode ? 'text-[#A79C8C]' : 'text-[#3E4F3E]'}`}>
                 Curated moments for slow stays, from stargazing decks to creekside hammocks
               </p>
             </header>
@@ -173,37 +186,37 @@ const Home = () => {
                 {
                   title: 'Hill Country Trails',
                   note: 'Guided sunrise loops and creekside breaks.',
-                  image: 'https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=900&q=80',
+                  image: tinyEscape2,
                   count: '8 signature moments'
                 },
                 {
                   title: 'Stargazing Nights',
                   note: 'Low-light decks with zero city glow.',
-                  image: 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=900&q=80',
+                  image: tinyEscape3,
                   count: '6 signature moments'
                 },
                 {
                   title: 'Creekside Mornings',
                   note: 'Coffee, quiet water, and easy trails.',
-                  image: 'https://images.unsplash.com/photo-1502005097973-6a7082348e28?auto=format&fit=crop&w=900&q=80',
+                  image: tinyEscape4,
                   count: '7 signature moments'
                 },
                 {
                   title: 'Golden Hour Views',
                   note: 'Warm light, long shadows, slow evenings.',
-                  image: 'https://images.unsplash.com/photo-1507089947368-19c1da9775ae?auto=format&fit=crop&w=900&q=80',
+                  image: tinyEscape5,
                   count: '5 signature moments'
                 },
                 {
                   title: 'Firepit Evenings',
                   note: 'Private firepits with stocked wood bundles.',
-                  image: 'https://images.unsplash.com/photo-1505691938895-1758d7feb511?auto=format&fit=crop&w=900&q=80',
+                  image: tinyEscape2,
                   count: '4 signature moments'
                 },
                 {
                   title: 'Local Wineries',
                   note: 'Curated lists and easy transport add-ons.',
-                  image: 'https://images.unsplash.com/photo-1449844908441-8829872d2607?auto=format&fit=crop&w=900&q=80',
+                  image: tinyEscape3,
                   count: '6 signature moments'
                 }
               ].map((item, index) => (
@@ -213,12 +226,12 @@ const Home = () => {
                   className={`group flex flex-col md:flex-row overflow-hidden rounded-3xl border transition-all duration-500 hover:-translate-y-1 reveal-on-scroll ${
                     isDarkMode
                       ? 'bg-[#16120F] border-[rgba(201,163,106,0.25)] hover:border-[rgba(201,163,106,0.45)]'
-                      : 'bg-white border-[#E2E8F0] hover:border-[#E7D4BA]'
+                      : 'bg-white border-[#DDE8DD] hover:border-[#CFE3CF]'
                   }`}
                   data-reveal
                   style={{ transitionDelay: `${120 + index * 80}ms` }}
                 >
-                  <div className={`md:w-2/5 min-h-[220px] md:min-h-[240px] ${isDarkMode ? 'bg-[#1A140F]' : 'bg-[#F5EADB]'}`}>
+                  <div className={`md:w-2/5 min-h-[220px] md:min-h-[240px] ${isDarkMode ? 'bg-[#1A140F]' : 'bg-[#E3EFE3]'}`}>
                     <img
                       src={item.image}
                       alt={item.title}
@@ -230,20 +243,20 @@ const Home = () => {
                   <div className="flex-1 p-6 flex flex-col justify-between">
                     <div>
                       <p className={`text-xs font-semibold uppercase tracking-widest ${
-                        isDarkMode ? 'text-[#C9A36A]' : 'text-[#8A6B45]'
+                        isDarkMode ? 'text-[#C9A36A]' : 'text-[#2F5D3A]'
                       }`}>
                         Experience
                       </p>
-                      <h3 className={`text-2xl font-bold mb-2 ${isDarkMode ? 'text-[#F2EEE7]' : 'text-[#0F172A]'}`}>
+                      <h3 className={`text-2xl font-bold mb-2 ${isDarkMode ? 'text-[#F2EEE7]' : 'text-[#1F2A1F]'}`}>
                         {item.title}
                       </h3>
-                      <p className={isDarkMode ? 'text-[#A79C8C]' : 'text-[#475569]'}>{item.note}</p>
+                      <p className={isDarkMode ? 'text-[#A79C8C]' : 'text-[#4B5F4B]'}>{item.note}</p>
                     </div>
                     <div className="mt-6 flex items-center justify-between">
-                      <span className={`text-sm ${isDarkMode ? 'text-[#CDBEAC]' : 'text-[#64748B]'}`}>
+                      <span className={`text-sm ${isDarkMode ? 'text-[#CDBEAC]' : 'text-[#6B7C6B]'}`}>
                         {item.count}
                       </span>
-                      <span className={`text-sm font-semibold ${isDarkMode ? 'text-[#E7CFA2]' : 'text-[#5B442A]'}`}>
+                      <span className={`text-sm font-semibold ${isDarkMode ? 'text-[#E7CFA2]' : 'text-[#2F5D3A]'}`}>
                         Explore →
                       </span>
                     </div>
@@ -254,19 +267,90 @@ const Home = () => {
           </div>
         </section>
 
+        {/* Recent Moments */}
+        <section aria-labelledby="recent-moments" className={`relative py-20 overflow-hidden transition-colors duration-500 ${
+          isDarkMode ? 'bg-[#14110E]' : 'bg-[#F3F7F2]'
+        }`}>
+          <div className="mx-auto max-w-7xl px-6">
+            <header className="mb-10 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+              <div>
+                <p className={`text-xs font-semibold uppercase tracking-[0.28em] ${
+                  isDarkMode ? 'text-[#C9A36A]' : 'text-[#2F5D3A]'
+                }`}>
+                  Recent Moments
+                </p>
+                <h2 id="recent-moments" className={`mt-2 text-3xl md:text-4xl font-bold ${
+                  isDarkMode ? 'text-[#F2EEE7]' : 'text-[#1F2A1F]'
+                }`}>
+                  Tiny Escape in motion
+                </h2>
+              </div>
+              <Link
+                to="/gallery"
+                className={`inline-flex items-center gap-2 text-sm font-semibold transition-colors ${
+                  isDarkMode ? 'text-[#E7CFA2] hover:text-[#F2EEE7]' : 'text-[#2F5D3A] hover:text-[#1F2A1F]'
+                }`}
+              >
+                View gallery
+                <span aria-hidden="true">→</span>
+              </Link>
+            </header>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {recentMoments.map((video) => (
+                <div key={video.title} className="w-full space-y-3">
+                  <article
+                    className={`overflow-hidden rounded-2xl border transition-all duration-500 ${
+                      isDarkMode
+                        ? 'bg-[#16120F] border-[rgba(201,163,106,0.25)] hover:border-[rgba(201,163,106,0.45)] hover:-translate-y-1'
+                        : 'bg-white border-[#DDE8DD] hover:border-[#CFE3CF] hover:-translate-y-1'
+                    }`}
+                  >
+                    <div className="relative">
+                      <video
+                        src={video.src}
+                        className="h-[200px] w-full object-cover"
+                        poster={video.poster}
+                        muted
+                        playsInline
+                        loop
+                        controls
+                      />
+                      <div className={`absolute inset-0 pointer-events-none ${
+                        isDarkMode
+                          ? 'bg-linear-to-t from-[rgba(11,12,14,0.5)] via-transparent to-transparent'
+                          : 'bg-linear-to-t from-[rgba(243,247,242,0.35)] via-transparent to-transparent'
+                      }`} />
+                    </div>
+                    <div className="p-5">
+                      <h3 className={`text-lg font-bold ${isDarkMode ? 'text-[#F2EEE7]' : 'text-[#1F2A1F]'}`}>
+                        {video.title}
+                      </h3>
+                    </div>
+                  </article>
+                  <p className={`text-sm ${isDarkMode ? 'text-[#A79C8C]' : 'text-[#4B5F4B]'}`}>
+                    {video.description}
+                  </p>
+                </div>
+              ))}
+            </div>
+
+          </div>
+        </section>
+
         {/* Stay Notes */}
         <section aria-labelledby="stay-notes" className={`relative py-32 overflow-hidden transition-colors duration-500 ${
-          isDarkMode ? 'bg-[#14110E]' : 'bg-[#FFF9F1]'
+          isDarkMode ? 'bg-[#14110E]' : 'bg-[#F3F7F2]'
         }`}>
           <div className="relative z-10 mx-auto max-w-7xl px-6">
             <header className="text-center mb-20 reveal-on-scroll" data-reveal>
               <h2 id="stay-notes" className="text-4xl md:text-5xl font-bold mb-6">
-                <span className={isDarkMode ? 'text-[#F2EEE7]' : 'text-[#1A202C]'}>Stay </span>
+                <span className={isDarkMode ? 'text-[#F2EEE7]' : 'text-[#1F2A1F]'}>Stay </span>
                 <span className={`bg-clip-text text-transparent ${
-                  isDarkMode ? 'bg-linear-to-r from-[#C9A36A] to-[#E7CFA2]' : 'bg-linear-to-r from-[#8A6B45] to-[#C9A36A]'
+                  isDarkMode ? 'bg-linear-to-r from-[#C9A36A] to-[#E7CFA2]' : 'bg-linear-to-r from-[#2F5D3A] to-[#7BAF7C]'
                 }`}>Notes</span>
               </h2>
-              <p className={`text-lg md:text-xl ${isDarkMode ? 'text-[#A79C8C]' : 'text-[#374151]'}`}>
+              <p className={`text-lg md:text-xl ${isDarkMode ? 'text-[#A79C8C]' : 'text-[#3E4F3E]'}`}>
                 A few pro touches that make the stay feel effortless
               </p>
             </header>
@@ -275,17 +359,17 @@ const Home = () => {
               {[
                 {
                   title: 'Arrival Rituals',
-                  image: 'https://images.unsplash.com/photo-1507089947368-19c1da9775ae?w=800',
+                  image: tinyEscape4,
                   body: 'Pre-stocked coffee, soft lighting, and a welcome note so your first hour feels calm.'
                 },
                 {
                   title: 'Restorative Details',
-                  image: 'https://images.unsplash.com/photo-1505691938895-1758d7feb511?w=800',
+                  image: tinyEscape5,
                   body: 'Premium linens, warm woods, and simple design that invites you to slow down.'
                 },
                 {
                   title: 'Concierge Add-ons',
-                  image: 'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=800',
+                  image: tinyEscape2,
                   body: 'Local guides, dining reservations, and sunrise hikes organized before you arrive.'
                 }
               ].map((item, index) => (
@@ -294,7 +378,7 @@ const Home = () => {
                   className={`overflow-hidden rounded-3xl border transition-all duration-500 hover:-translate-y-1 reveal-on-scroll ${
                     isDarkMode
                       ? 'bg-[#16120F] border-[rgba(201,163,106,0.25)] hover:border-[rgba(201,163,106,0.45)]'
-                      : 'bg-white border-[#E2E8F0] hover:border-[#E7D4BA]'
+                      : 'bg-white border-[#DDE8DD] hover:border-[#CFE3CF]'
                   }`}
                   data-reveal
                   style={{ transitionDelay: `${120 + index * 90}ms` }}
@@ -309,10 +393,10 @@ const Home = () => {
                     />
                   </div>
                   <div className="p-6">
-                    <h3 className={`text-2xl font-bold mb-3 ${isDarkMode ? 'text-[#F2EEE7]' : 'text-[#0F172A]'}`}>
+                    <h3 className={`text-2xl font-bold mb-3 ${isDarkMode ? 'text-[#F2EEE7]' : 'text-[#1F2A1F]'}`}>
                       {item.title}
                     </h3>
-                    <p className={isDarkMode ? 'text-[#A79C8C]' : 'text-[#475569]'}>{item.body}</p>
+                    <p className={isDarkMode ? 'text-[#A79C8C]' : 'text-[#4B5F4B]'}>{item.body}</p>
                   </div>
                 </div>
               ))}
@@ -321,21 +405,21 @@ const Home = () => {
         </section>
 
         {/* Section Separator */}
-        <hr className={`border-t ${isDarkMode ? 'border-gray-800' : 'border-[#E2E8F0]'}`} aria-hidden="true" />
+        <hr className={`border-t ${isDarkMode ? 'border-gray-800' : 'border-[#DDE8DD]'}`} aria-hidden="true" />
 
         {/* Testimonials */}
         <section aria-labelledby="testimonials" className={`relative py-32 overflow-hidden transition-colors duration-500 ${
-          isDarkMode ? 'bg-[#120F0C]' : 'bg-[#FFF9F1]'
+          isDarkMode ? 'bg-[#120F0C]' : 'bg-[#F3F7F2]'
         }`}>
           <div className="relative z-10 mx-auto max-w-7xl px-6">
             <header className="text-center mb-20 reveal-on-scroll" data-reveal>
               <h2 id="testimonials" className="text-4xl md:text-5xl font-bold mb-6">
-                <span className={isDarkMode ? 'text-[#F2F6F9]' : 'text-[#1A202C]'}>Guest </span>
+                <span className={isDarkMode ? 'text-[#F2F6F9]' : 'text-[#1F2A1F]'}>Guest </span>
                 <span className={`bg-clip-text text-transparent ${
-                  isDarkMode ? 'bg-linear-to-r from-[#C9A36A] to-[#E7CFA2]' : 'bg-linear-to-r from-[#8A6B45] to-[#C9A36A]'
+                  isDarkMode ? 'bg-linear-to-r from-[#C9A36A] to-[#E7CFA2]' : 'bg-linear-to-r from-[#2F5D3A] to-[#7BAF7C]'
                 }`}>Stories</span>
               </h2>
-              <p className={`text-lg md:text-xl ${isDarkMode ? 'text-[#A79C8C]' : 'text-[#374151]'}`}>
+              <p className={`text-lg md:text-xl ${isDarkMode ? 'text-[#A79C8C]' : 'text-[#3E4F3E]'}`}>
                 Real notes from guests who reset, reconnect, and unplug with Tiny Escape
               </p>
             </header>
@@ -349,7 +433,7 @@ const Home = () => {
               <div
                 key={i}
                 className={`p-8 rounded-2xl border transition-colors reveal-on-scroll ${
-                isDarkMode ? 'bg-[rgba(26,22,18,0.7)] border-[rgba(201,163,106,0.25)]' : 'bg-white border-[#E2E8F0] shadow-sm'
+                isDarkMode ? 'bg-[rgba(26,22,18,0.7)] border-[rgba(201,163,106,0.25)]' : 'bg-white border-[#DDE8DD] shadow-sm'
                 }`}
                 data-reveal
                 style={{ transitionDelay: `${120 + i * 120}ms` }}
@@ -357,11 +441,11 @@ const Home = () => {
                 <div className="flex items-center gap-4 mb-4">
                   <img src={`https://i.pravatar.cc/60?img=${i+1}`} alt={review.name} loading="lazy" decoding="async" className="w-12 h-12 rounded-full" />
                   <div>
-                    <h4 className={`font-bold ${isDarkMode ? 'text-[#F2F6F9]' : 'text-[#1A202C]'}`}>{review.name}</h4>
-                    <p className={`text-sm ${isDarkMode ? 'text-[#A79C8C]' : 'text-[#64748B]'}`}>{review.country}</p>
+                    <h4 className={`font-bold ${isDarkMode ? 'text-[#F2F6F9]' : 'text-[#1F2A1F]'}`}>{review.name}</h4>
+                    <p className={`text-sm ${isDarkMode ? 'text-[#A79C8C]' : 'text-[#6B7C6B]'}`}>{review.country}</p>
                   </div>
                 </div>
-                <p className={isDarkMode ? 'text-[#CDBEAC]' : 'text-[#374151]'}>{review.text}</p>
+                <p className={isDarkMode ? 'text-[#CDBEAC]' : 'text-[#3E4F3E]'}>{review.text}</p>
                 <div className="flex gap-1 mt-4">
                   {[...Array(5)].map((_, j) => (
                     <svg key={j} className="w-5 h-5 text-[#FFD700]" fill="currentColor" viewBox="0 0 20 20">
@@ -376,11 +460,11 @@ const Home = () => {
       </section>
 
       {/* Section Separator */}
-      <div className={`border-b ${isDarkMode ? 'border-gray-800' : 'border-[#E2E8F0]'}`} />
+      <div className={`border-b ${isDarkMode ? 'border-gray-800' : 'border-[#DDE8DD]'}`} />
 
       {/* Gallery Preview */}
       <section className={`relative py-32 overflow-hidden transition-colors duration-500 ${
-        isDarkMode ? 'bg-linear-to-b from-[#0F0D0A] to-[#171310]' : 'bg-linear-to-b from-[#FFF9F1] to-[#F5EADB]'
+        isDarkMode ? 'bg-linear-to-b from-[#0F0D0A] to-[#171310]' : 'bg-linear-to-b from-[#E8EFE1] to-[#D0E0CD]'
       }`}>
         <div className="relative z-10 mx-auto max-w-7xl px-6">
           <div className="reveal-on-scroll" data-reveal>
@@ -395,44 +479,20 @@ const Home = () => {
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {[
-              {
-                src: 'https://images.unsplash.com/photo-1505691938895-1758d7feb511?auto=format&fit=crop&w=700&q=80',
-                fallback: 'https://images.unsplash.com/photo-1507089947368-19c1da9775ae?auto=format&fit=crop&w=700&q=80'
-              },
-              {
-                src: 'https://images.unsplash.com/photo-1507089947368-19c1da9775ae?auto=format&fit=crop&w=700&q=80',
-                fallback: 'https://images.unsplash.com/photo-1505691938895-1758d7feb511?auto=format&fit=crop&w=700&q=80'
-              },
-              {
-                src: 'https://images.unsplash.com/photo-1502005097973-6a7082348e28?auto=format&fit=crop&w=700&q=80',
-                fallback: 'https://images.unsplash.com/photo-1449844908441-8829872d2607?auto=format&fit=crop&w=700&q=80'
-              },
-              {
-                src: 'https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=700&q=80',
-                fallback: 'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=700&q=80'
-              },
-              {
-                src: 'https://images.unsplash.com/photo-1449844908441-8829872d2607?auto=format&fit=crop&w=700&q=80',
-                fallback: 'https://images.unsplash.com/photo-1502005097973-6a7082348e28?auto=format&fit=crop&w=700&q=80'
-              },
-              {
-                src: 'https://images.unsplash.com/photo-1500534314209-a26db0f5aa84?auto=format&fit=crop&w=700&q=80',
-                fallback: 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=700&q=80'
-              },
-              {
-                src: 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=700&q=80',
-                fallback: 'https://images.unsplash.com/photo-1500534314209-a26db0f5aa84?auto=format&fit=crop&w=700&q=80'
-              },
-              {
-                src: 'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=700&q=80',
-                fallback: 'https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=700&q=80'
-              }
+              { src: tinyEscape2, fallback: tinyHouse1 },
+              { src: tinyEscape3, fallback: tinyHouse1 },
+              { src: tinyEscape4, fallback: tinyHouse1 },
+              { src: tinyEscape5, fallback: tinyHouse1 },
+              { src: tinyHouse1, fallback: tinyEscape2 },
+              { src: tinyEscape3, fallback: tinyHouse1 },
+              { src: tinyEscape4, fallback: tinyHouse1 },
+              { src: tinyEscape5, fallback: tinyHouse1 }
             ].map((image, i) => (
               <Link
                 key={image.src}
                 to="/gallery"
                 className={`group relative aspect-square overflow-hidden rounded-2xl shadow-xl hover:shadow-2xl transition-all reveal-on-scroll ${
-                  isDarkMode ? 'border border-[rgba(201,163,106,0.2)]' : 'border border-[#E2E8F0]'
+                  isDarkMode ? 'border border-[rgba(201,163,106,0.2)]' : 'border border-[#C7D5C7]'
                 }`}
                 data-reveal
                 style={{ transitionDelay: `${120 + i * 60}ms` }}
@@ -450,7 +510,7 @@ const Home = () => {
                 <div className={`absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity ${
                   isDarkMode
                     ? 'bg-linear-to-t from-[rgba(16,13,11,0.9)] via-[rgba(16,13,11,0.35)] to-transparent'
-                    : 'bg-linear-to-t from-[rgba(15,23,42,0.55)] to-transparent'
+                    : 'bg-linear-to-t from-[rgba(20,40,30,0.65)] to-transparent'
                 }`} />
               </Link>
             ))}
@@ -458,7 +518,7 @@ const Home = () => {
 
           <div className="text-center mt-12 reveal-on-scroll" data-reveal>
             <Link to="/gallery" className={`inline-block px-8 py-4 rounded-xl border-2 font-bold transition-all hover:scale-105 ${
-              isDarkMode ? 'border-[#C9A36A] text-[#E7CFA2] hover:bg-[rgba(201,163,106,0.12)]' : 'border-[#8A6B45] text-[#5B442A] hover:bg-[rgba(201,163,106,0.12)]'
+              isDarkMode ? 'border-[#C9A36A] text-[#E7CFA2] hover:bg-[rgba(201,163,106,0.12)]' : 'border-[#1F3A2A] text-white bg-linear-to-r from-[#1F3A2A] to-[#5F8C6A] hover:shadow-[0_16px_28px_-20px_rgba(31,58,42,0.5)]'
             }`}>
               View Full Gallery
             </Link>
@@ -466,13 +526,40 @@ const Home = () => {
         </div>
       </section>
 
+      {/* Map Section */}
+      <section className={`relative py-20 overflow-hidden transition-colors duration-500 ${
+        isDarkMode ? 'bg-[#120F0C]' : 'bg-[#F3F7F2]'
+      }`}>
+        <div className="mx-auto max-w-7xl px-6">
+          <div className="mb-10 text-center">
+            <h2 className={`text-3xl md:text-4xl font-bold mb-3 ${isDarkMode ? 'text-[#F2EEE7]' : 'text-[#1F2A1F]'}`}>
+              Find Us
+            </h2>
+            <p className={isDarkMode ? 'text-[#A79C8C]' : 'text-[#2F5D3A]'}>
+              CR498, Bruceville-Eddy, TX, United States
+            </p>
+          </div>
+          <div className={`overflow-hidden rounded-3xl border shadow-2xl ${
+            isDarkMode ? 'border-[rgba(201,163,106,0.3)]' : 'border-[#CFE3CF]'
+          }`}>
+            <iframe
+              title="Tiny Escape location map"
+              src="https://www.google.com/maps?q=cr498%20Bruceville-Eddy%20TX%20United%20States&output=embed"
+              className="h-[360px] w-full"
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+            />
+          </div>
+        </div>
+      </section>
+
       {/* Section Separator */}
-      <div className={`border-b ${isDarkMode ? 'border-gray-800' : 'border-[#E2E8F0]'}`} />
+      <div className={`border-b ${isDarkMode ? 'border-gray-800' : 'border-[#DDE8DD]'}`} />
 
       {/* CTA Section */}
       <section className="relative py-40 overflow-hidden">
         <div className={`absolute inset-0 ${
-          isDarkMode ? 'bg-linear-to-br from-[#1A140F] via-[#5B442A] to-[#C9A36A]' : 'bg-linear-to-br from-[#8A6B45] via-[#C9A36A] to-[#E7CFA2]'
+          isDarkMode ? 'bg-linear-to-br from-[#1A140F] via-[#5B442A] to-[#C9A36A]' : 'bg-linear-to-br from-[#2F5D3A] via-[#4A7C59] to-[#7BAF7C]'
         }`} />
         
         <div className="relative z-10 mx-auto max-w-5xl px-6 text-center reveal-on-scroll" data-reveal>
@@ -485,14 +572,14 @@ const Home = () => {
           
           <div className="flex flex-wrap items-center justify-center gap-6">
             <Link to="/tours" className={`px-12 py-6 rounded-2xl text-lg font-bold uppercase shadow-lg hover:scale-110 transition-all ${
-              isDarkMode ? 'bg-[#0F0D0A] text-[#E7CFA2]' : 'bg-[#1A120A] text-[#F7E8D2]'
+              isDarkMode ? 'bg-[#0F0D0A] text-[#E7CFA2]' : 'bg-[#1F2A1F] text-[#EAF3EA]'
             }`}>
               View Stays
             </Link>
             <Link to="/book-now" className={`px-12 py-6 bg-transparent border-3 rounded-2xl text-lg font-bold uppercase transition-all ${
               isDarkMode
                 ? 'border-[#F2EEE7] text-[#F2EEE7] hover:bg-[#F2EEE7] hover:text-[#5B442A]'
-                : 'border-[#FFF4E2] text-[#FFF4E2] hover:bg-[#FFF4E2] hover:text-[#5B442A]'
+                : 'border-[#EAF3EA] text-[#EAF3EA] hover:bg-[#EAF3EA] hover:text-[#2F5D3A]'
             }`}>
               Request Availability
             </Link>

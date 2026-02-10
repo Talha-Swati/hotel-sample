@@ -74,9 +74,9 @@ const DestinationDetail = memo(() => {
   };
 
   const seo = {
-    title: `${stay.name} | Tiny Escape Texas`,
+    title: `${stay.name} | The Tiny Escape`,
     description: stay.shortDescription,
-    keywords: `Tiny Escape, ${stay.name}, Texas tiny home, cabin stay, ${stay.location}`,
+    keywords: `The Tiny Escape, ${stay.name}, tiny home, cabin stay, ${stay.location}`,
     url: `/destination/${stay.slug}`,
     image: stay.heroImage
   };

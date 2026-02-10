@@ -112,7 +112,7 @@ const About = () => {
   return (
     <PageLayout
       seo={{
-        title: "About Tiny Escape | Texas Tiny Home Stays",
+        title: "About The Tiny Escape | Tiny Home Stays",
         description: "Meet the team behind Tiny Escape. We design calm, design-forward tiny home stays across Texas.",
         keywords: "Tiny Escape team, Texas tiny home stays, cabin resort, hill country lodging",
         url: "/about",

@@ -8,7 +8,7 @@ import { staysData } from '../../data/staysData';
 const CorporateTours = () => {
   const { isDarkMode } = useTheme();
   const featuredStays = staysData.filter((stay) =>
-    ['prairie-house', 'mesa-loft'].includes(stay.slug)
+    ['triangle-2-rani-ridge', 'triangle-1-catalina-ridge'].includes(stay.slug)
   );
 
   const highlights = [
@@ -27,7 +27,7 @@ const CorporateTours = () => {
   return (
     <PageLayout
       seo={{
-        title: 'Corporate Retreat Stays | Tiny Escape Texas',
+        title: 'Corporate Retreat Stays | The Tiny Escape',
         description: 'Team-friendly tiny stays for leadership retreats, offsites, and focused work sessions in the Texas Hill Country.',
         keywords: 'Texas corporate retreat, Hill Country offsite, team retreat stays, leadership getaway',
         url: '/trip/corporate'
@@ -194,7 +194,7 @@ const CorporateTours = () => {
               Check Availability
             </Link>
             <Link
-              to="/custom-tour"
+              to="/custom-stay"
               className={`px-8 py-3 rounded-lg font-semibold transition-colors ${
                 isDarkMode
                   ? 'bg-[#141A1F] text-white hover:bg-[#1A2229]'

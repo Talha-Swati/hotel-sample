@@ -12,19 +12,17 @@ import About from './pages/About';
 import Contact from './pages/Contact';
 import SpecialOffers from './pages/SpecialOffers';
 import BookNow from './pages/BookNow';
-import CustomTourBuilder from './pages/CustomTourBuilder';
+import CustomStayRequest from './pages/CustomStayRequest';
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import TermsConditions from './pages/TermsConditions';
 import Services from './pages/Services/Services';
 import HotelBooking from './pages/Services/HotelBooking';
 import TransportServices from './pages/Services/TransportServices';
-import TourGuides from './pages/Services/TourGuides';
-import VisaAssistance from './pages/Services/VisaAssistance';
 import TravelInsurance from './pages/Services/TravelInsurance';
 import PhotographyServices from './pages/Services/PhotographyServices';
 import AdventureTours from './pages/Trip/AdventureTours';
 import FamilyTours from './pages/Trip/FamilyTours';
-import HoneymoonTours from './pages/Trip/HoneymoonTours';
+import RomanticStays from './pages/Trip/RomanticStays';
 import CorporateTours from './pages/Trip/CorporateTours';
 import BudgetTours from './pages/Trip/BudgetTours';
 
@@ -44,19 +42,17 @@ const App = () => {
             <Route path="/contact" element={<Contact />} />
             <Route path="/offers" element={<SpecialOffers />} />
             <Route path="/book-now" element={<BookNow />} />
-            <Route path="/custom-tour" element={<CustomTourBuilder />} />
+            <Route path="/custom-stay" element={<CustomStayRequest />} />
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />
             <Route path="/terms-conditions" element={<TermsConditions />} />
             <Route path="/services" element={<Services />} />
             <Route path="/services/hotels" element={<HotelBooking />} />
             <Route path="/services/transport" element={<TransportServices />} />
-            <Route path="/services/guides" element={<TourGuides />} />
-            <Route path="/services/visa" element={<VisaAssistance />} />
             <Route path="/services/insurance" element={<TravelInsurance />} />
             <Route path="/services/photography" element={<PhotographyServices />} />
             <Route path="/trip/adventure" element={<AdventureTours />} />
             <Route path="/trip/family" element={<FamilyTours />} />
-            <Route path="/trip/honeymoon" element={<HoneymoonTours />} />
+            <Route path="/trip/romantic" element={<RomanticStays />} />
             <Route path="/trip/corporate" element={<CorporateTours />} />
             <Route path="/trip/budget" element={<BudgetTours />} />
             <Route path="*" element={<Navigate to="/" replace />} />

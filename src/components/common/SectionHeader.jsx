@@ -12,14 +12,14 @@ const SectionHeader = ({
     <header className={`${alignment} ${className}`}>
       <h2 className="text-4xl md:text-5xl font-bold mb-6">
         {title && (
-          <span className={isDarkMode ? 'text-[#F2F6F9]' : 'text-[#1A202C]'}>{title} </span>
+          <span className={isDarkMode ? 'text-[#F2F6F9]' : 'text-[#1F2A1F]'}>{title} </span>
         )}
         {accent && (
           <span
             className={`bg-clip-text text-transparent ${
               isDarkMode
                 ? 'bg-linear-to-r from-[#C9A36A] to-[#E7CFA2]'
-                : 'bg-linear-to-r from-[#3B82F6] to-[#60A5FA]'
+                : 'bg-linear-to-r from-[#1F3A2A] to-[#5F8C6A]'
             }`}
           >
             {accent}
@@ -27,7 +27,7 @@ const SectionHeader = ({
         )}
       </h2>
       {subtitle && (
-        <p className={`text-lg ${isDarkMode ? 'text-[#C4CCD4]' : 'text-[#4A5568]'}`}>
+        <p className={`text-lg ${isDarkMode ? 'text-[#C4CCD4]' : 'text-[#3E4F3E]'}`}>
           {subtitle}
         </p>
       )}

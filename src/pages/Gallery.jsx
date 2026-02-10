@@ -20,7 +20,7 @@ const Gallery = () => {
     "@type": "ImageGallery",
     "name": "Tiny Escape Photo Gallery",
     "description": "A curated look at Tiny Escape cabins, interiors, and Texas Hill Country views",
-    "image": galleryPhotos.map(photo => photo.image),
+    "image": galleryPhotos.filter(photo => photo.image).map(photo => photo.image),
     "about": {
       "@type": "Place",
       "name": "Texas, USA"
@@ -62,7 +62,7 @@ const Gallery = () => {
   return (
     <PageLayout
       seo={{
-        title: "Tiny Escape Gallery | Cabins, Interiors, and Views",
+        title: "The Tiny Escape Gallery | Cabins, Interiors, and Views",
         description: "Explore Tiny Escape cabins, interiors, and Texas Hill Country views. A calm visual tour of the property.",
         keywords: "Tiny Escape gallery, Texas cabins, tiny home interiors, hill country views",
         url: "/gallery",
@@ -73,33 +73,35 @@ const Gallery = () => {
       {/* Hero Section */}
         <section
           className={`relative py-20 overflow-hidden ${
-            isDarkMode ? 'bg-linear-to-br from-[#0B0C0E] via-[#0A3A67] to-[#0B0C0E]' : 'bg-linear-to-br from-white via-[#EBF8FF] to-white'
+            isDarkMode ? 'bg-linear-to-br from-[#0B0C0E] via-[#0A3A67] to-[#0B0C0E]' : 'bg-linear-to-br from-[#F0EADD] via-[#D9E7D4] to-[#F0EADD]'
           }`}
         >
           <div className="container mx-auto px-4">
             <div className="max-w-3xl mx-auto text-center">
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-500/10 border border-blue-500 mb-6">
-                <FaCamera className={isDarkMode ? 'text-[#22D3EE]' : 'text-[#3B82F6]'} />
-                <span className={`text-sm font-semibold ${isDarkMode ? 'text-[#22D3EE]' : 'text-[#3B82F6]'}`}>
+              <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-full border mb-6 ${
+                isDarkMode ? 'bg-blue-500/10 border-blue-500' : 'bg-[rgba(31,58,42,0.12)] border-[rgba(31,58,42,0.35)]'
+              }`}>
+                <FaCamera className={isDarkMode ? 'text-[#22D3EE]' : 'text-[#1F3A2A]'} />
+                <span className={`text-sm font-semibold ${isDarkMode ? 'text-[#22D3EE]' : 'text-[#1F3A2A]'}`}>
                   {galleryPhotos.length}+ Photos
                 </span>
               </div>
 
               <h1
                 className={`text-4xl md:text-5xl lg:text-6xl font-bold mb-6 ${
-                  isDarkMode ? 'bg-linear-to-r from-[#22D3EE] to-[#4DBBFF]' : 'bg-linear-to-r from-[#3B82F6] to-[#60A5FA]'
+                  isDarkMode ? 'bg-linear-to-r from-[#22D3EE] to-[#4DBBFF]' : 'bg-linear-to-r from-[#1F3A2A] to-[#5F8C6A]'
                 } bg-clip-text text-transparent`}
               >
                 Tiny Escape Gallery
               </h1>
-              <p className={`text-lg md:text-xl mb-8 ${isDarkMode ? 'text-[#C4CCD4]' : 'text-[#374151]'}`}>
+              <p className={`text-lg md:text-xl mb-8 ${isDarkMode ? 'text-[#C4CCD4]' : 'text-[#3E4F3E]'}`}>
                 A calm visual tour of our cabins, details, and surrounding landscape
               </p>
 
               {/* Search Bar */}
               <div className="max-w-xl mx-auto">
                 <div className="relative">
-                  <FaSearch className={`absolute left-4 top-1/2 -translate-y-1/2 ${isDarkMode ? 'text-[#8B949E]' : 'text-[#64748B]'}`} />
+                  <FaSearch className={`absolute left-4 top-1/2 -translate-y-1/2 ${isDarkMode ? 'text-[#8B949E]' : 'text-[#5B6B5B]'}`} />
                   <input
                     type="text"
                     placeholder="Search photos by space, view, or detail..."
@@ -108,7 +110,7 @@ const Gallery = () => {
                     className={`w-full pl-12 pr-4 py-4 rounded-xl border transition-colors ${
                       isDarkMode
                         ? 'bg-[#141A1F] border-[rgba(34,211,238,0.2)] text-[#E0E7EE] focus:border-[#22D3EE]'
-                        : 'bg-white border-[#CBD5E1] text-[#0F172A] focus:border-[#2563EB]'
+                        : 'bg-white border-[#C7D5C7] text-[#1F2A1F] focus:border-[#1F3A2A]'
                     } focus:outline-none`}
                   />
                 </div>
@@ -118,7 +120,7 @@ const Gallery = () => {
         </section>
 
         {/* Filter & Layout Controls */}
-        <section className={`py-4 backdrop-blur-lg border-b ${isDarkMode ? 'bg-[#0B0C0E]/95 border-[#1E242B]' : 'bg-white/95 border-[#E2E8F0]'}`}>
+        <section className={`py-4 backdrop-blur-lg border-b ${isDarkMode ? 'bg-[#0B0C0E]/95 border-[#1E242B]' : 'bg-[rgba(240,234,221,0.95)] border-[#D4E2D4]'}`}>
           <div className="container mx-auto px-4">
             <div className="flex flex-wrap items-center justify-between gap-4">
               {/* Category Filters */}
@@ -131,10 +133,10 @@ const Gallery = () => {
                       selectedCategory === cat.id
                         ? isDarkMode
                           ? 'bg-linear-to-r from-[#22D3EE] to-[#4DBBFF] text-[#0B0C0E]'
-                          : 'bg-linear-to-r from-[#3B82F6] to-[#60A5FA] text-white'
+                          : 'bg-linear-to-r from-[#1F3A2A] to-[#5F8C6A] text-white'
                         : isDarkMode
                         ? 'bg-[#141A1F] text-[#C4CCD4] border border-[rgba(34,211,238,0.2)] hover:border-[#22D3EE]'
-                        : 'bg-white text-[#334155] border border-[#E2E8F0] hover:border-[#2563EB]'
+                        : 'bg-white text-[#2F3A2F] border border-[#D4E2D4] hover:border-[#1F3A2A]'
                     }`}
                   >
                     <span className="mr-1">{cat.icon}</span>
@@ -151,10 +153,10 @@ const Gallery = () => {
                     layout === 'grid'
                       ? isDarkMode
                         ? 'bg-[#22D3EE] text-[#0B0C0E]'
-                        : 'bg-[#3B82F6] text-white'
+                        : 'bg-[#1F3A2A] text-white'
                       : isDarkMode
                       ? 'bg-[#141A1F] text-[#C4CCD4]'
-                        : 'bg-[#F8FAFC] text-[#475569]'
+                        : 'bg-[#F1F5F1] text-[#526352]'
                   }`}
                   aria-label="Grid layout"
                 >
@@ -166,10 +168,10 @@ const Gallery = () => {
                     layout === 'masonry'
                       ? isDarkMode
                         ? 'bg-[#22D3EE] text-[#0B0C0E]'
-                        : 'bg-[#3B82F6] text-white'
+                        : 'bg-[#1F3A2A] text-white'
                       : isDarkMode
                       ? 'bg-[#141A1F] text-[#C4CCD4]'
-                        : 'bg-[#F8FAFC] text-[#475569]'
+                        : 'bg-[#F1F5F1] text-[#526352]'
                   }`}
                   aria-label="Masonry layout"
                 >
@@ -179,7 +181,7 @@ const Gallery = () => {
             </div>
 
             {/* Results count */}
-              <div className={`mt-4 text-sm ${isDarkMode ? 'text-[#8B949E]' : 'text-[#475569]'}`}>
+              <div className={`mt-4 text-sm ${isDarkMode ? 'text-[#8B949E]' : 'text-[#526352]'}`}>
               Showing {filteredPhotos.length} {filteredPhotos.length === 1 ? 'photo' : 'photos'}
             </div>
           </div>
@@ -194,7 +196,7 @@ const Gallery = () => {
                 <h3 className={`text-2xl font-bold mb-2 ${isDarkMode ? 'text-[#E0E7EE]' : 'text-[#0F172A]'}`}>
                   No photos found
                 </h3>
-                <p className={isDarkMode ? 'text-[#8B949E]' : 'text-[#475569]'}>
+                <p className={isDarkMode ? 'text-[#8B949E]' : 'text-[#526352]'}>
                   Try adjusting your filters or search query
                 </p>
               </div>
@@ -214,21 +216,32 @@ const Gallery = () => {
                       layout === 'masonry' ? 'h-80' : 'aspect-square'
                     }`}
                   >
-                    {/* Image */}
-                    <img
-                      src={photo.image}
-                      alt={photo.title}
-                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                      loading="lazy"
-                      decoding="async"
-                    />
+                    {/* Media */}
+                    {photo.mediaType === 'video' ? (
+                      <video
+                        src={photo.video}
+                        poster={photo.poster || photo.image}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                        muted
+                        playsInline
+                        loop
+                      />
+                    ) : (
+                      <img
+                        src={photo.image}
+                        alt={photo.title}
+                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    )}
 
                     {/* Overlay */}
                     <div className="absolute inset-0 bg-linear-to-t from-black via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                       <div className="absolute bottom-0 left-0 right-0 p-4">
                         <h3 className="text-white font-bold text-lg mb-1">{photo.title}</h3>
                         <div className="flex items-center gap-2 text-white/80 text-sm mb-2">
-                          <FaMapMarkerAlt className="text-[#22D3EE]" />
+                          <FaMapMarkerAlt className="text-[#7BAF7C]" />
                           <span>{photo.location}</span>
                         </div>
                         <div className="flex flex-wrap gap-1">
@@ -247,7 +260,7 @@ const Gallery = () => {
                         className={`px-3 py-1 rounded-full text-xs font-bold backdrop-blur-sm ${
                           isDarkMode
                             ? 'bg-[#22D3EE]/20 border border-[#22D3EE] text-[#22D3EE]'
-                            : 'bg-white/90 text-[#2563EB]'
+                            : 'bg-white/90 text-[#1F3A2A]'
                         }`}
                       >
                         {categories.find(c => c.id === photo.category)?.icon} {photo.category}
@@ -275,12 +288,21 @@ const Gallery = () => {
             </button>
 
             <div className="max-w-6xl w-full" onClick={(e) => e.stopPropagation()}>
-              <img
-                src={selectedPhoto.image}
-                alt={selectedPhoto.title}
-                decoding="async"
-                className="w-full h-auto max-h-[80vh] object-contain rounded-lg"
-              />
+              {selectedPhoto.mediaType === 'video' ? (
+                <video
+                  src={selectedPhoto.video}
+                  poster={selectedPhoto.poster || selectedPhoto.image}
+                  controls
+                  className="w-full h-auto max-h-[80vh] object-contain rounded-lg"
+                />
+              ) : (
+                <img
+                  src={selectedPhoto.image}
+                  alt={selectedPhoto.title}
+                  decoding="async"
+                  className="w-full h-auto max-h-[80vh] object-contain rounded-lg"
+                />
+              )}
               
               <div className="mt-6 text-white">
                 <h2 className="text-2xl font-bold mb-2">{selectedPhoto.title}</h2>

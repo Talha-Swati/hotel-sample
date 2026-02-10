@@ -1,3 +1,6 @@
+import newYearVideo from '../assets/videos/New Year Celebration video.mp4';
+import tinyEscape3 from '../assets/tiny escape 3.jpg';
+
 export const galleryPhotos = [
   {
     id: 1,
@@ -78,6 +81,19 @@ export const galleryPhotos = [
     photographer: 'Tiny Escape',
     description: 'Soft textures and restful sleep',
     tags: ['bedroom', 'linens', 'calm']
+  },
+  {
+    id: 9,
+    title: 'New Year Celebration',
+    location: 'Texas Hill Country',
+    category: 'night',
+    mediaType: 'video',
+    image: tinyEscape3,
+    video: newYearVideo,
+    poster: tinyEscape3,
+    photographer: 'Tiny Escape',
+    description: 'A celebration highlight under the Hill Country sky',
+    tags: ['new year', 'celebration', 'fireworks']
   }
 ];
 

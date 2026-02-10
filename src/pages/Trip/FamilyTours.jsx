@@ -8,7 +8,7 @@ import { staysData } from '../../data/staysData';
 const FamilyTours = () => {
   const { isDarkMode } = useTheme();
   const featuredStays = staysData.filter((stay) =>
-    ['riverstone-retreat', 'prairie-house'].includes(stay.slug)
+    ['apple-2-kona-meadows', 'triangle-2-rani-ridge'].includes(stay.slug)
   );
 
   const highlights = [
@@ -27,7 +27,7 @@ const FamilyTours = () => {
   return (
     <PageLayout
       seo={{
-        title: 'Family Stays in Texas Hill Country | Tiny Escape',
+        title: 'Family Stays | The Tiny Escape',
         description: 'Family-friendly tiny homes with room to unwind, outdoor space, and easy access to Hill Country adventures.',
         keywords: 'Texas family stays, Hill Country cabins for families, pet friendly stays, Wimberley lodging',
         url: '/trip/family'
@@ -194,7 +194,7 @@ const FamilyTours = () => {
               Check Availability
             </Link>
             <Link
-              to="/custom-tour"
+              to="/custom-stay"
               className={`px-8 py-3 rounded-lg font-semibold transition-colors ${
                 isDarkMode
                   ? 'bg-[#141A1F] text-white hover:bg-[#1A2229]'

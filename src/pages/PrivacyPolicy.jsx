@@ -10,7 +10,7 @@ const PrivacyPolicy = () => {
   return (
     <PageLayout
       seo={{
-        title: 'Privacy Policy | Tiny Escape Texas',
+        title: 'Privacy Policy | The Tiny Escape',
         description: 'Learn how Tiny Escape collects, uses, and protects your personal information. Read our privacy policy for details on data security and your rights.',
         keywords: 'privacy policy, data protection, personal information, data security, Tiny Escape privacy',
         url: '/privacy-policy'

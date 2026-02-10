@@ -227,7 +227,7 @@ const BookNow = () => {
   return (
     <PageLayout
       seo={{
-        title: 'Request Availability | Tiny Escape Texas',
+        title: 'Request Availability | The Tiny Escape',
         description: 'Request dates for Tiny Escape stays in Texas. Quick response, transparent options, and calm, private lodging.',
         keywords: 'Tiny Escape request, tiny home availability, Texas cabin stay, resort lodging inquiry',
         url: '/book-now'

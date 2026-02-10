@@ -1,7 +1,9 @@
+import tinyHouse1 from '../assets/tiny house1.webp';
+
 export const specialOfferPackages = [
   {
-    id: 'cedar-ridge-midweek',
-    name: 'Cedar Ridge Midweek Reset',
+    id: 'apple-1-midweek',
+    name: 'Apple 1: Razoo Creek Midweek Reset',
     originalPrice: 219,
     offerPrice: 179,
     discount: 18,
@@ -10,15 +12,15 @@ export const specialOfferPackages = [
     groupSize: '2 guests',
     rating: 4.9,
     reviews: 128,
-    image: 'https://images.unsplash.com/photo-1505691938895-1758d7feb511?w=800&q=80',
+    image: tinyHouse1,
     validUntil: '2026-03-15',
     badge: 'Midweek',
     description: 'Quiet midweek nights with sunset views and a private firepit.',
-    link: '/destination/cedar-ridge'
+    link: '/destination/apple-1-razoo-creek'
   },
   {
-    id: 'riverstone-family',
-    name: 'Riverstone Family Escape',
+    id: 'apple-2-family',
+    name: 'Apple 2: Kona Meadows Family Escape',
     originalPrice: 259,
     offerPrice: 219,
     discount: 15,
@@ -27,15 +29,15 @@ export const specialOfferPackages = [
     groupSize: '4 guests',
     rating: 4.8,
     reviews: 96,
-    image: 'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=800&q=80',
+    image: tinyHouse1,
     validUntil: '2026-04-01',
     badge: 'Family',
     description: 'Creekside stays with space to gather and unwind.',
-    link: '/destination/riverstone-retreat'
+    link: '/destination/apple-2-kona-meadows'
   },
   {
-    id: 'mesa-loft-extended',
-    name: 'Mesa Loft Extended Stay',
+    id: 'triangle-1-extended',
+    name: 'Triangle 1: Catalina Ridge Extended Stay',
     originalPrice: 189,
     offerPrice: 149,
     discount: 21,
@@ -44,15 +46,15 @@ export const specialOfferPackages = [
     groupSize: '2-3 guests',
     rating: 4.7,
     reviews: 74,
-    image: 'https://images.unsplash.com/photo-1449844908441-8829872d2607?w=800&q=80',
+    image: tinyHouse1,
     validUntil: '2026-05-10',
     badge: 'Extended',
     description: 'Save on longer stays with a weekly refresh included.',
-    link: '/destination/mesa-loft'
+    link: '/destination/triangle-1-catalina-ridge'
   },
   {
-    id: 'prairie-house-weekend',
-    name: 'Prairie House Weekend',
+    id: 'triangle-2-weekend',
+    name: 'Triangle 2: Rani Ridge Weekend',
     originalPrice: 239,
     offerPrice: 205,
     discount: 14,
@@ -61,10 +63,10 @@ export const specialOfferPackages = [
     groupSize: '5 guests',
     rating: 4.8,
     reviews: 88,
-    image: 'https://images.unsplash.com/photo-1500534314209-a26db0f5aa84?w=800&q=80',
+    image: tinyHouse1,
     validUntil: '2026-04-20',
     badge: 'Weekend',
     description: 'Open skies, shared meals, and a large outdoor deck.',
-    link: '/destination/prairie-house'
+    link: '/destination/triangle-2-rani-ridge'
   }
 ];

@@ -13,7 +13,7 @@ const PhotographyServices = () => {
   return (
     <PageLayout
       seo={{
-        title: 'Memory Sessions | Tiny Escape Texas',
+        title: 'Memory Sessions | The Tiny Escape',
         description: 'Hire a photographer for your Tiny Escape stay. Capture landscapes, portraits, and celebration moments with natural light and pro editing.',
         keywords: 'Texas stay photography, Hill Country photoshoot, couples session, family session',
         url: '/services/photography'
@@ -138,7 +138,7 @@ const PhotographyServices = () => {
                         </div>
                       </div>
                       <Link
-                        to="/custom-tour"
+                        to="/custom-stay"
                         className="bg-indigo-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-indigo-700 transition-colors"
                       >
                         Book
@@ -276,7 +276,7 @@ const PhotographyServices = () => {
           </p>
           <div className="flex flex-wrap gap-4 justify-center">
             <Link
-              to="/custom-tour"
+              to="/custom-stay"
               className="bg-indigo-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-indigo-700 transition-colors"
             >
               Book a Session

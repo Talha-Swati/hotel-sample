@@ -28,11 +28,11 @@ export const baseTourCategories = [
     image: 'https://images.unsplash.com/photo-1502005097973-6a7082348e28?w=800&q=80'
   },
   {
-    id: 'honeymoon',
+    id: 'romantic',
     name: 'Couples Retreats',
     icon: FaHeart,
     count: 6,
-    path: '/trip/honeymoon',
+    path: '/trip/romantic',
     color: 'from-pink-400 to-red-500',
     description: 'Quiet escapes with panoramic views and private outdoor tubs',
     features: ['Private deck', 'Firepit nights', 'Late checkout'],

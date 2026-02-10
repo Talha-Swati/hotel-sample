@@ -13,7 +13,7 @@ const TransportServices = () => {
   return (
     <PageLayout
       seo={{
-        title: 'Transfers and Local Rides | Tiny Escape Texas',
+        title: 'Transfers and Local Rides | The Tiny Escape',
         description: 'Smooth airport transfers and Hill Country rides with trusted local drivers and clean vehicles.',
         keywords: 'Texas airport transfer, Hill Country drivers, local rides, Tiny Escape transport',
         url: '/services/transport'
@@ -75,7 +75,7 @@ const TransportServices = () => {
                   themeKey="transportVehicle"
                   themeIndex={index}
                   ctaLabel="Book Now"
-                  ctaHref="/custom-tour"
+                  ctaHref="/custom-stay"
                   isSelected={selectedVehicle === index}
                   onClick={() => setSelectedVehicle(selectedVehicle === index ? null : index)}
                 />
@@ -146,7 +146,7 @@ const TransportServices = () => {
           </p>
           <div className="flex flex-wrap gap-4 justify-center">
             <Link
-              to="/custom-tour"
+              to="/custom-stay"
               className="bg-green-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-green-700 transition-colors"
             >
               Book a Ride

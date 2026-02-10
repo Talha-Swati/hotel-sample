@@ -5,15 +5,16 @@ import PageLayout from '../../components/layout/PageLayout';
 import ThemedPricingCard from '../../components/common/ThemedPricingCard';
 import PricingCardMedia from '../../components/common/PricingCardMedia';
 import { servicesData } from '../../data/servicesData';
-import swatFallbackOne from '../../assets/destinations/swat1.jpeg';
-import swatFallbackTwo from '../../assets/destinations/swat2.jpeg';
+import tinyHouseFallback from '../../assets/tiny house1.webp';
+import tinyEscapeFallbackOne from '../../assets/tiny escape 2.jpg';
+import tinyEscapeFallbackTwo from '../../assets/tiny escape 3.jpg';
 
 const HotelBooking = () => {
   const { isDarkMode } = useTheme();
   const hotelData = servicesData.hotels;
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [selectedLocation, setSelectedLocation] = useState('all');
-  const fallbackHotelImages = [swatFallbackOne, swatFallbackTwo];
+  const fallbackHotelImages = [tinyHouseFallback, tinyEscapeFallbackOne, tinyEscapeFallbackTwo];
 
   const locations = ['all', 'Texas Hill Country', 'Wimberley', 'Dripping Springs', 'Marble Falls'];
 
@@ -26,7 +27,7 @@ const HotelBooking = () => {
   return (
     <PageLayout
       seo={{
-        title: 'Stay Booking in Texas Hill Country | Tiny Escape',
+        title: 'Stay Booking | The Tiny Escape',
         description: 'Handpicked tiny homes and cabins in the Texas Hill Country. Curated stays with clear pricing and thoughtful details.',
         keywords: 'Texas tiny home booking, Hill Country cabins, Wimberley stays, Dripping Springs lodging',
         url: '/services/hotels'
@@ -154,7 +155,7 @@ const HotelBooking = () => {
                   themeKey="hotelProperty"
                   themeIndex={index}
                   ctaLabel="Book Now"
-                  ctaHref="/custom-tour"
+                  ctaHref="/custom-stay"
                   footerText={property.description}
                   media={
                     <PricingCardMedia
@@ -216,7 +217,7 @@ const HotelBooking = () => {
           </p>
           <div className="flex flex-wrap gap-4 justify-center">
             <Link
-              to="/custom-tour"
+              to="/custom-stay"
               className="bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors"
             >
               Plan a Custom Stay

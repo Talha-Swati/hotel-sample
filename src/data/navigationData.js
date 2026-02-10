@@ -8,9 +8,9 @@ export const getNavItems = () => [
     dropdownItems: [
       { name: "Riverside Cabins", path: "/trip/adventure", icon: "🏡" },
       { name: "Family Tiny Homes", path: "/trip/family", icon: "👨‍👩‍👧‍👦" },
-      { name: "Couples Retreats", path: "/trip/honeymoon", icon: "💑" },
+      { name: "Couples Retreats", path: "/trip/romantic", icon: "💑" },
       { name: "Group Getaways", path: "/trip/corporate", icon: "🧑‍🤝‍🧑" },
-      { name: "Custom Stay Request", path: "/custom-tour", icon: "⚙️" },
+      { name: "Custom Stay Request", path: "/custom-stay", icon: "⚙️" },
       { name: "Value Stays", path: "/trip/budget", icon: "💰" },
     ]
   },
@@ -19,10 +19,10 @@ export const getNavItems = () => [
     path: "/destinations",
     hasDropdown: true,
     dropdownItems: [
-      { name: "Cedar Ridge Cabin", path: "/destination/cedar-ridge", icon: "" },
-      { name: "Riverstone Retreat", path: "/destination/riverstone-retreat", icon: "" },
-      { name: "Mesa Loft", path: "/destination/mesa-loft", icon: "" },
-      { name: "Prairie House", path: "/destination/prairie-house", icon: "" },
+      { name: "Apple 1: Razoo Creek", path: "/destination/apple-1-razoo-creek", icon: "" },
+      { name: "Apple 2: Kona Meadows", path: "/destination/apple-2-kona-meadows", icon: "" },
+      { name: "Triangle 1: Catalina Ridge", path: "/destination/triangle-1-catalina-ridge", icon: "" },
+      { name: "Triangle 2: Rani Ridge", path: "/destination/triangle-2-rani-ridge", icon: "" },
       { name: "View All Experiences", path: "/destinations", icon: "" },
     ]
   },
@@ -33,8 +33,6 @@ export const getNavItems = () => [
     dropdownItems: [
       { name: "Stay Assistance", path: "/services/hotels", icon: "" },
       { name: "Local Transport", path: "/services/transport", icon: "" },
-      { name: "Local Hosts", path: "/services/guides", icon: "" },
-      { name: "Concierge Help", path: "/services/visa", icon: "" },
       { name: "Trip Protection", path: "/services/insurance", icon: "" },
       { name: "Photography Add-ons", path: "/services/photography", icon: "" },
     ]

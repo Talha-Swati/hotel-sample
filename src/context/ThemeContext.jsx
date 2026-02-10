@@ -25,6 +25,13 @@ export const ThemeProvider = ({ children }) => {
     localStorage.setItem('theme', themeMode);
   }, [themeMode]);
 
+  // Sync theme to document for global styling hooks
+  useEffect(() => {
+    const root = document.documentElement;
+    root.setAttribute('data-theme', themeMode);
+    root.style.colorScheme = themeMode;
+  }, [themeMode]);
+
   const value = {
     themeMode,
     setThemeMode,

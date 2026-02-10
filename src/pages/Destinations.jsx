@@ -72,9 +72,9 @@ const Destinations = () => {
   return (
     <PageLayout
       seo={{
-        title: 'Tiny Escape Stays | Cabins and Tiny Homes',
-        description: 'Browse Tiny Escape stays across Texas. Compare sleep count, views, and nightly rates to find the right tiny home.',
-        keywords: 'Tiny Escape stays, Texas tiny homes, cabin rentals, hill country lodging',
+        title: 'The Tiny Escape Stays | Cabins and Tiny Homes',
+        description: 'Browse The Tiny Escape stays. Compare sleep count, views, and nightly rates to find the right tiny home.',
+        keywords: 'The Tiny Escape stays, tiny homes, cabin rentals, boutique lodging',
         url: '/destinations'
       }}
       className={isDarkMode ? '' : 'bg-[#F8FAFC]'}

@@ -31,9 +31,9 @@ const Tours = () => {
   return (
     <PageLayout
       seo={{
-        title: 'Tiny Escape Stays | Cabins, Tiny Homes, and Retreats',
-        description: 'Explore Tiny Escape stays in Texas, including couples retreats, family tiny homes, and riverside cabins. Calm, private, and nature-focused lodging.',
-        keywords: 'Tiny Escape Texas, tiny home rentals, cabin stays, resort lodging, hill country getaway',
+        title: 'The Tiny Escape Stays | Cabins, Tiny Homes, and Retreats',
+        description: 'Explore The Tiny Escape stays, including couples retreats, family tiny homes, and riverside cabins. Calm, private, and nature-focused lodging.',
+        keywords: 'The Tiny Escape, tiny home rentals, cabin stays, resort lodging, weekend getaway',
         url: '/tours'
       }}
     >
@@ -192,7 +192,7 @@ const Tours = () => {
             </p>
             <div className="flex flex-wrap gap-4 justify-center">
               <Link
-                to="/custom-tour"
+                to="/custom-stay"
                 className={`px-8 py-4 rounded-xl font-bold text-lg transition-all duration-300 ${
                   isDarkMode
                     ? 'bg-linear-to-r from-[#22D3EE] to-[#4DBBFF] text-[#0B0C0E] hover:shadow-lg hover:shadow-[#22D3EE]/50'

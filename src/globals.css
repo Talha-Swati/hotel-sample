@@ -1,6 +1,26 @@
 @import "tailwindcss";
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&display=swap');
 
+:root {
+  --theme-bg: #f8fafb;
+  --theme-surface: #ffffff;
+  --theme-border: #e5e7eb;
+  --theme-text: #1f2937;
+  --theme-muted: #4b5563;
+  --theme-accent: #8a6b45;
+  --theme-accent-strong: #c9a36a;
+}
+
+[data-theme="dark"] {
+  --theme-bg: #0b0c0e;
+  --theme-surface: #141a1f;
+  --theme-border: #1e242b;
+  --theme-text: #e0e7ee;
+  --theme-muted: #a7b0bb;
+  --theme-accent: #c9a36a;
+  --theme-accent-strong: #e7cfa2;
+}
+
 /* 3D Flip Card Styles */
 .perspective-1000 {
   perspective: 1000px;
@@ -27,6 +47,21 @@ html {
 
 body {
   overflow-x: hidden;
+  background-color: var(--theme-bg);
+  color: var(--theme-text);
+}
+
+.theme-text {
+  color: var(--theme-text);
+}
+
+.theme-muted {
+  color: var(--theme-muted);
+}
+
+.theme-surface {
+  background-color: var(--theme-surface);
+  border-color: var(--theme-border);
 }
 
 .light-page-bg {

@@ -8,7 +8,7 @@ import { staysData } from '../../data/staysData';
 const BudgetTours = () => {
   const { isDarkMode } = useTheme();
   const featuredStays = staysData.filter((stay) =>
-    ['mesa-loft', 'riverstone-retreat'].includes(stay.slug)
+    ['triangle-1-catalina-ridge', 'apple-2-kona-meadows'].includes(stay.slug)
   );
 
   const highlights = [
@@ -27,7 +27,7 @@ const BudgetTours = () => {
   return (
     <PageLayout
       seo={{
-        title: 'Value Stays in Texas Hill Country | Tiny Escape',
+        title: 'Value Stays | The Tiny Escape',
         description: 'Affordable tiny stays with thoughtful design, fast Wi-Fi, and clear pricing across Texas Hill Country.',
         keywords: 'Texas budget stays, affordable Hill Country cabins, value tiny homes, weekend deals',
         url: '/trip/budget'
@@ -194,7 +194,7 @@ const BudgetTours = () => {
               Check Availability
             </Link>
             <Link
-              to="/custom-tour"
+              to="/custom-stay"
               className={`px-8 py-3 rounded-lg font-semibold transition-colors ${
                 isDarkMode
                   ? 'bg-[#141A1F] text-white hover:bg-[#1A2229]'

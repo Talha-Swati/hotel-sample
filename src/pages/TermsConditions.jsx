@@ -10,7 +10,7 @@ const TermsConditions = () => {
   return (
     <PageLayout
       seo={{
-        title: 'Terms & Conditions | Tiny Escape Texas',
+        title: 'Terms & Conditions | The Tiny Escape',
         description: "Read Tiny Escape's terms and conditions for stays, cancellations, house rules, and other important information for guests.",
         keywords: 'terms and conditions, booking policy, cancellation policy, stay terms, Tiny Escape policies',
         url: '/terms-conditions'
