@@ -7,6 +7,7 @@ import tinyEscape3 from '../../assets/tiny escape 3.jpg';
 import tinyEscape4 from '../../assets/tiny escape 4.jpg';
 
 const FeaturedTours = ({ isDarkMode }) => {
+  const underDevelopmentPath = '/under-development';
   // Memoize tours data to prevent recreation on every render
   const tours = useMemo(() => [
     {
@@ -22,7 +23,7 @@ const FeaturedTours = ({ isDarkMode }) => {
         "Outdoor shower",
         "Self check-in"
       ],
-      link: "/destinations/apple-1-razoo-creek"
+      link: underDevelopmentPath
     },
     {
       frontImage: tinyEscape3,
@@ -37,7 +38,7 @@ const FeaturedTours = ({ isDarkMode }) => {
         "Outdoor grill",
         "Pet friendly"
       ],
-      link: "/destinations/apple-2-kona-meadows"
+      link: underDevelopmentPath
     },
     {
       frontImage: tinyEscape4,
@@ -52,9 +53,9 @@ const FeaturedTours = ({ isDarkMode }) => {
         "Stargazing deck",
         "EV outlet"
       ],
-      link: "/destinations/triangle-1-catalina-ridge"
+      link: underDevelopmentPath
     }
-  ], []); // No dependencies needed now
+  ], [underDevelopmentPath]);
 
   return (
     <section className={`relative py-32 overflow-hidden transition-colors duration-500 ${
@@ -78,7 +79,7 @@ const FeaturedTours = ({ isDarkMode }) => {
             }`}>Signature Stays</span>
           </div>
           <h2 className="text-4xl md:text-5xl font-bold mb-6 leading-tight">
-            <Link to="/tours" className={`group inline-block transition-colors ${
+            <Link to={underDevelopmentPath} className={`group inline-block transition-colors ${
               isDarkMode ? 'hover:text-[#C9A36A]' : 'hover:text-[#1F3A2A]'
             }`}>
               <span className={`transition-colors duration-500 ${
@@ -116,7 +117,7 @@ const FeaturedTours = ({ isDarkMode }) => {
         </div>
 
         <div className="text-center mt-12">
-          <Link to="/tours">
+          <Link to={underDevelopmentPath}>
             <button className={`group rounded-xl border-2 backdrop-blur-sm px-8 py-4 text-sm font-bold uppercase tracking-wider transition-all duration-300 hover:scale-105 ${
               isDarkMode
                 ? 'border-[rgba(201,163,106,0.45)] bg-[rgba(26,22,18,0.7)] text-[#F2EEE7] hover:border-[#C9A36A] hover:bg-[rgba(201,163,106,0.12)]'

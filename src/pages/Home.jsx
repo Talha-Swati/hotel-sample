@@ -85,6 +85,7 @@ const Home = () => {
     ...getReviewSchema({ averageRating: "4.9", count: "1250" })
   };
 
+  const underDevelopmentPath = '/under-development';
   const recentMoments = [
     {
       title: 'New Year Celebration',
@@ -226,7 +227,7 @@ const Home = () => {
               ].map((item, index) => (
                 <Link
                   key={item.title}
-                  to="/destinations"
+                  to={underDevelopmentPath}
                   className={`group flex flex-col md:flex-row overflow-hidden rounded-3xl border transition-all duration-500 hover:-translate-y-1 reveal-on-scroll ${
                     isDarkMode
                       ? 'bg-[#16120F] border-[rgba(201,163,106,0.25)] hover:border-[rgba(201,163,106,0.45)]'
@@ -290,7 +291,7 @@ const Home = () => {
                 </h2>
               </div>
               <Link
-                to="/gallery"
+                to={underDevelopmentPath}
                 className={`inline-flex items-center gap-2 text-sm font-semibold transition-colors ${
                   isDarkMode ? 'text-[#E7CFA2] hover:text-[#F2EEE7]' : 'text-[#2F5D3A] hover:text-[#1F2A1F]'
                 }`}
@@ -494,7 +495,7 @@ const Home = () => {
             ].map((image, i) => (
               <Link
                 key={image.src}
-                to="/gallery"
+                to={underDevelopmentPath}
                 className={`group relative aspect-square overflow-hidden rounded-2xl shadow-xl hover:shadow-2xl transition-all reveal-on-scroll ${
                   isDarkMode ? 'border border-[rgba(201,163,106,0.2)]' : 'border border-[#C7D5C7]'
                 }`}
@@ -521,7 +522,7 @@ const Home = () => {
           </div>
 
           <div className="text-center mt-12 reveal-on-scroll" data-reveal>
-            <Link to="/gallery" className={`inline-block px-8 py-4 rounded-xl border-2 font-bold transition-all hover:scale-105 ${
+            <Link to={underDevelopmentPath} className={`inline-block px-8 py-4 rounded-xl border-2 font-bold transition-all hover:scale-105 ${
               isDarkMode ? 'border-[#C9A36A] text-[#E7CFA2] hover:bg-[rgba(201,163,106,0.12)]' : 'border-[#1F3A2A] text-white bg-linear-to-r from-[#1F3A2A] to-[#5F8C6A] hover:shadow-[0_16px_28px_-20px_rgba(31,58,42,0.5)]'
             }`}>
               View Full Gallery
@@ -607,10 +608,10 @@ const Home = () => {
               </p>
 
               <div className="mt-8 flex flex-wrap items-center gap-4">
-                <Link to="/tours" className="tiny-cta-primary">
+                <Link to={underDevelopmentPath} className="tiny-cta-primary">
                   View Stays
                 </Link>
-                <Link to="/book-now" className="tiny-cta-secondary">
+                <Link to={underDevelopmentPath} className="tiny-cta-secondary">
                   Request Availability
                 </Link>
               </div>

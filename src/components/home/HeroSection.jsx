@@ -2,6 +2,7 @@ import React, { memo, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 const HeroSection = ({ isDarkMode, videoSrc }) => {
+  const underDevelopmentPath = '/under-development';
   const [typedIndex, setTypedIndex] = useState(0);
   const fullText = 'The Tiny Escape';
   const words = fullText.split(' ');
@@ -146,7 +147,7 @@ const HeroSection = ({ isDarkMode, videoSrc }) => {
         {/* CTA Buttons */}
                 <div className="flex flex-wrap gap-4 justify-center reveal-delay-4">
                 <Link
-            to="/tours"
+            to={underDevelopmentPath}
             className={`group flex items-center gap-3 rounded-2xl bg-linear-to-r px-8 py-4 text-base font-bold uppercase tracking-wider shadow-2xl transition-all duration-300 hover:scale-105 ${
               isDarkMode
                 ? 'from-[#C9A36A] to-[#E7CFA2] text-[#1A120A] shadow-[0_0_30px_rgba(201,163,106,0.35)] hover:shadow-[0_0_50px_rgba(231,207,162,0.45)]'
@@ -160,7 +161,7 @@ const HeroSection = ({ isDarkMode, videoSrc }) => {
           </Link>
 
           <Link
-            to="/gallery"
+            to={underDevelopmentPath}
             className={`flex items-center gap-3 rounded-2xl border-2 px-8 py-4 text-base font-bold uppercase tracking-wider backdrop-blur-md transition-all duration-300 hover:scale-105 ${
               isDarkMode
                 ? 'border-[#C9A36A] bg-[rgba(26,22,18,0.7)] text-[#C9A36A] hover:bg-[rgba(201,163,106,0.12)]'
