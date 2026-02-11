@@ -11,7 +11,7 @@ const FeaturedTours = ({ isDarkMode }) => {
   const tours = useMemo(() => [
     {
       frontImage: tinyEscape2,
-      title: "Apple 1: Razoo Creek",
+      title: "Razoo Creek",
       subtitle: "Sleeps 2 • Private deck",
       price: "$189/night",
       description: "A quiet couples cabin with hill country views, firepit seating, and a full kitchen for slow mornings.",
@@ -26,7 +26,7 @@ const FeaturedTours = ({ isDarkMode }) => {
     },
     {
       frontImage: tinyEscape3,
-      title: "Apple 2: Kona Meadows",
+      title: "Kona Meadows",
       subtitle: "Sleeps 4 • Riverside",
       price: "$239/night",
       description: "Steps from the water with trail access, hammock space, and an open-plan living area for family stays.",
@@ -41,7 +41,7 @@ const FeaturedTours = ({ isDarkMode }) => {
     },
     {
       frontImage: tinyEscape4,
-      title: "Triangle 1: Catalina Ridge",
+      title: "Catalina Ridge",
       subtitle: "Sleeps 2-3 • Design-forward",
       price: "$169/night",
       description: "Minimalist tiny home with vaulted ceilings, indoor-outdoor living, and a dedicated workspace.",

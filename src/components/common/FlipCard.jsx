@@ -59,10 +59,10 @@ const FlipCard = ({ frontImage, title, subtitle, price, description, highlights,
         </div>
 
         {/* Back */}
-        <div className={`absolute inset-0 backface-hidden rotate-y-180 rounded-3xl overflow-hidden shadow-2xl border ${
+        <div className={`absolute inset-0 backface-hidden rotate-y-180 rounded-3xl overflow-hidden shadow-2xl border backdrop-blur-xl ${
           isDarkMode
-            ? 'bg-linear-to-br from-[#0F0D0A] via-[#16120F] to-[#1A140F] border-[rgba(201,163,106,0.3)]'
-            : 'bg-linear-to-br from-[#F3F7F2] via-[#EAF3EA] to-[#DDE8DD] border-[rgba(47,93,58,0.35)]'
+            ? 'bg-[rgba(12,10,8,0.55)] border-[rgba(201,163,106,0.3)]'
+            : 'bg-[rgba(243,247,242,0.72)] border-[rgba(47,93,58,0.35)]'
         }`}>
           <div className="p-6 h-full flex flex-col">
             <div>

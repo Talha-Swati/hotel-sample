@@ -19,10 +19,10 @@ export const getNavItems = () => [
     path: "/destinations",
     hasDropdown: true,
     dropdownItems: [
-      { name: "Apple 1: Razoo Creek", path: "/destination/apple-1-razoo-creek", icon: "" },
-      { name: "Apple 2: Kona Meadows", path: "/destination/apple-2-kona-meadows", icon: "" },
-      { name: "Triangle 1: Catalina Ridge", path: "/destination/triangle-1-catalina-ridge", icon: "" },
-      { name: "Triangle 2: Rani Ridge", path: "/destination/triangle-2-rani-ridge", icon: "" },
+      { name: "Razoo Creek", path: "/destination/apple-1-razoo-creek", icon: "" },
+      { name: "Kona Meadows", path: "/destination/apple-2-kona-meadows", icon: "" },
+      { name: "Catalina Ridge", path: "/destination/triangle-1-catalina-ridge", icon: "" },
+      { name: "Rani Ridge", path: "/destination/triangle-2-rani-ridge", icon: "" },
       { name: "View All Experiences", path: "/destinations", icon: "" },
     ]
   },

@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useTheme } from '../context/ThemeContext';
 import { getOrganizationSchema, getReviewSchema } from '../utils/structuredData';
+import heroVideo from '../assets/videos/hero.mp4';
 
 // Layout Components
 import PageLayout from '../components/layout/PageLayout';
@@ -20,6 +21,7 @@ import tinyEscape2 from '../assets/tiny escape 2.jpg';
 import tinyEscape3 from '../assets/tiny escape 3.jpg';
 import tinyEscape4 from '../assets/tiny escape 4.jpg';
 import tinyEscape5 from '../assets/tiny escape 5.jpg';
+import tinyEscape7 from '../assets/tiny escape 7.jpeg';
 import tinyHouse1 from '../assets/tiny house1.webp';
 import newYearVideo from '../assets/videos/New Year Celebration video.mp4';
 
@@ -68,6 +70,7 @@ const Home = () => {
     return () => observer.disconnect();
   }, [isDarkMode]);
 
+
   // Memoize HeroSection props
   const heroProps = {
     isDarkMode,
@@ -103,7 +106,8 @@ const Home = () => {
       }}
     >
       {/* Hero Section */}
-      <HeroSection {...heroProps} />
+      <HeroSection isDarkMode={isDarkMode} videoSrc={heroVideo} />
+
 
           {/* Featured Stays Section */}
           <FeaturedTours isDarkMode={isDarkMode} />
@@ -557,32 +561,106 @@ const Home = () => {
       <div className={`border-b ${isDarkMode ? 'border-gray-800' : 'border-[#DDE8DD]'}`} />
 
       {/* CTA Section */}
-      <section className="relative py-40 overflow-hidden">
-        <div className={`absolute inset-0 ${
-          isDarkMode ? 'bg-linear-to-br from-[#1A140F] via-[#5B442A] to-[#C9A36A]' : 'bg-linear-to-br from-[#2F5D3A] via-[#4A7C59] to-[#7BAF7C]'
-        }`} />
-        
-        <div className="relative z-10 mx-auto max-w-5xl px-6 text-center reveal-on-scroll" data-reveal>
-          <h2 className="text-5xl md:text-6xl font-bold mb-8 text-white">
-            Plan Your Tiny Escape
-          </h2>
-          <p className="text-xl mb-12 text-white/90">
-            Share your dates and preferences. We will help you choose the right stay.
-          </p>
-          
-          <div className="flex flex-wrap items-center justify-center gap-6">
-            <Link to="/tours" className={`px-12 py-6 rounded-2xl text-lg font-bold uppercase shadow-lg hover:scale-110 transition-all ${
-              isDarkMode ? 'bg-[#0F0D0A] text-[#E7CFA2]' : 'bg-[#1F2A1F] text-[#EAF3EA]'
-            }`}>
-              View Stays
-            </Link>
-            <Link to="/book-now" className={`px-12 py-6 bg-transparent border-3 rounded-2xl text-lg font-bold uppercase transition-all ${
-              isDarkMode
-                ? 'border-[#F2EEE7] text-[#F2EEE7] hover:bg-[#F2EEE7] hover:text-[#5B442A]'
-                : 'border-[#EAF3EA] text-[#EAF3EA] hover:bg-[#EAF3EA] hover:text-[#2F5D3A]'
-            }`}>
-              Request Availability
-            </Link>
+      <section
+        className="relative py-20 md:py-24 min-h-[70vh] overflow-hidden img-section"
+        style={{ '--cta-bg-image': `url(${tinyEscape7})` }}
+      >
+        <div className="relative z-10 mx-auto max-w-6xl px-6">
+          <div
+            className="cta-cut-card tiny-cta-frame grid gap-10 lg:grid-cols-[1.1fr_0.9fr] items-center px-4 md:px-8 py-10 md:py-14"
+            style={{
+              '--cta-frame-gradient': isDarkMode
+                ? 'linear-gradient(90deg, rgba(14, 22, 17, 0.78), rgba(14, 22, 17, 0.38))'
+                : 'linear-gradient(90deg, rgba(231, 240, 231, 0.82), rgba(231, 240, 231, 0.48))',
+              '--cta-frame-border': isDarkMode
+                ? 'rgba(159, 215, 174, 0.35)'
+                : 'rgba(255, 255, 255, 0.7)',
+              '--cta-frame-text': isDarkMode ? '#F6EFE6' : '#1F2A1F',
+              '--cta-frame-muted': isDarkMode ? '#E2EFE6' : '#2B3B2F',
+              '--cta-accent': isDarkMode ? '#9FD7AE' : '#2F5D3A',
+              '--cta-accent-strong': isDarkMode ? '#8BCF9F' : '#1F3A2A',
+              '--cta-glass-bg': isDarkMode
+                ? 'rgba(14, 22, 17, 0.72)'
+                : 'rgba(255, 255, 255, 0.7)',
+              '--cta-glass-border': isDarkMode
+                ? 'rgba(159, 215, 174, 0.35)'
+                : 'rgba(255, 255, 255, 0.85)',
+              '--cta-icon-bg': isDarkMode ? '#8BCF9F' : '#B7E0C2',
+              '--cta-icon-text': isDarkMode ? '#0E1A12' : '#1F3A2A',
+              '--cta-btn-primary-bg': isDarkMode ? '#8BCF9F' : '#1F3A2A',
+              '--cta-btn-primary-text': isDarkMode ? '#0E1A12' : '#F7FBF7',
+              '--cta-btn-secondary-border': isDarkMode ? '#9FD7AE' : '#1F3A2A',
+              '--cta-btn-secondary-text': isDarkMode ? '#DFF4E5' : '#1F3A2A',
+              '--cta-btn-secondary-hover-bg': isDarkMode ? '#9FD7AE' : '#1F3A2A',
+              '--cta-btn-secondary-hover-text': isDarkMode ? '#0E1A12' : '#F7FBF7'
+            }}
+          >
+            <div>
+              <p className="tiny-cta-kicker">
+                Get Started
+              </p>
+              <h2 className="tiny-cta-title" style={{ fontFamily: 'Playfair Display, serif' }}>
+                Design Your Tiny Escape
+              </h2>
+              <p className="tiny-cta-subtitle">
+                Tell us your dates, style, and pace. We will pair you with a quiet cabin, the right view, and a stay that feels effortless.
+              </p>
+
+              <div className="mt-8 flex flex-wrap items-center gap-4">
+                <Link to="/tours" className="tiny-cta-primary">
+                  View Stays
+                </Link>
+                <Link to="/book-now" className="tiny-cta-secondary">
+                  Request Availability
+                </Link>
+              </div>
+            </div>
+
+            <div
+              className="tiny-cta-glass"
+            >
+                {[
+                {
+                  label: 'Early Bird Savings',
+                  text: 'Reserve early to unlock calm-season pricing.',
+                  icon: (
+                  <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+                    <circle cx="12" cy="12" r="4" />
+                    <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" />
+                  </svg>
+                )
+                },
+                {
+                  label: 'Extended Stay Rewards',
+                  text: 'Stay 3+ nights for extra savings and perks.',
+                  icon: (
+                  <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+                    <path d="M12 3l3 6 6 .8-4.5 4.4 1 6-5.5-3-5.5 3 1-6L3 9.8 9 9l3-6z" />
+                  </svg>
+                )
+                },
+                {
+                  label: 'Seasonal Nature Offers',
+                  text: 'Limited-time stays for blooms, stars, and cool nights.',
+                  icon: (
+                  <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+                    <path d="M12 2v20M4 12h16" />
+                    <path d="M7 5c1.5 2 8.5 2 10 0M7 19c1.5-2 8.5-2 10 0" />
+                  </svg>
+                )
+                }
+              ].map((item) => (
+                <div key={item.label} className="tiny-cta-feature">
+                  <span className="tiny-cta-icon">
+                    {item.icon}
+                  </span>
+                  <div>
+                    <p className="tiny-cta-feature-title">{item.label}</p>
+                    <p className="tiny-cta-feature-text">{item.text}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>

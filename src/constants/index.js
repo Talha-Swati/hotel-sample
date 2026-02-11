@@ -13,10 +13,10 @@ export const QUICK_LINKS = [
 
 // Popular Destinations
 export const POPULAR_DESTINATIONS = [
-  { name: 'Apple 1: Razoo Creek', slug: 'apple-1-razoo-creek' },
-  { name: 'Apple 2: Kona Meadows', slug: 'apple-2-kona-meadows' },
-  { name: 'Triangle 1: Catalina Ridge', slug: 'triangle-1-catalina-ridge' },
-  { name: 'Triangle 2: Rani Ridge', slug: 'triangle-2-rani-ridge' }
+  { name: 'Razoo Creek', slug: 'apple-1-razoo-creek' },
+  { name: 'Kona Meadows', slug: 'apple-2-kona-meadows' },
+  { name: 'Catalina Ridge', slug: 'triangle-1-catalina-ridge' },
+  { name: 'Rani Ridge', slug: 'triangle-2-rani-ridge' }
 ];
 
 // Contact Information
