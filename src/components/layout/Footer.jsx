@@ -4,6 +4,8 @@ import { QUICK_LINKS, POPULAR_DESTINATIONS, CONTACT_INFO, COMPANY_INFO, LEGAL_LI
 import logo from '../../assets/logo.png';
 
 const Footer = ({ isDarkMode }) => {
+  const underDevelopmentPath = '/under-development';
+
   return (
     <footer className={`border-t pt-16 pb-8 transition-colors ${
       isDarkMode ? 'border-[rgba(201,163,106,0.25)] bg-[#0B0C0E]' : 'border-[rgba(231,240,233,0.18)] bg-linear-to-b from-[#153828] via-[#1B4332] to-[#0F2B1E]'
@@ -36,7 +38,7 @@ const Footer = ({ isDarkMode }) => {
               {QUICK_LINKS.map((link) => (
                 <li key={link.name}>
                   <Link 
-                    to={link.path} 
+                    to={underDevelopmentPath} 
                     className={`text-sm sm:text-base hover:text-white transition hover:underline ${
                       isDarkMode ? 'text-[#BFAE95]' : 'text-[#DCE8DC]'
                     }`}
@@ -55,7 +57,7 @@ const Footer = ({ isDarkMode }) => {
               {POPULAR_DESTINATIONS.map((dest) => (
                 <li key={dest.slug}>
                   <Link 
-                    to={`/destination/${dest.slug}`} 
+                    to={underDevelopmentPath} 
                     className={`text-sm sm:text-base hover:text-white transition hover:underline ${
                       isDarkMode ? 'text-[#BFAE95]' : 'text-[#DCE8DC]'
                     }`}
@@ -103,7 +105,7 @@ const Footer = ({ isDarkMode }) => {
                 <span key={link.path} className="flex items-center gap-2">
                   {index > 0 && <span>|</span>}
                   <Link 
-                    to={link.path}
+                    to={underDevelopmentPath}
                     className={`hover:underline transition ${
                       isDarkMode ? 'hover:text-[#C9A36A]' : 'hover:text-white'
                     }`}

@@ -25,6 +25,7 @@ import FamilyTours from './pages/Trip/FamilyTours';
 import RomanticStays from './pages/Trip/RomanticStays';
 import CorporateTours from './pages/Trip/CorporateTours';
 import BudgetTours from './pages/Trip/BudgetTours';
+import UnderDevelopment from './pages/UnderDevelopment';
 
 const App = () => {
   return (
@@ -55,6 +56,7 @@ const App = () => {
             <Route path="/trip/romantic" element={<RomanticStays />} />
             <Route path="/trip/corporate" element={<CorporateTours />} />
             <Route path="/trip/budget" element={<BudgetTours />} />
+            <Route path="/under-development" element={<UnderDevelopment />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </BrowserRouter>

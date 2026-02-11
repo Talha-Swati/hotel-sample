@@ -1,5 +1,7 @@
 // Navigation items configuration
-export const getNavItems = () => [
+const UNDER_DEVELOPMENT_PATH = '/under-development';
+
+const NAV_ITEMS = [
   { name: "Home", path: "/" },
   { 
     name: "Stays", 
@@ -43,6 +45,24 @@ export const getNavItems = () => [
   { name: "About", path: "/about" },
   { name: "Contact", path: "/contact" },
 ];
+
+export const getNavItems = () =>
+  NAV_ITEMS.map((item) => {
+    if (item.name === 'Home') {
+      return item;
+    }
+
+    return {
+      ...item,
+      path: UNDER_DEVELOPMENT_PATH,
+      dropdownItems: item.dropdownItems
+        ? item.dropdownItems.map((dropItem) => ({
+            ...dropItem,
+            path: UNDER_DEVELOPMENT_PATH
+          }))
+        : undefined
+    };
+  });
 
 // Hero slider images
 export const heroImages = [

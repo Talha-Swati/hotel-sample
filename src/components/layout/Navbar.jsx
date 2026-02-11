@@ -98,7 +98,7 @@ const Navbar = ({ isDarkMode, mobileMenuOpen, setMobileMenuOpen, setThemeMode })
 
         {/* Right Actions */}
         <div className="flex items-center gap-0.5 xl:gap-3 flex-shrink-0 ml-auto">
-          <Link to="/book-now" className={`hidden lg:flex items-center gap-0.5 xl:gap-2 rounded-md xl:rounded-xl bg-linear-to-r px-1.5 xl:px-4 py-1 xl:py-2.5 text-[9px] xl:text-sm font-bold uppercase tracking-tight xl:tracking-wider shadow-lg transition-all duration-300 hover:scale-105 whitespace-nowrap ${
+          <Link to="/under-development" className={`hidden lg:flex items-center gap-0.5 xl:gap-2 rounded-md xl:rounded-xl bg-linear-to-r px-1.5 xl:px-4 py-1 xl:py-2.5 text-[9px] xl:text-sm font-bold uppercase tracking-tight xl:tracking-wider shadow-lg transition-all duration-300 hover:scale-105 whitespace-nowrap ${
             isDarkMode
                 ? 'from-[#C9A36A] to-[#E7CFA2] text-[#1A120A] shadow-[0_0_20px_rgba(201,163,106,0.35)] hover:shadow-[0_0_30px_rgba(231,207,162,0.45)]'
               : 'from-[#1F3A2A] to-[#5F8C6A] text-[#F7FBF7] shadow-[0_0_20px_rgba(31,58,42,0.3)] hover:shadow-[0_0_30px_rgba(95,140,106,0.45)]'
@@ -202,7 +202,7 @@ const Navbar = ({ isDarkMode, mobileMenuOpen, setMobileMenuOpen, setThemeMode })
               </div>
             ))}
             <Link
-              to="/book-now"
+              to="/under-development"
               className={`mt-6 mb-2 w-full flex items-center justify-center gap-2 rounded-xl bg-linear-to-r px-6 py-4 text-sm font-bold uppercase tracking-wider shadow-lg transition-transform active:scale-95 ${
                 isDarkMode
                   ? 'from-[#C9A36A] to-[#E7CFA2] text-[#1A120A]'
