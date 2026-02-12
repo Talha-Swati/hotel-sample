@@ -3,9 +3,10 @@ import { Link } from 'react-router-dom';
 import FlipCard from '../common/FlipCard';
 import tinyEscape2 from '../../assets/tiny escape 2.jpg';
 import tinyEscape3 from '../../assets/tiny escape 3.jpg';
+import tinyEscape5 from '../../assets/tiny escape 5.jpg';
 
 const FeaturedTours = ({ isDarkMode }) => {
-  const underDevelopmentPath = '/under-development';
+  const toursPath = '/tours';
   const [isMobile, setIsMobile] = useState(false);
   const [expandedCard, setExpandedCard] = useState(null);
 
@@ -20,51 +21,66 @@ const FeaturedTours = ({ isDarkMode }) => {
   // Memoize tours data to prevent recreation on every render
   const tours = useMemo(() => [
     {
-      frontImage: tinyEscape2,
-      title: "Razoo Creek",
-      subtitle: "Sleeps 2 • Private deck",
-      price: "$189/night",
-      description: "A quiet couples cabin with hill country views, firepit seating, and a full kitchen for slow mornings.",
-      highlights: [
-        "Panoramic sunset view",
-        "Private firepit",
-        "King bed + loft",
-        "Outdoor shower",
-        "Self check-in"
-      ],
-      link: underDevelopmentPath
-    },
-    {
-      frontImage: tinyEscape3,
-      title: "Kona Meadows",
-      subtitle: "Sleeps 4 • Riverside",
-      price: "$239/night",
-      description: "Steps from the water with trail access, hammock space, and an open-plan living area for family stays.",
-      highlights: [
-        "Creek access",
-        "Covered porch",
-        "Two queen beds",
-        "Outdoor grill",
-        "Pet friendly"
-      ],
-      link: underDevelopmentPath
-    },
-    {
       frontImage: tinyEscape3,
       title: "Catalina Ridge",
-      subtitle: "Sleeps 2-3 • Design-forward",
-      price: "$169/night",
-      description: "Minimalist tiny home with vaulted ceilings, indoor-outdoor living, and a dedicated workspace.",
+      subtitle: "A-Frame Cabin • Panoramic windows",
+      price: "A-Frame",
+      description: "Warm wood interiors, panoramic windows, and a private deck invite you to slow down and soak in the beauty around you.",
       highlights: [
-        "Floor-to-ceiling glass",
-        "Coffee bar",
-        "Fast Wi-Fi",
-        "Stargazing deck",
-        "EV outlet"
+        'Stylish interiors with modern amenities',
+        'Kitchenette with essentials',
+        'Heating + AC',
+        'Outdoor seating with grill',
+        'Smart self check-in locks'
       ],
-      link: underDevelopmentPath
+      link: '/destination/triangle-1-catalina-ridge'
+    },
+    {
+      frontImage: tinyEscape5,
+      title: "Rani Ridge",
+      subtitle: "A-Frame Cabin • Cozy retreat",
+      price: "A-Frame",
+      description: "A peaceful A-Frame stay designed for couples and small families looking to reset and reconnect.",
+      highlights: [
+        'Plush bedding and linens',
+        'Smart TV and Govee lights',
+        'Complimentary coffee + water',
+        'Modern private bath',
+        'Back patio seating'
+      ],
+      link: '/destination/triangle-2-rani-ridge'
+    },
+    {
+      frontImage: tinyEscape2,
+      title: "Kona Meadow",
+      subtitle: "Apple Home • Sleek and sustainable",
+      price: "Apple Home",
+      description: "Innovative tiny-home design blending eco-conscious living with comfort and style.",
+      highlights: [
+        'Sleek, sustainable layout',
+        'Kitchenette essentials',
+        'Smart lock entry',
+        'Heating + AC',
+        'Outdoor grill and patio'
+      ],
+      link: '/destination/apple-2-kona-meadows'
+    },
+    {
+      frontImage: tinyEscape3,
+      title: 'Razzo Creek',
+      subtitle: 'Apple Home • Stylish comfort',
+      price: 'Apple Home',
+      description: 'A calm, stylish tiny stay perfect for a digital detox and peaceful weekend reset.',
+      highlights: [
+        'Modern interiors',
+        'Plush bedding',
+        'Smart TV + ambient lights',
+        'Coffee + water included',
+        'Easy self check-in'
+      ],
+      link: '/destination/apple-1-razoo-creek'
     }
-  ], [underDevelopmentPath]);
+  ], []);
 
   return (
     <section className={`relative py-16 md:py-24 lg:py-32 overflow-hidden transition-colors duration-500 ${
@@ -85,10 +101,10 @@ const FeaturedTours = ({ isDarkMode }) => {
             }`} />
             <span className={`text-xs sm:text-sm font-bold uppercase tracking-wider transition-colors duration-500 ${
               isDarkMode ? 'text-[#C9A36A]' : 'text-[#1F3A2A]'
-            }`}>Signature Stays</span>
+            }`}>Our Stays</span>
           </div>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-5 sm:mb-6 leading-tight">
-            <Link to={underDevelopmentPath} className={`group inline-block transition-colors ${
+            <Link to={toursPath} className={`group inline-block transition-colors ${
               isDarkMode ? 'hover:text-[#C9A36A]' : 'hover:text-[#1F3A2A]'
             }`}>
               <span className={`transition-colors duration-500 ${
@@ -111,11 +127,11 @@ const FeaturedTours = ({ isDarkMode }) => {
           <p className={`text-base sm:text-lg md:text-xl max-w-3xl mx-auto leading-relaxed transition-colors duration-500 ${
             isDarkMode ? 'text-[#A79C8C]' : 'text-[#3E4F3E]'
           }`}>
-            Handpicked tiny homes for quiet mornings, nature views, and effortless escapes
+            Tiny in size, big on experience. Explore our A-Frame cabins and Apple Homes designed for comfort, style, and slow living.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[1px] sm:gap-3 md:gap-6 lg:gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-[1px] sm:gap-3 md:gap-6">
           {tours.map((tour, index) => (
             <FlipCard
               key={index}
@@ -129,7 +145,7 @@ const FeaturedTours = ({ isDarkMode }) => {
         </div>
 
         <div className="text-center mt-10 sm:mt-12">
-          <Link to={underDevelopmentPath}>
+          <Link to={toursPath}>
             <button className={`group rounded-xl border-2 backdrop-blur-sm px-6 sm:px-8 py-3 sm:py-4 text-xs sm:text-sm font-bold uppercase tracking-wider transition-all duration-300 hover:scale-105 ${
               isDarkMode
                 ? 'border-[rgba(201,163,106,0.45)] bg-[rgba(26,22,18,0.7)] text-[#F2EEE7] hover:border-[#C9A36A] hover:bg-[rgba(201,163,106,0.12)]'

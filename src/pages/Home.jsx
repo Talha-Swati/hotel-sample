@@ -54,6 +54,76 @@ const HOME_GALLERY_IMAGES = [
   { src: tinyEscape14 }
 ];
 
+const INCLUDED_FEATURES = [
+  {
+    title: 'Modern Interiors',
+    description: 'Thoughtfully styled spaces with clean design, warm materials, and comfort-first layouts.'
+  },
+  {
+    title: 'Kitchenette Essentials',
+    description: 'Practical kitchenette setup so you can prep light meals and enjoy easy mornings.'
+  },
+  {
+    title: 'Plush Bedding',
+    description: 'Quality linens and cozy bedding designed to support deep, restful sleep.'
+  },
+  {
+    title: 'Heating + AC',
+    description: 'Reliable climate control in every season for a consistently comfortable stay.'
+  },
+  {
+    title: 'Private Patio + Grill',
+    description: 'Outdoor seating with a grill for slow dinners, fresh air, and sunset moments.'
+  },
+  {
+    title: 'Smart Self Check-In',
+    description: 'Smart locks for seamless arrival with privacy and convenience from the start.'
+  },
+  {
+    title: 'Coffee + Water',
+    description: 'Complimentary coffee and bottled water waiting for you when you settle in.'
+  },
+  {
+    title: 'Smart Govee Lighting',
+    description: 'Ambient smart lighting throughout the homes to match your mood and pace.'
+  },
+  {
+    title: 'Smart TV',
+    description: 'Stream your favorites when you want cozy nights in after a day outdoors.'
+  }
+];
+
+const EXPERIENCE_ADDONS = [
+  {
+    title: 'Horseback Riding',
+    note: 'Scenic trail rides available nearby.',
+    image: tinyEscape2,
+    count: 'Add-on activity'
+  },
+  {
+    title: 'Go-Kart Track Access',
+    note: 'A fun, fast-paced experience steps away from your stay.',
+    image: tinyEscape3,
+    count: 'Add-on activity'
+  },
+  {
+    title: 'Firewood + S’mores Bundle',
+    note: 'Everything you need for a cozy night under the stars.',
+    image: tinyEscape5,
+    count: 'Add-on activity'
+  }
+];
+
+const LOCATION_HIGHLIGHTS = [
+  'Brazos River kayaking (30 mins)',
+  'Magnolia Market at the Silos (20 mins)',
+  'Belton Lake (30 mins)',
+  'Small-town antique shops',
+  'Mother Neff State Park with scenic trails and picnic spots',
+  'The Kissing Tree Vineyards for wines, ambience, and live music',
+  'Eagles Landing Restaurant for homestyle cooking and countryside views'
+];
+
 const Home = () => {
   const { isDarkMode } = useTheme();
 
@@ -116,41 +186,24 @@ const Home = () => {
           {/* Featured Stays Section */}
           <FeaturedTours isDarkMode={isDarkMode} />
 
-          {/* Why Choose Us Section */}
-          <section aria-labelledby="why-choose-us" className={`relative py-16 md:py-24 lg:py-32 overflow-hidden transition-colors duration-500 ${
+          {/* What's Included Section */}
+          <section aria-labelledby="whats-included" className={`relative py-16 md:py-24 lg:py-32 overflow-hidden transition-colors duration-500 ${
             isDarkMode ? 'bg-[#14110E]' : 'bg-[#EAF3EA]'
           }`}>
         <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6">
             <header className="text-center mb-12 md:mb-20 reveal-on-scroll" data-reveal>
-              <h2 id="why-choose-us" className="text-3xl sm:text-4xl md:text-5xl font-bold mb-5 sm:mb-6">
-                <span className={isDarkMode ? 'text-[#F2F6F9]' : 'text-[#1F2A1F]'}>Why Choose </span>
+              <h2 id="whats-included" className="text-3xl sm:text-4xl md:text-5xl font-bold mb-5 sm:mb-6">
+                <span className={isDarkMode ? 'text-[#F2F6F9]' : 'text-[#1F2A1F]'}>What’s </span>
                 <span className={`bg-clip-text text-transparent ${
                   isDarkMode ? 'bg-linear-to-r from-[#C9A36A] to-[#E7CFA2]' : 'bg-linear-to-r from-[#2F5D3A] to-[#7BAF7C]'
-                }`}>Tiny Escape</span>
+                }`}>Included</span>
               </h2>
               <p className={`text-base sm:text-lg md:text-xl ${isDarkMode ? 'text-[#A79C8C]' : 'text-[#3E4F3E]'}`}>
-                A Texas tiny home escape designed for slow mornings, warm sunsets, and quiet, private stays
+                All homes include modern comforts and thoughtful essentials for an easy, restorative stay
               </p>
             </header>
-            <article className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-[2px] sm:gap-3 md:gap-6">
-              {[
-                {
-                  title: 'Calm and Private',
-                  description: 'Low-density layouts, private decks, and quiet outdoor space around every cabin.'
-                },
-                {
-                  title: 'Design-Forward',
-                  description: 'Warm materials, clean lines, and details that feel boutique and intentional.'
-                },
-                {
-                  title: 'Nature First',
-                  description: 'Hill Country skies, scenic trails, and firepit nights built into the stay.'
-                },
-                {
-                  title: 'Easy Arrival',
-                  description: 'Streamlined check-in, clear directions, and local support when you need it.'
-                }
-              ].map((item, index) => (
+            <article className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[2px] sm:gap-3 md:gap-6">
+              {INCLUDED_FEATURES.map((item, index) => (
                 <div
                   key={item.title}
                   className="reveal-on-scroll"
@@ -185,49 +238,12 @@ const Home = () => {
                 }`}>Experiences</span>
               </h2>
               <p className={`text-base sm:text-lg md:text-xl ${isDarkMode ? 'text-[#A79C8C]' : 'text-[#3E4F3E]'}`}>
-                Curated moments for slow stays, from stargazing decks to creekside hammocks
+                Add a little adventure to your escape — relax or roam with activities for every mood
               </p>
             </header>
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              {[
-                {
-                  title: 'Hill Country Trails',
-                  note: 'Guided sunrise loops and creekside breaks.',
-                  image: tinyEscape2,
-                  count: '8 signature moments'
-                },
-                {
-                  title: 'Stargazing Nights',
-                  note: 'Low-light decks with zero city glow.',
-                  image: tinyEscape3,
-                  count: '6 signature moments'
-                },
-                {
-                  title: 'Creekside Mornings',
-                  note: 'Coffee, quiet water, and easy trails.',
-                  image: tinyEscape3,
-                  count: '7 signature moments'
-                },
-                {
-                  title: 'Golden Hour Views',
-                  note: 'Warm light, long shadows, slow evenings.',
-                  image: tinyEscape5,
-                  count: '5 signature moments'
-                },
-                {
-                  title: 'Firepit Evenings',
-                  note: 'Private firepits with stocked wood bundles.',
-                  image: tinyEscape2,
-                  count: '4 signature moments'
-                },
-                {
-                  title: 'Local Wineries',
-                  note: 'Curated lists and easy transport add-ons.',
-                  image: tinyEscape3,
-                  count: '6 signature moments'
-                }
-              ].map((item, index) => (
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+              {EXPERIENCE_ADDONS.map((item, index) => (
                 <Link
                   key={item.title}
                   to={underDevelopmentPath}
@@ -253,7 +269,7 @@ const Home = () => {
                       <p className={`text-xs font-semibold uppercase tracking-widest ${
                         isDarkMode ? 'text-[#C9A36A]' : 'text-[#2F5D3A]'
                       }`}>
-                        Experience
+                        Add-On
                       </p>
                       <h3 className={`text-xl sm:text-2xl font-bold mb-2 ${isDarkMode ? 'text-[#F2EEE7]' : 'text-[#1F2A1F]'}`}>
                         {item.title}
@@ -265,7 +281,7 @@ const Home = () => {
                         {item.count}
                       </span>
                       <span className={`text-sm font-semibold ${isDarkMode ? 'text-[#E7CFA2]' : 'text-[#2F5D3A]'}`}>
-                        Explore →
+                        Request →
                       </span>
                     </div>
                   </div>
@@ -347,39 +363,39 @@ const Home = () => {
           </div>
         </section>
 
-        {/* Stay Notes */}
+        {/* Coming Soon */}
         <section aria-labelledby="stay-notes" className={`relative py-16 md:py-24 lg:py-32 overflow-hidden transition-colors duration-500 ${
           isDarkMode ? 'bg-[#14110E]' : 'bg-[#F3F7F2]'
         }`}>
           <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6">
             <header className="text-center mb-12 md:mb-20 reveal-on-scroll" data-reveal>
               <h2 id="stay-notes" className="text-3xl sm:text-4xl md:text-5xl font-bold mb-5 sm:mb-6">
-                <span className={isDarkMode ? 'text-[#F2EEE7]' : 'text-[#1F2A1F]'}>Stay </span>
+                <span className={isDarkMode ? 'text-[#F2EEE7]' : 'text-[#1F2A1F]'}>Coming </span>
                 <span className={`bg-clip-text text-transparent ${
                   isDarkMode ? 'bg-linear-to-r from-[#C9A36A] to-[#E7CFA2]' : 'bg-linear-to-r from-[#2F5D3A] to-[#7BAF7C]'
-                }`}>Notes</span>
+                }`}>Soon</span>
               </h2>
               <p className={`text-base sm:text-lg md:text-xl ${isDarkMode ? 'text-[#A79C8C]' : 'text-[#3E4F3E]'}`}>
-                A few pro touches that make the stay feel effortless
+                Even more reasons to escape — we’re building a destination that continues to grow
               </p>
             </header>
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
               {[
                 {
-                  title: 'Arrival Rituals',
+                  title: 'Two Container Pools',
                   image: tinyEscape3,
-                  body: 'Pre-stocked coffee, soft lighting, and a welcome note so your first hour feels calm.'
+                  body: 'Sustainable, stylish pools designed for hot Texas days and easy afternoons.'
                 },
                 {
-                  title: 'Restorative Details',
+                  title: 'On-Site Café',
                   image: tinyEscape5,
-                  body: 'Premium linens, warm woods, and simple design that invites you to slow down.'
+                  body: 'Locally roasted coffee, fresh pastries, light bites, and good vibes.'
                 },
                 {
-                  title: 'Concierge Add-ons',
+                  title: 'More Packages & Rentals',
                   image: tinyEscape2,
-                  body: 'Local guides, dining reservations, and sunrise hikes organized before you arrive.'
+                  body: 'Additional activity packages and rental options are available on request.'
                 }
               ].map((item, index) => (
                 <div
@@ -416,54 +432,39 @@ const Home = () => {
         {/* Section Separator */}
         <hr className={`border-t ${isDarkMode ? 'border-gray-800' : 'border-[#DDE8DD]'}`} aria-hidden="true" />
 
-        {/* Testimonials */}
-        <section aria-labelledby="testimonials" className={`relative py-16 md:py-24 lg:py-32 overflow-hidden transition-colors duration-500 ${
-          isDarkMode ? 'bg-[#120F0C]' : 'bg-[#F3F7F2]'
-        }`}>
+        {/* About */}
+        <section
+          aria-labelledby="testimonials"
+          className={`relative py-16 md:py-24 lg:py-32 overflow-hidden transition-colors duration-500 img-section ${
+          isDarkMode ? 'bg-[#120F0C]' : 'bg-[#EAF0E8]'
+        }`}
+          style={{ '--cta-bg-image': `url(${tinyEscape11})` }}
+        >
+
           <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6">
             <header className="text-center mb-12 md:mb-20 reveal-on-scroll" data-reveal>
               <h2 id="testimonials" className="text-3xl sm:text-4xl md:text-5xl font-bold mb-5 sm:mb-6">
-                <span className={isDarkMode ? 'text-[#F2F6F9]' : 'text-[#1F2A1F]'}>Guest </span>
+                <span className="text-white">Built With </span>
                 <span className={`bg-clip-text text-transparent ${
-                  isDarkMode ? 'bg-linear-to-r from-[#C9A36A] to-[#E7CFA2]' : 'bg-linear-to-r from-[#2F5D3A] to-[#7BAF7C]'
-                }`}>Stories</span>
+                  isDarkMode ? 'bg-linear-to-r from-[#C9A36A] to-[#E7CFA2]' : 'bg-linear-to-r from-[#A3D3A6] to-[#DDF2DE]'
+                }`}>Heart</span>
               </h2>
-              <p className={`text-base sm:text-lg md:text-xl ${isDarkMode ? 'text-[#A79C8C]' : 'text-[#3E4F3E]'}`}>
-                Real notes from guests who reset, reconnect, and unplug with Tiny Escape
+              <p className="text-base sm:text-lg md:text-xl text-white/90">
+                Designed to heal — a family-owned passion project inspired by nature, thoughtful design, and slow living
               </p>
             </header>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[
-              { name: 'Sarah Johnson', country: 'Austin, TX', text: 'The cabin felt private and calm. The firepit nights were perfect and check-in was effortless.' },
-              { name: 'Michael Schmidt', country: 'San Antonio, TX', text: 'Beautiful design and super clean. We loved the sunrise views and quiet mornings.' },
-              { name: 'Emma Williams', country: 'Dallas, TX', text: 'Everything we needed for a weekend reset. Great communication and a peaceful setting.' }
-            ].map((review, i) => (
-              <div
-                key={i}
-                className={`p-5 sm:p-8 rounded-2xl border transition-colors reveal-on-scroll ${
-                isDarkMode ? 'bg-[rgba(26,22,18,0.7)] border-[rgba(201,163,106,0.25)]' : 'bg-white border-[#DDE8DD] shadow-sm'
-                }`}
-                data-reveal
-                style={{ transitionDelay: `${120 + i * 120}ms` }}
-              >
-                <div className="flex items-center gap-4 mb-4">
-                  <img src={`https://i.pravatar.cc/60?img=${i+1}`} alt={review.name} loading="lazy" decoding="async" className="w-12 h-12 rounded-full" />
-                  <div>
-                    <h4 className={`font-bold ${isDarkMode ? 'text-[#F2F6F9]' : 'text-[#1F2A1F]'}`}>{review.name}</h4>
-                    <p className={`text-sm ${isDarkMode ? 'text-[#A79C8C]' : 'text-[#6B7C6B]'}`}>{review.country}</p>
-                  </div>
-                </div>
-                <p className={isDarkMode ? 'text-[#CDBEAC]' : 'text-[#3E4F3E]'}>{review.text}</p>
-                <div className="flex gap-1 mt-4">
-                  {[...Array(5)].map((_, j) => (
-                    <svg key={j} className="w-5 h-5 text-[#FFD700]" fill="currentColor" viewBox="0 0 20 20">
-                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                    </svg>
-                  ))}
-                </div>
-              </div>
-            ))}
+          <div
+            className={`mx-auto max-w-6xl p-6 sm:p-10 rounded-3xl border backdrop-blur-lg reveal-on-scroll ${
+              isDarkMode
+                ? 'bg-[rgba(16,13,11,0.32)] border-[rgba(201,163,106,0.45)] shadow-[0_30px_70px_-45px_rgba(0,0,0,0.72)]'
+                : 'bg-[rgba(255,255,255,0.18)] border-[rgba(231,240,233,0.58)] shadow-[0_30px_70px_-45px_rgba(0,0,0,0.45)]'
+            }`}
+            data-reveal
+          >
+            <p className="text-base sm:text-lg leading-relaxed text-white/95">
+              The Tiny Escape is a family-owned passion project born from a love of nature, thoughtful design, and slow living. We believe tiny spaces can create big transformations through rest, creativity, and quality time. From each home interior to the layout of our land, every detail is built to help you feel peaceful, connected, and inspired.
+            </p>
           </div>
         </div>
       </section>
@@ -532,10 +533,13 @@ const Home = () => {
         <div className="mx-auto max-w-7xl px-4 sm:px-6">
           <div className="mb-10 text-center">
             <h2 className={`text-3xl md:text-4xl font-bold mb-3 ${isDarkMode ? 'text-[#F2EEE7]' : 'text-[#1F2A1F]'}`}>
-              Find Us
+              Location
             </h2>
             <p className={isDarkMode ? 'text-[#A79C8C]' : 'text-[#2F5D3A]'}>
-              CR498, Bruceville-Eddy, TX, United States
+              102 CR 499, Eddy, TX 76524
+            </p>
+            <p className={`mt-2 max-w-3xl mx-auto ${isDarkMode ? 'text-[#A79C8C]' : 'text-[#3E4F3E]'}`}>
+              Perfectly placed between Waco (20 minutes) and Temple (10 minutes), with easy access to dining, trails, river activities, and small-town charm.
             </p>
           </div>
           <div className={`overflow-hidden rounded-3xl border shadow-2xl ${
@@ -548,6 +552,21 @@ const Home = () => {
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
             />
+          </div>
+
+          <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-4">
+            {LOCATION_HIGHLIGHTS.map((item) => (
+              <div
+                key={item}
+                className={`rounded-xl border px-4 py-3 ${
+                  isDarkMode
+                    ? 'border-[rgba(201,163,106,0.2)] bg-[rgba(22,18,15,0.75)] text-[#CDBEAC]'
+                    : 'border-[#DDE8DD] bg-white text-[#3E4F3E]'
+                }`}
+              >
+                {item}
+              </div>
+            ))}
           </div>
         </div>
       </section>
