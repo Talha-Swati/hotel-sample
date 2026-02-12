@@ -2,6 +2,7 @@ import { lazy, Suspense } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import { ThemeProvider } from './context/ThemeContext';
+import UnderDevelopment from './pages/UnderDevelopment';
 
 const Home = lazy(() => import('./pages/Home'));
 const Tours = lazy(() => import('./pages/Tours'));
@@ -26,8 +27,6 @@ const FamilyTours = lazy(() => import('./pages/Trip/FamilyTours'));
 const RomanticStays = lazy(() => import('./pages/Trip/RomanticStays'));
 const CorporateTours = lazy(() => import('./pages/Trip/CorporateTours'));
 const BudgetTours = lazy(() => import('./pages/Trip/BudgetTours'));
-const UnderDevelopment = lazy(() => import('./pages/UnderDevelopment'));
-
 const App = () => {
   return (
     <ThemeProvider>

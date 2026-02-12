@@ -63,11 +63,3 @@ export const getNavItems = () =>
         : undefined
     };
   });
-
-// Hero slider images
-export const heroImages = [
-  'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=1920&q=80', // Hill country
-  'https://images.unsplash.com/photo-1470770841072-f978cf4d019e?w=1920&q=80', // Cabin exterior
-  'https://images.unsplash.com/photo-1500534314209-a26db0f5aa84?w=1920&q=80', // Open skies
-  'https://images.unsplash.com/photo-1449844908441-8829872d2607?w=1920&q=80', // Tiny home
-];

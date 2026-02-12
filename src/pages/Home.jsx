@@ -110,7 +110,7 @@ const Home = () => {
       }}
     >
       {/* Hero Section */}
-      <HeroSection isDarkMode={isDarkMode} videoSrc={heroVideo} posterSrc={tinyEscape8} />
+      <HeroSection isDarkMode={isDarkMode} videoSrc={heroVideo} />
 
 
           {/* Featured Stays Section */}

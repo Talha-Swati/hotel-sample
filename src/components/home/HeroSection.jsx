@@ -1,114 +1,48 @@
-import React, { memo, useState, useEffect } from 'react';
+import React, { memo, useState } from 'react';
 import { Link } from 'react-router-dom';
 
-const HeroSection = ({ isDarkMode, videoSrc, posterSrc }) => {
+const HeroSection = ({ isDarkMode, videoSrc }) => {
   const underDevelopmentPath = '/under-development';
-  const [typedIndex, setTypedIndex] = useState(0);
-  const fullText = 'The Tiny Escape';
-  const words = fullText.split(' ');
+  const [videoReady, setVideoReady] = useState(false);
 
-  useEffect(() => {
-    if (typedIndex < fullText.length) {
-      const timeout = setTimeout(() => {
-        setTypedIndex((prev) => prev + 1);
-      }, 80);
-      return () => clearTimeout(timeout);
+  const handleLoadedMetadata = (event) => {
+    const videoElement = event.currentTarget;
+    try {
+      if (videoElement.currentTime < 0.25) {
+        videoElement.currentTime = 0.25;
+      }
+    } catch {
+      return;
     }
-  }, [typedIndex]);
-
-  const renderText = () => {
-    let charCount = 0;
-    return words.map((word, wordIndex) => {
-      const wordChars = word.split('').map((char, charIndex) => {
-        const currentIndex = charCount;
-        charCount++;
-        const isTyped = currentIndex < typedIndex;
-        const isCurrentlyTyping = currentIndex === typedIndex;
-
-        return (
-          <span
-            key={`${wordIndex}-${charIndex}`}
-            className={`inline-block transition-all duration-300 ${
-              isTyped
-                ? 'opacity-100 blur-0'
-                : 'opacity-70 blur-[1px] sm:opacity-30 sm:blur-[2px]'
-            }`}
-          >
-            {char}
-            {isCurrentlyTyping && <span className="animate-pulse">|</span>}
-          </span>
-        );
-      });
-
-      charCount++; // for space
-
-     if (wordIndex === 1) {
-  return (
-    <React.Fragment key={wordIndex}>
-      <span className="text-[#A8E6A3]">
-        {wordChars}
-      </span>
-      <br />
-    </React.Fragment>
-  );
-}
-
-
-      return (
-        <React.Fragment key={wordIndex}>
-          {wordChars}
-          {wordIndex < words.length - 1 && (
-            <span className={typedIndex > charCount - 1 ? 'opacity-100' : 'opacity-30'}>
-              {' '}
-            </span>
-          )}
-        </React.Fragment>
-      );
-    });
   };
 
   return (
     <section className="relative min-h-[calc(100svh-72px)] md:min-h-screen flex items-center justify-center overflow-hidden">
-      {/* ✅ Video Background (replaces slider) */}
       <div className="absolute inset-0">
         <video
-          className="absolute inset-0 h-full w-full object-cover object-[58%_center] scale-[1.22] sm:scale-[1.12] md:scale-100"
+          className={`absolute inset-0 h-full w-full object-cover object-[58%_center] scale-[1.22] sm:scale-[1.12] md:scale-100 transition-opacity duration-500 ${
+            videoReady ? 'opacity-100' : 'opacity-0'
+          }`}
           src={videoSrc}
-          poster={posterSrc}
           autoPlay
           muted
           loop
           playsInline
           preload="metadata"
+          onLoadedMetadata={handleLoadedMetadata}
+          onCanPlay={() => setVideoReady(true)}
+          onPlaying={() => setVideoReady(true)}
         />
       </div>
-   {/* Primary dark overlay (lighter opacity for better video visibility) */}
-<div
-  className={`absolute inset-0 transition-colors duration-500 ${
-    isDarkMode
-      ? 'bg-linear-to-br from-[rgba(10,10,10,0.55)] via-[rgba(20,18,16,0.45)] to-[rgba(8,8,8,0.6)]'
-      : 'bg-linear-to-br from-[rgba(0,0,0,0.45)] via-[rgba(0,0,0,0.35)] to-[rgba(0,0,0,0.5)]'
-  }`}
-/>
 
-{/* Bottom fade for text contrast */}
-<div
-  className={`absolute inset-0 transition-colors duration-500 ${
-    isDarkMode
-      ? 'bg-linear-to-t from-[rgba(0,0,0,0.65)] via-transparent to-transparent'
-      : 'bg-linear-to-t from-[rgba(0,0,0,0.55)] via-transparent to-transparent'
-  }`}
-/>
+      <div
+        className={`absolute inset-0 transition-colors duration-500 ${
+          isDarkMode
+            ? 'bg-linear-to-b from-[rgba(0,0,0,0.62)] via-[rgba(0,0,0,0.42)] to-[rgba(0,0,0,0.72)]'
+            : 'bg-linear-to-b from-[rgba(0,0,0,0.52)] via-[rgba(0,0,0,0.34)] to-[rgba(0,0,0,0.6)]'
+        }`}
+      />
 
-
-      {/* Orbs (kept same) */}
-      <div className="absolute inset-0 mix-blend-screen">
-        <div className={`hero-orb hero-orb-1 ${isDarkMode ? 'bg-[#C9A36A]' : 'bg-[#5F8C6A]'}`} />
-        <div className={`hero-orb hero-orb-2 ${isDarkMode ? 'bg-[#E7CFA2]' : 'bg-[#BFD8B8]'}`} />
-        <div className={`hero-orb hero-orb-3 ${isDarkMode ? 'bg-[#7B5A3A]' : 'bg-[#2F5D3A]'}`} />
-      </div>
-
-      {/* ✅ Hero Content stays ON TOP (unchanged) */}
       <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 py-14 sm:py-20 md:py-32 text-center reveal">
 
         {/* Premium Badge */}
@@ -132,7 +66,10 @@ const HeroSection = ({ isDarkMode, videoSrc, posterSrc }) => {
           className="mb-6 text-3xl font-bold tracking-normal sm:text-4xl md:text-6xl lg:text-7xl text-white reveal-delay-2"
           style={{ fontFamily: 'Playfair Display, serif', letterSpacing: '0.02em' }}
         >
-          {renderText()}
+          The{' '}
+          <span className="text-[#A8E6A3]">Tiny</span>
+          <br />
+          Escape
         </h1>
 
         {/* Subtitle */}
