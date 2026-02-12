@@ -6,6 +6,16 @@ import { reviews, ratings } from '../data/reviewsData';
 // Icons
 import { FaStar, FaQuoteLeft, FaUser, FaCalendarAlt, FaMapMarkerAlt, FaThumbsUp, FaFilter } from 'react-icons/fa';
 
+const StarRating = ({ rating, size = 'text-base', isDarkMode }) => (
+  <div className="flex gap-1">
+    {[...Array(5)].map((_, index) => (
+      <FaStar
+        key={index}
+        className={`${size} ${index < rating ? 'text-yellow-500' : isDarkMode ? 'text-gray-600' : 'text-slate-300'}`}
+      />
+    ))}
+  </div>
+);
 
 const Reviews = () => {
   const { isDarkMode } = useTheme();
@@ -67,18 +77,6 @@ const Reviews = () => {
     return filtered;
   }, [selectedRating, sortBy]);
 
-  // Render star rating
-  const StarRating = ({ rating, size = 'text-base' }) => (
-    <div className="flex gap-1">
-      {[...Array(5)].map((_, index) => (
-        <FaStar
-          key={index}
-          className={`${size} ${index < rating ? 'text-yellow-500' : isDarkMode ? 'text-gray-600' : 'text-slate-300'}`}
-        />
-      ))}
-    </div>
-  );
-
   return (
     <PageLayout
       seo={{
@@ -119,7 +117,7 @@ const Reviews = () => {
                     <div className={`text-6xl font-bold mb-2 ${isDarkMode ? 'text-[#22D3EE]' : 'text-[#3B82F6]'}`}>
                       {averageRating}
                     </div>
-                    <StarRating rating={Math.round(parseFloat(averageRating))} size="text-xl" />
+                    <StarRating rating={Math.round(parseFloat(averageRating))} size="text-xl" isDarkMode={isDarkMode} />
                     <p className={`mt-2 ${isDarkMode ? 'text-[#8B949E]' : 'text-[#64748B]'}`}>
                       Based on {reviews.length} reviews
                     </p>
@@ -242,7 +240,7 @@ const Reviews = () => {
                         </div>
                       </div>
                     </div>
-                    <StarRating rating={review.rating} />
+                    <StarRating rating={review.rating} isDarkMode={isDarkMode} />
                   </div>
 
                   {/* Stay Info */}

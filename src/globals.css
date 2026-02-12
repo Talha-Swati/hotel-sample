@@ -1,5 +1,4 @@
 @import "tailwindcss";
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&display=swap');
 
 :root {
   --theme-bg: #f8fafb;
@@ -136,15 +135,17 @@
 .feature-thread-note {
   width: min(92%, 320px);
   border-radius: 24px;
-  padding: 22px 24px 24px;
+  padding: 0 24px;
   text-align: center;
-  border: 1px solid rgba(47, 93, 58, 0.3);
+  border: 0 solid rgba(47, 93, 58, 0.3);
   background: linear-gradient(145deg, #f7fbf7 0%, #eef6ee 55%, #e4f1e4 100%);
   box-shadow: 0 18px 30px -24px rgba(18, 32, 20, 0.35);
   opacity: 0;
   transform: translateY(-6px) scale(0.98);
   transform-origin: top center;
-  transition: opacity 360ms ease, transform 520ms ease;
+  max-height: 0;
+  overflow: hidden;
+  transition: opacity 360ms ease, transform 520ms ease, max-height 520ms ease, padding 360ms ease, border-width 360ms ease;
 }
 
 .feature-note-dark {
@@ -175,12 +176,38 @@
 .feature-thread-card.is-open .feature-thread-note {
   opacity: 1;
   transform: translateY(0) scale(1);
+  max-height: 280px;
+  padding: 22px 24px 24px;
+  border-width: 1px;
   animation: note-settle 620ms ease, note-swing 1100ms ease 220ms;
 }
 
 .feature-thread-card.is-open .feature-thread-face {
   transform: translateY(-4px);
   box-shadow: 0 24px 40px -28px rgba(15, 28, 17, 0.65);
+}
+
+@media (max-width: 640px) {
+  .feature-thread-face {
+    height: 204px;
+    border-radius: 20px;
+    padding: 22px 16px;
+  }
+
+  .feature-face-border {
+    inset: 10px;
+    border-radius: 16px;
+  }
+
+  .feature-thread-note {
+    width: 100%;
+    border-radius: 18px;
+  }
+
+  .feature-thread-card.is-open .feature-thread-note {
+    max-height: 320px;
+    padding: 16px 16px 18px;
+  }
 }
 
 @keyframes note-settle {
@@ -288,6 +315,12 @@ body {
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
+}
+
+@media (max-width: 768px) {
+  .img-section {
+    background-attachment: scroll;
+  }
 }
 
 .cta-cut-card {

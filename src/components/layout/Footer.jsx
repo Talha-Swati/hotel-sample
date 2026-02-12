@@ -7,7 +7,7 @@ const Footer = ({ isDarkMode }) => {
   const underDevelopmentPath = '/under-development';
 
   return (
-    <footer className={`border-t pt-16 pb-8 transition-colors ${
+    <footer className={`border-t pt-10 sm:pt-16 pb-8 transition-colors ${
       isDarkMode ? 'border-[rgba(201,163,106,0.25)] bg-[#0B0C0E]' : 'border-[rgba(231,240,233,0.18)] bg-linear-to-b from-[#153828] via-[#1B4332] to-[#0F2B1E]'
     }`}>
       <div className="mx-auto max-w-7xl px-4 sm:px-6">

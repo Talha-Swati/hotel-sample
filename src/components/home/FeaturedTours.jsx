@@ -1,13 +1,22 @@
-import React, { memo, useMemo } from 'react';
+import React, { memo, useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import FlipCard from '../common/FlipCard';
-import tinyHouse1 from '../../assets/tiny house1.webp';
 import tinyEscape2 from '../../assets/tiny escape 2.jpg';
 import tinyEscape3 from '../../assets/tiny escape 3.jpg';
-import tinyEscape4 from '../../assets/tiny escape 4.jpg';
 
 const FeaturedTours = ({ isDarkMode }) => {
   const underDevelopmentPath = '/under-development';
+  const [isMobile, setIsMobile] = useState(false);
+  const [expandedCard, setExpandedCard] = useState(null);
+
+  useEffect(() => {
+    const media = window.matchMedia('(max-width: 767px)');
+    const updateMobileState = () => setIsMobile(media.matches);
+    updateMobileState();
+    media.addEventListener('change', updateMobileState);
+    return () => media.removeEventListener('change', updateMobileState);
+  }, []);
+
   // Memoize tours data to prevent recreation on every render
   const tours = useMemo(() => [
     {
@@ -41,7 +50,7 @@ const FeaturedTours = ({ isDarkMode }) => {
       link: underDevelopmentPath
     },
     {
-      frontImage: tinyEscape4,
+      frontImage: tinyEscape3,
       title: "Catalina Ridge",
       subtitle: "Sleeps 2-3 • Design-forward",
       price: "$169/night",
@@ -58,15 +67,15 @@ const FeaturedTours = ({ isDarkMode }) => {
   ], [underDevelopmentPath]);
 
   return (
-    <section className={`relative py-32 overflow-hidden transition-colors duration-500 ${
+    <section className={`relative py-16 md:py-24 lg:py-32 overflow-hidden transition-colors duration-500 ${
       isDarkMode
         ? 'bg-linear-to-b from-[#0F0D0A] via-[#171310] to-[#0F0D0A]'
         : 'bg-linear-to-b from-[#FAF7F0] via-[#E9F1E5] to-[#FAF7F0]'
     }`}>
       
-      <div className="relative z-10 mx-auto max-w-7xl px-6">
-        <div className="text-center mb-20">
-          <div className={`inline-flex items-center gap-2 mb-6 rounded-full border backdrop-blur-sm px-6 py-3 transition-colors duration-500 ${
+      <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6">
+        <div className="text-center mb-12 md:mb-20">
+          <div className={`inline-flex items-center gap-2 mb-5 sm:mb-6 rounded-full border backdrop-blur-sm px-4 sm:px-6 py-2.5 sm:py-3 transition-colors duration-500 ${
             isDarkMode
               ? 'border-[rgba(201,163,106,0.35)] bg-[rgba(26,22,18,0.7)] shadow-[0_0_30px_rgba(201,163,106,0.18)]'
               : 'border-[rgba(31,58,42,0.28)] bg-[rgba(250,247,240,0.75)] shadow-[0_0_30px_rgba(31,58,42,0.16)]'
@@ -74,11 +83,11 @@ const FeaturedTours = ({ isDarkMode }) => {
             <div className={`h-2 w-2 rounded-full animate-pulse ${
               isDarkMode ? 'bg-[#C9A36A]' : 'bg-[#1F3A2A]'
             }`} />
-            <span className={`text-sm font-bold uppercase tracking-wider transition-colors duration-500 ${
+            <span className={`text-xs sm:text-sm font-bold uppercase tracking-wider transition-colors duration-500 ${
               isDarkMode ? 'text-[#C9A36A]' : 'text-[#1F3A2A]'
             }`}>Signature Stays</span>
           </div>
-          <h2 className="text-4xl md:text-5xl font-bold mb-6 leading-tight">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-5 sm:mb-6 leading-tight">
             <Link to={underDevelopmentPath} className={`group inline-block transition-colors ${
               isDarkMode ? 'hover:text-[#C9A36A]' : 'hover:text-[#1F3A2A]'
             }`}>
@@ -99,26 +108,29 @@ const FeaturedTours = ({ isDarkMode }) => {
               }`} />
             </Link>
           </h2>
-          <p className={`text-lg md:text-xl max-w-3xl mx-auto leading-relaxed transition-colors duration-500 ${
+          <p className={`text-base sm:text-lg md:text-xl max-w-3xl mx-auto leading-relaxed transition-colors duration-500 ${
             isDarkMode ? 'text-[#A79C8C]' : 'text-[#3E4F3E]'
           }`}>
             Handpicked tiny homes for quiet mornings, nature views, and effortless escapes
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[1px] sm:gap-3 md:gap-6 lg:gap-8">
           {tours.map((tour, index) => (
             <FlipCard
               key={index}
               isDarkMode={isDarkMode}
+              isMobile={isMobile}
+              isExpanded={expandedCard === index}
+              onToggle={() => setExpandedCard((prev) => (prev === index ? null : index))}
               {...tour}
             />
           ))}
         </div>
 
-        <div className="text-center mt-12">
+        <div className="text-center mt-10 sm:mt-12">
           <Link to={underDevelopmentPath}>
-            <button className={`group rounded-xl border-2 backdrop-blur-sm px-8 py-4 text-sm font-bold uppercase tracking-wider transition-all duration-300 hover:scale-105 ${
+            <button className={`group rounded-xl border-2 backdrop-blur-sm px-6 sm:px-8 py-3 sm:py-4 text-xs sm:text-sm font-bold uppercase tracking-wider transition-all duration-300 hover:scale-105 ${
               isDarkMode
                 ? 'border-[rgba(201,163,106,0.45)] bg-[rgba(26,22,18,0.7)] text-[#F2EEE7] hover:border-[#C9A36A] hover:bg-[rgba(201,163,106,0.12)]'
                 : 'border-[#D4E2D4] bg-[rgba(255,255,255,0.92)] text-[#1F2A1F] hover:border-[#1F3A2A] hover:bg-[rgba(31,58,42,0.08)]'

@@ -1,5 +1,5 @@
-import { useState, useEffect, Fragment } from 'react';
-import { useNavigate, useLocation, Link } from 'react-router-dom';
+import { useMemo, useState, Fragment } from 'react';
+import { useLocation, Link } from 'react-router-dom';
 import { useTheme } from '../context/ThemeContext';
 import { 
   FaMapMarkerAlt, FaCalendar, FaUsers, FaHotel, FaCar, 
@@ -10,7 +10,6 @@ import { customTourActivities, customTourDestinations } from '../data/customTour
 
 const CustomStayRequest = () => {
   const { isDarkMode } = useTheme();
-  const navigate = useNavigate();
   const location = useLocation();
   
   // Get pre-filled data from location state (if coming from destination page)
@@ -47,10 +46,8 @@ const CustomStayRequest = () => {
   });
 
   const [step, setStep] = useState(1); // Multi-step form
-  const [estimatedPrice, setEstimatedPrice] = useState(0);
 
-  // Calculate estimated price based on selections
-  useEffect(() => {
+  const estimatedPrice = useMemo(() => {
     let basePrice = 140; // Base price per night
     
     // Duration multiplier
@@ -88,8 +85,7 @@ const CustomStayRequest = () => {
     const groupSize = parseInt(formData.groupSize);
     if (groupSize >= 4) basePrice *= 0.9;
     if (groupSize >= 8) basePrice *= 0.85;
-    
-    setEstimatedPrice(Math.round(basePrice * groupSize));
+    return Math.round(basePrice * groupSize);
   }, [formData]);
 
   const handleInputChange = (field, value) => {

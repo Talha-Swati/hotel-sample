@@ -22,7 +22,7 @@ const Navbar = ({ isDarkMode, mobileMenuOpen, setMobileMenuOpen, setThemeMode })
         ? 'border-[rgba(201,163,106,0.25)] bg-[rgba(11,10,9,0.95)]'
         : 'border-[rgba(231,240,233,0.18)] bg-[rgba(20,55,40,0.95)]'
     }`}>
-      <div className="w-full mx-auto flex items-center justify-between px-2 lg:px-3 xl:px-6 py-2 lg:py-2 xl:py-4" style={{maxWidth: 'calc(100vw - 1rem)'}}>
+      <div className="mx-auto flex w-full max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-4 xl:px-6 py-2 lg:py-2 xl:py-4">
         {/* Logo */}
         <Link to="/" className="flex items-center group flex-shrink-0">
           <div className="relative">

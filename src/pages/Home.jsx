@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { useTheme } from '../context/ThemeContext';
 import { getOrganizationSchema, getReviewSchema } from '../utils/structuredData';
@@ -16,28 +16,46 @@ import FeatureFlipCard from '../components/common/FeatureFlipCard';
 import SectionHeader from '../components/common/SectionHeader';
 
 // Data
-import { heroImages } from '../data/navigationData';
 import tinyEscape2 from '../assets/tiny escape 2.jpg';
 import tinyEscape3 from '../assets/tiny escape 3.jpg';
-import tinyEscape4 from '../assets/tiny escape 4.jpg';
 import tinyEscape5 from '../assets/tiny escape 5.jpg';
+import tinyEscape6 from '../assets/tiny escape 6.jpeg';
 import tinyEscape7 from '../assets/tiny escape 7.jpeg';
-import tinyHouse1 from '../assets/tiny house1.webp';
+import tinyEscape8 from '../assets/tiny escape 8.jpeg';
+import tinyEscape9 from '../assets/tiny escape 9.jpeg';
+import tinyEscape10 from '../assets/tiny escape 10.jpeg';
+import tinyEscape11 from '../assets/tiny escape 11.jpeg';
+import tinyEscape12 from '../assets/tiny escape 12.jpeg';
+import tinyEscape13 from '../assets/tiny escape 13.jpeg';
+import tinyEscape14 from '../assets/tiny escape 14.jpeg';
 import newYearVideo from '../assets/videos/New Year Celebration video.mp4';
+
+const RECENT_MOMENTS = [
+  {
+    title: 'New Year Celebration',
+    src: newYearVideo,
+    poster: tinyEscape3,
+    description: 'Grateful for your support as we welcome a year of peaceful escapes.'
+  }
+];
+
+const HOME_GALLERY_IMAGES = [
+  { src: tinyEscape2 },
+  { src: tinyEscape3 },
+  { src: tinyEscape5 },
+  { src: tinyEscape6 },
+  { src: tinyEscape7 },
+  { src: tinyEscape8 },
+  { src: tinyEscape9 },
+  { src: tinyEscape10 },
+  { src: tinyEscape11 },
+  { src: tinyEscape12 },
+  { src: tinyEscape13 },
+  { src: tinyEscape14 }
+];
 
 const Home = () => {
   const { isDarkMode } = useTheme();
-  
-  // State Management
-  const [currentSlide, setCurrentSlide] = useState(0);
-
-  // Auto-play slider - 3 seconds
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % heroImages.length);
-    }, 3000);
-    return () => clearInterval(interval);
-  }, []);
 
   useEffect(() => {
     const elements = Array.from(document.querySelectorAll('[data-reveal]'));
@@ -69,31 +87,16 @@ const Home = () => {
 
     return () => observer.disconnect();
   }, [isDarkMode]);
-
-
-  // Memoize HeroSection props
-  const heroProps = {
-    isDarkMode,
-    currentSlide,
-    setCurrentSlide,
-    heroImages
-  };
-
-  // Structured data for SEO
-  const structuredData = {
-    ...getOrganizationSchema(),
-    ...getReviewSchema({ averageRating: "4.9", count: "1250" })
-  };
+  const structuredData = useMemo(
+    () => ({
+      ...getOrganizationSchema(),
+      ...getReviewSchema({ averageRating: '4.9', count: '1250' })
+    }),
+    []
+  );
 
   const underDevelopmentPath = '/under-development';
-  const recentMoments = [
-    {
-      title: 'New Year Celebration',
-      src: newYearVideo,
-      poster: tinyEscape3,
-      description: 'Grateful for your support as we welcome a year of peaceful escapes.'
-    }
-  ];
+  const recentMoments = RECENT_MOMENTS;
 
 
   return (
@@ -107,29 +110,29 @@ const Home = () => {
       }}
     >
       {/* Hero Section */}
-      <HeroSection isDarkMode={isDarkMode} videoSrc={heroVideo} />
+      <HeroSection isDarkMode={isDarkMode} videoSrc={heroVideo} posterSrc={tinyEscape8} />
 
 
           {/* Featured Stays Section */}
           <FeaturedTours isDarkMode={isDarkMode} />
 
           {/* Why Choose Us Section */}
-          <section aria-labelledby="why-choose-us" className={`relative py-32 overflow-hidden transition-colors duration-500 ${
+          <section aria-labelledby="why-choose-us" className={`relative py-16 md:py-24 lg:py-32 overflow-hidden transition-colors duration-500 ${
             isDarkMode ? 'bg-[#14110E]' : 'bg-[#EAF3EA]'
           }`}>
-        <div className="relative z-10 mx-auto max-w-7xl px-6">
-            <header className="text-center mb-20 reveal-on-scroll" data-reveal>
-              <h2 id="why-choose-us" className="text-4xl md:text-5xl font-bold mb-6">
+        <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6">
+            <header className="text-center mb-12 md:mb-20 reveal-on-scroll" data-reveal>
+              <h2 id="why-choose-us" className="text-3xl sm:text-4xl md:text-5xl font-bold mb-5 sm:mb-6">
                 <span className={isDarkMode ? 'text-[#F2F6F9]' : 'text-[#1F2A1F]'}>Why Choose </span>
                 <span className={`bg-clip-text text-transparent ${
                   isDarkMode ? 'bg-linear-to-r from-[#C9A36A] to-[#E7CFA2]' : 'bg-linear-to-r from-[#2F5D3A] to-[#7BAF7C]'
                 }`}>Tiny Escape</span>
               </h2>
-              <p className={`text-lg md:text-xl ${isDarkMode ? 'text-[#A79C8C]' : 'text-[#3E4F3E]'}`}>
+              <p className={`text-base sm:text-lg md:text-xl ${isDarkMode ? 'text-[#A79C8C]' : 'text-[#3E4F3E]'}`}>
                 A Texas tiny home escape designed for slow mornings, warm sunsets, and quiet, private stays
               </p>
             </header>
-            <article className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <article className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-[2px] sm:gap-3 md:gap-6">
               {[
                 {
                   title: 'Calm and Private',
@@ -170,18 +173,18 @@ const Home = () => {
         <hr className={`border-t ${isDarkMode ? 'border-gray-800' : 'border-[#DDE8DD]'}`} aria-hidden="true" />
 
         {/* Experiences Grid */}
-        <section aria-labelledby="destinations" className={`relative py-32 overflow-hidden transition-colors duration-500 ${
+        <section aria-labelledby="destinations" className={`relative py-16 md:py-24 lg:py-32 overflow-hidden transition-colors duration-500 ${
           isDarkMode ? 'bg-linear-to-b from-[#0F0D0A] via-[#171310] to-[#0F0D0A]' : 'bg-linear-to-b from-[#F6FAF4] via-[#EAF3EA] to-[#F3F7F2]'
         }`}>
-          <div className="relative z-10 mx-auto max-w-7xl px-6">
-            <header className="text-center mb-20 reveal-on-scroll" data-reveal>
-              <h2 id="destinations" className="text-4xl md:text-5xl font-bold mb-6">
+          <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6">
+            <header className="text-center mb-12 md:mb-20 reveal-on-scroll" data-reveal>
+              <h2 id="destinations" className="text-3xl sm:text-4xl md:text-5xl font-bold mb-5 sm:mb-6">
                 <span className={isDarkMode ? 'text-[#F2F6F9]' : 'text-[#1F2A1F]'}>Explore </span>
                 <span className={`bg-clip-text text-transparent ${
                   isDarkMode ? 'bg-linear-to-r from-[#C9A36A] to-[#E7CFA2]' : 'bg-linear-to-r from-[#2F5D3A] to-[#7BAF7C]'
                 }`}>Experiences</span>
               </h2>
-              <p className={`text-lg md:text-xl ${isDarkMode ? 'text-[#A79C8C]' : 'text-[#3E4F3E]'}`}>
+              <p className={`text-base sm:text-lg md:text-xl ${isDarkMode ? 'text-[#A79C8C]' : 'text-[#3E4F3E]'}`}>
                 Curated moments for slow stays, from stargazing decks to creekside hammocks
               </p>
             </header>
@@ -203,7 +206,7 @@ const Home = () => {
                 {
                   title: 'Creekside Mornings',
                   note: 'Coffee, quiet water, and easy trails.',
-                  image: tinyEscape4,
+                  image: tinyEscape3,
                   count: '7 signature moments'
                 },
                 {
@@ -236,7 +239,7 @@ const Home = () => {
                   data-reveal
                   style={{ transitionDelay: `${120 + index * 80}ms` }}
                 >
-                  <div className={`md:w-2/5 min-h-[220px] md:min-h-[240px] ${isDarkMode ? 'bg-[#1A140F]' : 'bg-[#E3EFE3]'}`}>
+                  <div className={`md:w-2/5 min-h-[180px] sm:min-h-[220px] md:min-h-[240px] ${isDarkMode ? 'bg-[#1A140F]' : 'bg-[#E3EFE3]'}`}>
                     <img
                       src={item.image}
                       alt={item.title}
@@ -245,14 +248,14 @@ const Home = () => {
                       className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
                     />
                   </div>
-                  <div className="flex-1 p-6 flex flex-col justify-between">
+                  <div className="flex-1 p-5 sm:p-6 flex flex-col justify-between">
                     <div>
                       <p className={`text-xs font-semibold uppercase tracking-widest ${
                         isDarkMode ? 'text-[#C9A36A]' : 'text-[#2F5D3A]'
                       }`}>
                         Experience
                       </p>
-                      <h3 className={`text-2xl font-bold mb-2 ${isDarkMode ? 'text-[#F2EEE7]' : 'text-[#1F2A1F]'}`}>
+                      <h3 className={`text-xl sm:text-2xl font-bold mb-2 ${isDarkMode ? 'text-[#F2EEE7]' : 'text-[#1F2A1F]'}`}>
                         {item.title}
                       </h3>
                       <p className={isDarkMode ? 'text-[#A79C8C]' : 'text-[#4B5F4B]'}>{item.note}</p>
@@ -273,10 +276,10 @@ const Home = () => {
         </section>
 
         {/* Recent Moments */}
-        <section aria-labelledby="recent-moments" className={`relative py-20 overflow-hidden transition-colors duration-500 ${
+        <section aria-labelledby="recent-moments" className={`relative py-16 lg:py-20 overflow-hidden transition-colors duration-500 ${
           isDarkMode ? 'bg-[#14110E]' : 'bg-[#F3F7F2]'
         }`}>
-          <div className="mx-auto max-w-7xl px-6">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6">
             <header className="mb-10 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
               <div>
                 <p className={`text-xs font-semibold uppercase tracking-[0.28em] ${
@@ -319,6 +322,7 @@ const Home = () => {
                         muted
                         playsInline
                         loop
+                        preload="none"
                         controls
                       />
                       <div className={`absolute inset-0 pointer-events-none ${
@@ -344,18 +348,18 @@ const Home = () => {
         </section>
 
         {/* Stay Notes */}
-        <section aria-labelledby="stay-notes" className={`relative py-32 overflow-hidden transition-colors duration-500 ${
+        <section aria-labelledby="stay-notes" className={`relative py-16 md:py-24 lg:py-32 overflow-hidden transition-colors duration-500 ${
           isDarkMode ? 'bg-[#14110E]' : 'bg-[#F3F7F2]'
         }`}>
-          <div className="relative z-10 mx-auto max-w-7xl px-6">
-            <header className="text-center mb-20 reveal-on-scroll" data-reveal>
-              <h2 id="stay-notes" className="text-4xl md:text-5xl font-bold mb-6">
+          <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6">
+            <header className="text-center mb-12 md:mb-20 reveal-on-scroll" data-reveal>
+              <h2 id="stay-notes" className="text-3xl sm:text-4xl md:text-5xl font-bold mb-5 sm:mb-6">
                 <span className={isDarkMode ? 'text-[#F2EEE7]' : 'text-[#1F2A1F]'}>Stay </span>
                 <span className={`bg-clip-text text-transparent ${
                   isDarkMode ? 'bg-linear-to-r from-[#C9A36A] to-[#E7CFA2]' : 'bg-linear-to-r from-[#2F5D3A] to-[#7BAF7C]'
                 }`}>Notes</span>
               </h2>
-              <p className={`text-lg md:text-xl ${isDarkMode ? 'text-[#A79C8C]' : 'text-[#3E4F3E]'}`}>
+              <p className={`text-base sm:text-lg md:text-xl ${isDarkMode ? 'text-[#A79C8C]' : 'text-[#3E4F3E]'}`}>
                 A few pro touches that make the stay feel effortless
               </p>
             </header>
@@ -364,7 +368,7 @@ const Home = () => {
               {[
                 {
                   title: 'Arrival Rituals',
-                  image: tinyEscape4,
+                  image: tinyEscape3,
                   body: 'Pre-stocked coffee, soft lighting, and a welcome note so your first hour feels calm.'
                 },
                 {
@@ -397,8 +401,8 @@ const Home = () => {
                       className="h-full w-full object-cover"
                     />
                   </div>
-                  <div className="p-6">
-                    <h3 className={`text-2xl font-bold mb-3 ${isDarkMode ? 'text-[#F2EEE7]' : 'text-[#1F2A1F]'}`}>
+                  <div className="p-5 sm:p-6">
+                    <h3 className={`text-xl sm:text-2xl font-bold mb-3 ${isDarkMode ? 'text-[#F2EEE7]' : 'text-[#1F2A1F]'}`}>
                       {item.title}
                     </h3>
                     <p className={isDarkMode ? 'text-[#A79C8C]' : 'text-[#4B5F4B]'}>{item.body}</p>
@@ -413,18 +417,18 @@ const Home = () => {
         <hr className={`border-t ${isDarkMode ? 'border-gray-800' : 'border-[#DDE8DD]'}`} aria-hidden="true" />
 
         {/* Testimonials */}
-        <section aria-labelledby="testimonials" className={`relative py-32 overflow-hidden transition-colors duration-500 ${
+        <section aria-labelledby="testimonials" className={`relative py-16 md:py-24 lg:py-32 overflow-hidden transition-colors duration-500 ${
           isDarkMode ? 'bg-[#120F0C]' : 'bg-[#F3F7F2]'
         }`}>
-          <div className="relative z-10 mx-auto max-w-7xl px-6">
-            <header className="text-center mb-20 reveal-on-scroll" data-reveal>
-              <h2 id="testimonials" className="text-4xl md:text-5xl font-bold mb-6">
+          <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6">
+            <header className="text-center mb-12 md:mb-20 reveal-on-scroll" data-reveal>
+              <h2 id="testimonials" className="text-3xl sm:text-4xl md:text-5xl font-bold mb-5 sm:mb-6">
                 <span className={isDarkMode ? 'text-[#F2F6F9]' : 'text-[#1F2A1F]'}>Guest </span>
                 <span className={`bg-clip-text text-transparent ${
                   isDarkMode ? 'bg-linear-to-r from-[#C9A36A] to-[#E7CFA2]' : 'bg-linear-to-r from-[#2F5D3A] to-[#7BAF7C]'
                 }`}>Stories</span>
               </h2>
-              <p className={`text-lg md:text-xl ${isDarkMode ? 'text-[#A79C8C]' : 'text-[#3E4F3E]'}`}>
+              <p className={`text-base sm:text-lg md:text-xl ${isDarkMode ? 'text-[#A79C8C]' : 'text-[#3E4F3E]'}`}>
                 Real notes from guests who reset, reconnect, and unplug with Tiny Escape
               </p>
             </header>
@@ -437,7 +441,7 @@ const Home = () => {
             ].map((review, i) => (
               <div
                 key={i}
-                className={`p-8 rounded-2xl border transition-colors reveal-on-scroll ${
+                className={`p-5 sm:p-8 rounded-2xl border transition-colors reveal-on-scroll ${
                 isDarkMode ? 'bg-[rgba(26,22,18,0.7)] border-[rgba(201,163,106,0.25)]' : 'bg-white border-[#DDE8DD] shadow-sm'
                 }`}
                 data-reveal
@@ -468,33 +472,24 @@ const Home = () => {
       <div className={`border-b ${isDarkMode ? 'border-gray-800' : 'border-[#DDE8DD]'}`} />
 
       {/* Gallery Preview */}
-      <section className={`relative py-32 overflow-hidden transition-colors duration-500 ${
+      <section className={`relative py-16 md:py-24 lg:py-32 overflow-hidden transition-colors duration-500 ${
         isDarkMode ? 'bg-linear-to-b from-[#0F0D0A] to-[#171310]' : 'bg-linear-to-b from-[#E8EFE1] to-[#D0E0CD]'
       }`}>
-        <div className="relative z-10 mx-auto max-w-7xl px-6">
+        <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6">
           <div className="reveal-on-scroll" data-reveal>
             <SectionHeader
               title="Tiny Escape"
               accent="Gallery"
               subtitle="A glimpse of our cabins, views, and quiet corners"
               isDarkMode={isDarkMode}
-              className="mb-20"
+              className="mb-12 md:mb-20"
             />
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {[
-              { src: tinyEscape2, fallback: tinyHouse1 },
-              { src: tinyEscape3, fallback: tinyHouse1 },
-              { src: tinyEscape4, fallback: tinyHouse1 },
-              { src: tinyEscape5, fallback: tinyHouse1 },
-              { src: tinyHouse1, fallback: tinyEscape2 },
-              { src: tinyEscape3, fallback: tinyHouse1 },
-              { src: tinyEscape4, fallback: tinyHouse1 },
-              { src: tinyEscape5, fallback: tinyHouse1 }
-            ].map((image, i) => (
+          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-2 sm:gap-3 md:gap-4">
+            {HOME_GALLERY_IMAGES.map((image, i) => (
               <Link
-                key={image.src}
+                key={`${image.src}-${i}`}
                 to={underDevelopmentPath}
                 className={`group relative aspect-square overflow-hidden rounded-2xl shadow-xl hover:shadow-2xl transition-all reveal-on-scroll ${
                   isDarkMode ? 'border border-[rgba(201,163,106,0.2)]' : 'border border-[#C7D5C7]'
@@ -507,10 +502,9 @@ const Home = () => {
                   alt={`Tiny Escape gallery photo ${i + 1}`}
                   loading="lazy"
                   decoding="async"
+                  fetchPriority="low"
+                  sizes="(max-width: 640px) 50vw, 25vw"
                   className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
-                  onError={(event) => {
-                    event.currentTarget.src = image.fallback;
-                  }}
                 />
                 <div className={`absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity ${
                   isDarkMode
@@ -532,10 +526,10 @@ const Home = () => {
       </section>
 
       {/* Map Section */}
-      <section className={`relative py-20 overflow-hidden transition-colors duration-500 ${
+      <section className={`relative py-16 md:py-20 overflow-hidden transition-colors duration-500 ${
         isDarkMode ? 'bg-[#120F0C]' : 'bg-[#F3F7F2]'
       }`}>
-        <div className="mx-auto max-w-7xl px-6">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6">
           <div className="mb-10 text-center">
             <h2 className={`text-3xl md:text-4xl font-bold mb-3 ${isDarkMode ? 'text-[#F2EEE7]' : 'text-[#1F2A1F]'}`}>
               Find Us
@@ -550,7 +544,7 @@ const Home = () => {
             <iframe
               title="Tiny Escape location map"
               src="https://www.google.com/maps?q=cr498%20Bruceville-Eddy%20TX%20United%20States&output=embed"
-              className="h-[360px] w-full"
+              className="h-[280px] sm:h-[360px] w-full"
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
             />
@@ -563,10 +557,10 @@ const Home = () => {
 
       {/* CTA Section */}
       <section
-        className="relative py-20 md:py-24 min-h-[70vh] overflow-hidden img-section"
+        className="relative py-14 sm:py-20 md:py-24 min-h-[56vh] sm:min-h-[70vh] overflow-hidden img-section"
         style={{ '--cta-bg-image': `url(${tinyEscape7})` }}
       >
-        <div className="relative z-10 mx-auto max-w-6xl px-6">
+        <div className="relative z-10 mx-auto max-w-6xl px-4 sm:px-6">
           <div
             className="cta-cut-card tiny-cta-frame grid gap-10 lg:grid-cols-[1.1fr_0.9fr] items-center px-4 md:px-8 py-10 md:py-14"
             style={{

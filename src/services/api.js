@@ -11,7 +11,7 @@
 const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000/api';
 
 // Generic API request handler
-const apiRequest = async (endpoint, options = {}) => {
+export const apiRequest = async (endpoint, options = {}) => {
   try {
     const response = await fetch(`${BASE_URL}${endpoint}`, {
       headers: {
@@ -35,7 +35,7 @@ const apiRequest = async (endpoint, options = {}) => {
 // Tours API
 export const toursAPI = {
   // Get all tours
-  getAll: async (filters = {}) => {
+  getAll: async () => {
     // TODO: Replace with actual API call
     // return apiRequest('/tours', { method: 'GET' });
     const { toursData } = await import('../data/toursData');
@@ -79,7 +79,7 @@ export const staysAPI = {
 // Gallery API
 export const galleryAPI = {
   // Get all photos
-  getAll: async (filters = {}) => {
+  getAll: async () => {
     // TODO: Replace with actual API call
     const { galleryData } = await import('../data/galleryData');
     return Promise.resolve(galleryData);
@@ -89,7 +89,7 @@ export const galleryAPI = {
 // Reviews API
 export const reviewsAPI = {
   // Get all reviews
-  getAll: async (filters = {}) => {
+  getAll: async () => {
     // TODO: Replace with actual API call
     // return apiRequest('/reviews');
     return Promise.resolve([]);
@@ -119,7 +119,7 @@ export const bookingsAPI = {
   },
 
   // Get booking by ID
-  getById: async (bookingId) => {
+  getById: async () => {
     // TODO: Replace with actual API call
     // return apiRequest(`/bookings/${bookingId}`);
     return Promise.resolve(null);

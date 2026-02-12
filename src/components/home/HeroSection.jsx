@@ -1,7 +1,7 @@
 import React, { memo, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
-const HeroSection = ({ isDarkMode, videoSrc }) => {
+const HeroSection = ({ isDarkMode, videoSrc, posterSrc }) => {
   const underDevelopmentPath = '/under-development';
   const [typedIndex, setTypedIndex] = useState(0);
   const fullText = 'The Tiny Escape';
@@ -68,12 +68,13 @@ const HeroSection = ({ isDarkMode, videoSrc }) => {
   };
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+    <section className="relative min-h-[calc(100svh-72px)] md:min-h-screen flex items-center justify-center overflow-hidden">
       {/* ✅ Video Background (replaces slider) */}
       <div className="absolute inset-0">
         <video
-          className="absolute inset-0 h-full w-full object-cover"
+          className="absolute inset-0 h-full w-full object-cover object-[58%_center] scale-[1.22] sm:scale-[1.12] md:scale-100"
           src={videoSrc}
+          poster={posterSrc}
           autoPlay
           muted
           loop
@@ -108,7 +109,7 @@ const HeroSection = ({ isDarkMode, videoSrc }) => {
       </div>
 
       {/* ✅ Hero Content stays ON TOP (unchanged) */}
-      <div className="relative z-10 mx-auto max-w-7xl px-6 py-32 text-center reveal">
+      <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 py-14 sm:py-20 md:py-32 text-center reveal">
 
         {/* Premium Badge */}
                 <div className="mb-8 flex justify-center reveal-delay-1">
@@ -129,7 +130,6 @@ const HeroSection = ({ isDarkMode, videoSrc }) => {
         {/* Main Heading */}
         <h1
           className="mb-6 text-3xl font-bold tracking-normal sm:text-4xl md:text-6xl lg:text-7xl text-white reveal-delay-2"
-
           style={{ fontFamily: 'Playfair Display, serif', letterSpacing: '0.02em' }}
         >
           {renderText()}
@@ -137,18 +137,16 @@ const HeroSection = ({ isDarkMode, videoSrc }) => {
 
         {/* Subtitle */}
         <p
-        className="mx-auto mb-12 max-w-2xl text-lg font-medium sm:text-xl md:text-2xl }
-        text-white/85 reveal-delay-3"
-
+          className="mx-auto mb-10 sm:mb-12 max-w-2xl text-base sm:text-lg md:text-2xl font-medium text-white/85 reveal-delay-3"
         >
           Quiet, design-forward tiny homes with wide open skies, private decks, and easy self check-in. Slow down and reset in nature.
         </p>
 
         {/* CTA Buttons */}
-                <div className="flex flex-wrap gap-4 justify-center reveal-delay-4">
+                <div className="flex flex-wrap gap-3 sm:gap-4 justify-center reveal-delay-4">
                 <Link
             to={underDevelopmentPath}
-            className={`group flex items-center gap-3 rounded-2xl bg-linear-to-r px-8 py-4 text-base font-bold uppercase tracking-wider shadow-2xl transition-all duration-300 hover:scale-105 ${
+            className={`group flex items-center gap-3 rounded-2xl bg-linear-to-r px-6 sm:px-8 py-3.5 sm:py-4 text-sm sm:text-base font-bold uppercase tracking-wider shadow-2xl transition-all duration-300 hover:scale-105 ${
               isDarkMode
                 ? 'from-[#C9A36A] to-[#E7CFA2] text-[#1A120A] shadow-[0_0_30px_rgba(201,163,106,0.35)] hover:shadow-[0_0_50px_rgba(231,207,162,0.45)]'
                 : 'from-[#1F3A2A] to-[#5F8C6A] text-[#F7FBF7] shadow-[0_0_30px_rgba(31,58,42,0.35)] hover:shadow-[0_0_50px_rgba(95,140,106,0.45)]'
@@ -162,7 +160,7 @@ const HeroSection = ({ isDarkMode, videoSrc }) => {
 
           <Link
             to={underDevelopmentPath}
-            className={`flex items-center gap-3 rounded-2xl border-2 px-8 py-4 text-base font-bold uppercase tracking-wider backdrop-blur-md transition-all duration-300 hover:scale-105 ${
+            className={`flex items-center gap-3 rounded-2xl border-2 px-6 sm:px-8 py-3.5 sm:py-4 text-sm sm:text-base font-bold uppercase tracking-wider backdrop-blur-md transition-all duration-300 hover:scale-105 ${
               isDarkMode
                 ? 'border-[#C9A36A] bg-[rgba(26,22,18,0.7)] text-[#C9A36A] hover:bg-[rgba(201,163,106,0.12)]'
                 : 'border-[#1F3A2A] bg-[rgba(250,247,240,0.85)] text-[#1F3A2A] hover:bg-[rgba(31,58,42,0.12)]'

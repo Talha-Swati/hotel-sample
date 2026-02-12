@@ -134,7 +134,7 @@ const TravelInsurance = () => {
           </h2>
 
           <div className="grid md:grid-cols-5 gap-6">
-            {insuranceData.claimProcess.map((step, index) => (
+            {insuranceData.claimProcess.map((step) => (
               <div key={step.step} className="text-center">
                 <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-teal-600 flex items-center justify-center text-white text-xl font-bold">
                   {step.step}

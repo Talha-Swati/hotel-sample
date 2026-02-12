@@ -1,4 +1,5 @@
 import tinyHouse1 from '../assets/tiny house1.webp';
+import tinyEscape3 from '../assets/tiny escape 3.jpg';
 
 export const staysData = [
   {
@@ -19,12 +20,12 @@ export const staysData = [
     checkIn: '3:00 PM',
     checkOut: '11:00 AM',
     petFriendly: false,
-    heroImage: tinyHouse1,
+    heroImage: tinyEscape3,
     gallery: [
-      tinyHouse1,
-      tinyHouse1,
-      tinyHouse1,
-      tinyHouse1
+      tinyEscape3,
+      tinyEscape3,
+      tinyEscape3,
+      tinyEscape3
     ],
     highlights: [
       'Private firepit with sunset views',

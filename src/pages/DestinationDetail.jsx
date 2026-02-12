@@ -1,4 +1,4 @@
-import { useEffect, useState, memo } from 'react';
+import { useEffect, useMemo, useState, memo } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useTheme } from '../context/ThemeContext';
 import PageLayout from '../components/layout/PageLayout';
@@ -21,17 +21,15 @@ const DestinationDetail = memo(() => {
   const navigate = useNavigate();
   const { isDarkMode } = useTheme();
 
-  const [stay, setStay] = useState(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
+  const stay = useMemo(() => getStayBySlug(slug), [slug]);
+
   useEffect(() => {
-    const data = getStayBySlug(slug);
-    if (data) {
-      setStay(data);
-    } else {
+    if (!stay) {
       navigate('/tours');
     }
-  }, [slug, navigate]);
+  }, [navigate, stay]);
 
   useEffect(() => {
     if (!stay?.gallery?.length) return;

@@ -189,7 +189,7 @@ const HotelBooking = () => {
           </h2>
 
           <div className="grid md:grid-cols-4 gap-8">
-            {hotelData.bookingProcess.map((step, index) => (
+            {hotelData.bookingProcess.map((step) => (
               <div key={step.step} className="text-center">
                 <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-blue-600 flex items-center justify-center text-white text-xl font-bold">
                   {step.step}

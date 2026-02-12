@@ -1,11 +1,34 @@
-import React, { useState, useEffect, useRef, memo } from 'react';
+import React, { useState, useEffect, useRef, useCallback, memo } from 'react';
 
 const AnimatedStatBadge = ({ target, suffix, label, duration, decimal = false, isDarkMode }) => {
   const [count, setCount] = useState(0);
   const [hasAnimated, setHasAnimated] = useState(false);
   const badgeRef = useRef(null);
 
+  const animateCounter = useCallback(() => {
+    const startTime = Date.now();
+
+    const updateCounter = () => {
+      const now = Date.now();
+      const progress = Math.min((now - startTime) / duration, 1);
+
+      const easeOutQuart = 1 - Math.pow(1 - progress, 4);
+      const currentCount = easeOutQuart * target;
+
+      setCount(decimal ? currentCount : Math.floor(currentCount));
+
+      if (progress < 1) {
+        requestAnimationFrame(updateCounter);
+      } else {
+        setCount(target);
+      }
+    };
+
+    requestAnimationFrame(updateCounter);
+  }, [decimal, duration, target]);
+
   useEffect(() => {
+    const element = badgeRef.current;
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -18,39 +41,16 @@ const AnimatedStatBadge = ({ target, suffix, label, duration, decimal = false, i
       { threshold: 0.5 }
     );
 
-    if (badgeRef.current) {
-      observer.observe(badgeRef.current);
+    if (element) {
+      observer.observe(element);
     }
 
     return () => {
-      if (badgeRef.current) {
-        observer.unobserve(badgeRef.current);
+      if (element) {
+        observer.unobserve(element);
       }
     };
-  }, [hasAnimated]);
-
-  const animateCounter = () => {
-    const startTime = Date.now();
-    const endTime = startTime + duration;
-
-    const updateCounter = () => {
-      const now = Date.now();
-      const progress = Math.min((now - startTime) / duration, 1);
-      
-      const easeOutQuart = 1 - Math.pow(1 - progress, 4);
-      const currentCount = easeOutQuart * target;
-      
-      setCount(decimal ? currentCount : Math.floor(currentCount));
-
-      if (progress < 1) {
-        requestAnimationFrame(updateCounter);
-      } else {
-        setCount(target);
-      }
-    };
-
-    requestAnimationFrame(updateCounter);
-  };
+  }, [animateCounter, hasAnimated]);
 
   return (
     <div ref={badgeRef} className="text-center">

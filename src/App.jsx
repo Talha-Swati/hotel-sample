@@ -1,64 +1,67 @@
+import { lazy, Suspense } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import { ThemeProvider } from './context/ThemeContext';
 
-import Home from './pages/Home';
-import Tours from './pages/Tours';
-import Destinations from './pages/Destinations';
-import DestinationDetail from './pages/DestinationDetail';
-import Gallery from './pages/Gallery';
-import Reviews from './pages/Reviews';
-import About from './pages/About';
-import Contact from './pages/Contact';
-import SpecialOffers from './pages/SpecialOffers';
-import BookNow from './pages/BookNow';
-import CustomStayRequest from './pages/CustomStayRequest';
-import PrivacyPolicy from './pages/PrivacyPolicy';
-import TermsConditions from './pages/TermsConditions';
-import Services from './pages/Services/Services';
-import HotelBooking from './pages/Services/HotelBooking';
-import TransportServices from './pages/Services/TransportServices';
-import TravelInsurance from './pages/Services/TravelInsurance';
-import PhotographyServices from './pages/Services/PhotographyServices';
-import AdventureTours from './pages/Trip/AdventureTours';
-import FamilyTours from './pages/Trip/FamilyTours';
-import RomanticStays from './pages/Trip/RomanticStays';
-import CorporateTours from './pages/Trip/CorporateTours';
-import BudgetTours from './pages/Trip/BudgetTours';
-import UnderDevelopment from './pages/UnderDevelopment';
+const Home = lazy(() => import('./pages/Home'));
+const Tours = lazy(() => import('./pages/Tours'));
+const Destinations = lazy(() => import('./pages/Destinations'));
+const DestinationDetail = lazy(() => import('./pages/DestinationDetail'));
+const Gallery = lazy(() => import('./pages/Gallery'));
+const Reviews = lazy(() => import('./pages/Reviews'));
+const About = lazy(() => import('./pages/About'));
+const Contact = lazy(() => import('./pages/Contact'));
+const SpecialOffers = lazy(() => import('./pages/SpecialOffers'));
+const BookNow = lazy(() => import('./pages/BookNow'));
+const CustomStayRequest = lazy(() => import('./pages/CustomStayRequest'));
+const PrivacyPolicy = lazy(() => import('./pages/PrivacyPolicy'));
+const TermsConditions = lazy(() => import('./pages/TermsConditions'));
+const Services = lazy(() => import('./pages/Services/Services'));
+const HotelBooking = lazy(() => import('./pages/Services/HotelBooking'));
+const TransportServices = lazy(() => import('./pages/Services/TransportServices'));
+const TravelInsurance = lazy(() => import('./pages/Services/TravelInsurance'));
+const PhotographyServices = lazy(() => import('./pages/Services/PhotographyServices'));
+const AdventureTours = lazy(() => import('./pages/Trip/AdventureTours'));
+const FamilyTours = lazy(() => import('./pages/Trip/FamilyTours'));
+const RomanticStays = lazy(() => import('./pages/Trip/RomanticStays'));
+const CorporateTours = lazy(() => import('./pages/Trip/CorporateTours'));
+const BudgetTours = lazy(() => import('./pages/Trip/BudgetTours'));
+const UnderDevelopment = lazy(() => import('./pages/UnderDevelopment'));
 
 const App = () => {
   return (
     <ThemeProvider>
       <HelmetProvider>
         <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/tours" element={<Tours />} />
-            <Route path="/destinations" element={<Destinations />} />
-            <Route path="/destination/:slug" element={<DestinationDetail />} />
-            <Route path="/gallery" element={<Gallery />} />
-            <Route path="/reviews" element={<Reviews />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="/offers" element={<SpecialOffers />} />
-            <Route path="/book-now" element={<BookNow />} />
-            <Route path="/custom-stay" element={<CustomStayRequest />} />
-            <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-            <Route path="/terms-conditions" element={<TermsConditions />} />
-            <Route path="/services" element={<Services />} />
-            <Route path="/services/hotels" element={<HotelBooking />} />
-            <Route path="/services/transport" element={<TransportServices />} />
-            <Route path="/services/insurance" element={<TravelInsurance />} />
-            <Route path="/services/photography" element={<PhotographyServices />} />
-            <Route path="/trip/adventure" element={<AdventureTours />} />
-            <Route path="/trip/family" element={<FamilyTours />} />
-            <Route path="/trip/romantic" element={<RomanticStays />} />
-            <Route path="/trip/corporate" element={<CorporateTours />} />
-            <Route path="/trip/budget" element={<BudgetTours />} />
-            <Route path="/under-development" element={<UnderDevelopment />} />
-            <Route path="*" element={<Navigate to="/" replace />} />
-          </Routes>
+          <Suspense fallback={null}>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/tours" element={<Tours />} />
+              <Route path="/destinations" element={<Destinations />} />
+              <Route path="/destination/:slug" element={<DestinationDetail />} />
+              <Route path="/gallery" element={<Gallery />} />
+              <Route path="/reviews" element={<Reviews />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/contact" element={<Contact />} />
+              <Route path="/offers" element={<SpecialOffers />} />
+              <Route path="/book-now" element={<BookNow />} />
+              <Route path="/custom-stay" element={<CustomStayRequest />} />
+              <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+              <Route path="/terms-conditions" element={<TermsConditions />} />
+              <Route path="/services" element={<Services />} />
+              <Route path="/services/hotels" element={<HotelBooking />} />
+              <Route path="/services/transport" element={<TransportServices />} />
+              <Route path="/services/insurance" element={<TravelInsurance />} />
+              <Route path="/services/photography" element={<PhotographyServices />} />
+              <Route path="/trip/adventure" element={<AdventureTours />} />
+              <Route path="/trip/family" element={<FamilyTours />} />
+              <Route path="/trip/romantic" element={<RomanticStays />} />
+              <Route path="/trip/corporate" element={<CorporateTours />} />
+              <Route path="/trip/budget" element={<BudgetTours />} />
+              <Route path="/under-development" element={<UnderDevelopment />} />
+              <Route path="*" element={<Navigate to="/" replace />} />
+            </Routes>
+          </Suspense>
         </BrowserRouter>
       </HelmetProvider>
     </ThemeProvider>
