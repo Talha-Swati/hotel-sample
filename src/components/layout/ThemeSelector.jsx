@@ -4,15 +4,19 @@ const ThemeSelector = ({ isDarkMode, setThemeMode }) => {
   return (
     <button
       onClick={() => setThemeMode(isDarkMode ? 'light' : 'dark')}
-      className={`group relative p-1.5 xl:p-2.5 rounded-lg transition-all duration-300 ${
+      className={`group relative p-1.5 xl:p-2.5 rounded-lg border backdrop-blur-sm transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-0 ${
         isDarkMode
-          ? 'hover:bg-[rgba(201,163,106,0.16)]'
-          : 'hover:bg-[rgba(31,58,42,0.12)]'
+          ? 'border-[rgba(201,163,106,0.26)] bg-[rgba(20,16,12,0.4)] hover:bg-[rgba(231,207,162,0.22)] hover:border-[rgba(231,207,162,0.55)] focus-visible:ring-[rgba(231,207,162,0.45)]'
+          : 'border-[rgba(231,240,233,0.45)] bg-[rgba(255,255,255,0.14)] hover:bg-[rgba(255,255,255,0.3)] hover:border-[rgba(255,255,255,0.82)] focus-visible:ring-[rgba(231,240,233,0.58)]'
       }`}
       aria-label="Toggle theme"
     >
       <svg
-        className={`h-5 w-5 xl:h-6 xl:w-6 ${isDarkMode ? 'text-[#E7CFA2]' : 'text-[#1F3A2A]'}`}
+        className={`h-5 w-5 xl:h-6 xl:w-6 transition-colors duration-300 ${
+          isDarkMode
+            ? 'text-[#E7CFA2] group-hover:text-[#FFF4E2]'
+            : 'text-[#F4FBF6] group-hover:text-white'
+        }`}
         viewBox="0 0 24 24"
         fill="currentColor"
         aria-hidden="true"

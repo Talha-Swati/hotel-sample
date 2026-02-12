@@ -13,9 +13,9 @@ export const useTheme = () => {
 
 export const ThemeProvider = ({ children }) => {
   const [themeMode, setThemeMode] = useState(() => {
-    // Load theme from localStorage or default to 'dark'
+    // Load theme from localStorage or default to 'light'
     const storedTheme = localStorage.getItem('theme');
-    return storedTheme === 'light' ? 'light' : 'dark';
+    return storedTheme === 'dark' ? 'dark' : 'light';
   });
 
   // Compute dark mode based on theme setting
