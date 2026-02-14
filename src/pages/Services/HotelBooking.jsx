@@ -6,7 +6,7 @@ import ThemedPricingCard from '../../components/common/ThemedPricingCard';
 import PricingCardMedia from '../../components/common/PricingCardMedia';
 import { servicesData } from '../../data/servicesData';
 import tinyHouseFallback from '../../assets/tiny house1.webp';
-import tinyEscapeFallbackOne from '../../assets/tiny escape 2.jpg';
+import tinyEscapeFallbackOne from '../../assets/Pavilion images/tiny escape 2.jpg';
 import tinyEscapeFallbackTwo from '../../assets/tiny escape 3.jpg';
 
 const HotelBooking = () => {

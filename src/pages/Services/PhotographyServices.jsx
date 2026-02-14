@@ -128,7 +128,7 @@ const PhotographyServices = () => {
                       </div>
                     </div>
 
-                    <div className="flex justify-between items-center pt-4 border-t border-[#E2E8F0] dark:border-gray-700">
+                    <div className="flex justify-between items-center pt-4 border-t border-[#E2E8F0]">
                       <div>
                         <div className="text-2xl font-bold text-indigo-600">
                           {photographer.price}

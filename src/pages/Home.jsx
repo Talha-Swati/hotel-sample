@@ -13,22 +13,17 @@ import FeaturedTours from '../components/home/FeaturedTours';
 
 // Common Components
 import FeatureFlipCard from '../components/common/FeatureFlipCard';
-import SectionHeader from '../components/common/SectionHeader';
 
 // Data
-import tinyEscape2 from '../assets/tiny escape 2.jpg';
 import tinyEscape3 from '../assets/tiny escape 3.jpg';
 import tinyEscape5 from '../assets/tiny escape 5.jpg';
-import tinyEscape6 from '../assets/tiny escape 6.jpeg';
 import tinyEscape7 from '../assets/tiny escape 7.jpeg';
-import tinyEscape8 from '../assets/tiny escape 8.jpeg';
-import tinyEscape9 from '../assets/tiny escape 9.jpeg';
-import tinyEscape10 from '../assets/tiny escape 10.jpeg';
 import tinyEscape11 from '../assets/tiny escape 11.jpeg';
-import tinyEscape12 from '../assets/tiny escape 12.jpeg';
-import tinyEscape13 from '../assets/tiny escape 13.jpeg';
-import tinyEscape14 from '../assets/tiny escape 14.jpeg';
 import newYearVideo from '../assets/videos/New Year Celebration video.mp4';
+import horseRidingOne from '../assets/horse riding/horse riding/horse riding 1.jpg';
+import horseRidingTwo from '../assets/horse riding/horse riding/horse riding 2.jpg';
+import swimmingPoolThree from '../assets/swimming pool/swimming pool/swimming pool 3.jpg';
+import cafeTwo from '../assets/prefab house portable container cafe/prefab house portable container cafe/cafe 2.jpg';
 
 const RECENT_MOMENTS = [
   {
@@ -37,21 +32,6 @@ const RECENT_MOMENTS = [
     poster: tinyEscape3,
     description: 'Grateful for your support as we welcome a year of peaceful escapes.'
   }
-];
-
-const HOME_GALLERY_IMAGES = [
-  { src: tinyEscape2 },
-  { src: tinyEscape3 },
-  { src: tinyEscape5 },
-  { src: tinyEscape6 },
-  { src: tinyEscape7 },
-  { src: tinyEscape8 },
-  { src: tinyEscape9 },
-  { src: tinyEscape10 },
-  { src: tinyEscape11 },
-  { src: tinyEscape12 },
-  { src: tinyEscape13 },
-  { src: tinyEscape14 }
 ];
 
 const INCLUDED_FEATURES = [
@@ -72,56 +52,61 @@ const INCLUDED_FEATURES = [
     description: 'Reliable climate control in every season for a consistently comfortable stay.'
   },
   {
-    title: 'Private Patio + Grill',
-    description: 'Outdoor seating with a grill for slow dinners, fresh air, and sunset moments.'
+    title: 'Fire Pit (Included with Stay)',
+    description: 'A dedicated fire pit setup is included with your stay for cozy evenings outdoors.'
   },
   {
     title: 'Smart Self Check-In',
     description: 'Smart locks for seamless arrival with privacy and convenience from the start.'
-  },
-  {
-    title: 'Coffee + Water',
-    description: 'Complimentary coffee and bottled water waiting for you when you settle in.'
-  },
-  {
-    title: 'Smart Govee Lighting',
-    description: 'Ambient smart lighting throughout the homes to match your mood and pace.'
-  },
-  {
-    title: 'Smart TV',
-    description: 'Stream your favorites when you want cozy nights in after a day outdoors.'
   }
 ];
 
 const EXPERIENCE_ADDONS = [
   {
     title: 'Horseback Riding',
-    note: 'Scenic trail rides available nearby.',
-    image: tinyEscape2,
-    count: 'Add-on activity'
+    note: 'Scenic guided rides through peaceful countryside routes near the property.',
+    image: horseRidingOne,
+    count: 'Add-on activity',
+    link: '/trip/adventure'
   },
   {
-    title: 'Go-Kart Track Access',
-    note: 'A fun, fast-paced experience steps away from your stay.',
-    image: tinyEscape3,
-    count: 'Add-on activity'
+    title: 'Swimming Pool',
+    note: 'Cool off and unwind with pool time as part of your stay experience.',
+    image: swimmingPoolThree,
+    count: 'Add-on activity',
+    link: '/destinations'
   },
   {
-    title: 'Firewood + S’mores Bundle',
-    note: 'Everything you need for a cozy night under the stars.',
-    image: tinyEscape5,
-    count: 'Add-on activity'
+    title: 'ATV Adventure',
+    note: 'Add an ATV session for a fun, high-energy outdoor ride.',
+    image: 'https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=1400&q=80',
+    count: 'Add-on activity',
+    link: '/trip/adventure'
+  },
+  {
+    title: 'Trails',
+    note: 'Explore nearby nature trails at your own pace for morning or sunset walks.',
+    image: 'https://images.unsplash.com/photo-1501554728187-ce583db33af7?auto=format&fit=crop&w=1400&q=80',
+    count: 'Included experience',
+    link: '/trip/adventure'
+  },
+  {
+    title: 'Fire Pit (Included with Stay)',
+    note: 'Your stay includes a fire pit for relaxed nights and meaningful conversations.',
+    image: 'https://images.unsplash.com/photo-1504608524841-42fe6f032b4b?auto=format&fit=crop&w=1400&q=80',
+    count: 'Included with stay',
+    link: '/destinations'
   }
 ];
 
 const LOCATION_HIGHLIGHTS = [
-  'Brazos River kayaking (30 mins)',
-  'Magnolia Market at the Silos (20 mins)',
-  'Belton Lake (30 mins)',
+  'Brazos kayaking (30 min)',
+  'Magnolia Market (20 min)',
+  'Belton Lake (30 min)',
   'Small-town antique shops',
-  'Mother Neff State Park with scenic trails and picnic spots',
-  'The Kissing Tree Vineyards for wines, ambience, and live music',
-  'Eagles Landing Restaurant for homestyle cooking and countryside views'
+  'Mother Neff trails + picnic spots',
+  'Kissing Tree Vineyards + live music',
+  'Eagles Landing homestyle dining'
 ];
 
 const Home = () => {
@@ -242,11 +227,11 @@ const Home = () => {
               </p>
             </header>
 
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-5">
               {EXPERIENCE_ADDONS.map((item, index) => (
                 <Link
                   key={item.title}
-                  to={underDevelopmentPath}
+                  to={item.link}
                   className={`group flex flex-col md:flex-row overflow-hidden rounded-3xl border transition-all duration-500 hover:-translate-y-1 reveal-on-scroll ${
                     isDarkMode
                       ? 'bg-[#16120F] border-[rgba(201,163,106,0.25)] hover:border-[rgba(201,163,106,0.45)]'
@@ -255,7 +240,7 @@ const Home = () => {
                   data-reveal
                   style={{ transitionDelay: `${120 + index * 80}ms` }}
                 >
-                  <div className={`md:w-2/5 min-h-[180px] sm:min-h-[220px] md:min-h-[240px] ${isDarkMode ? 'bg-[#1A140F]' : 'bg-[#E3EFE3]'}`}>
+                  <div className={`md:w-2/5 min-h-[140px] sm:min-h-[160px] md:min-h-[180px] ${isDarkMode ? 'bg-[#1A140F]' : 'bg-[#E3EFE3]'}`}>
                     <img
                       src={item.image}
                       alt={item.title}
@@ -264,19 +249,19 @@ const Home = () => {
                       className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
                     />
                   </div>
-                  <div className="flex-1 p-5 sm:p-6 flex flex-col justify-between">
+                  <div className="flex-1 p-4 sm:p-5 flex flex-col justify-between">
                     <div>
                       <p className={`text-xs font-semibold uppercase tracking-widest ${
                         isDarkMode ? 'text-[#C9A36A]' : 'text-[#2F5D3A]'
                       }`}>
                         Add-On
                       </p>
-                      <h3 className={`text-xl sm:text-2xl font-bold mb-2 ${isDarkMode ? 'text-[#F2EEE7]' : 'text-[#1F2A1F]'}`}>
+                      <h3 className={`text-lg sm:text-xl font-bold mb-1.5 ${isDarkMode ? 'text-[#F2EEE7]' : 'text-[#1F2A1F]'}`}>
                         {item.title}
                       </h3>
-                      <p className={isDarkMode ? 'text-[#A79C8C]' : 'text-[#4B5F4B]'}>{item.note}</p>
+                      <p className={`text-sm leading-relaxed ${isDarkMode ? 'text-[#A79C8C]' : 'text-[#4B5F4B]'}`}>{item.note}</p>
                     </div>
-                    <div className="mt-6 flex items-center justify-between">
+                    <div className="mt-4 flex items-center justify-between">
                       <span className={`text-sm ${isDarkMode ? 'text-[#CDBEAC]' : 'text-[#6B7C6B]'}`}>
                         {item.count}
                       </span>
@@ -296,7 +281,7 @@ const Home = () => {
           isDarkMode ? 'bg-[#14110E]' : 'bg-[#F3F7F2]'
         }`}>
           <div className="mx-auto max-w-7xl px-4 sm:px-6">
-            <header className="mb-10 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+            <header className="mb-10">
               <div>
                 <p className={`text-xs font-semibold uppercase tracking-[0.28em] ${
                   isDarkMode ? 'text-[#C9A36A]' : 'text-[#2F5D3A]'
@@ -309,15 +294,6 @@ const Home = () => {
                   Tiny Escape in motion
                 </h2>
               </div>
-              <Link
-                to={underDevelopmentPath}
-                className={`inline-flex items-center gap-2 text-sm font-semibold transition-colors ${
-                  isDarkMode ? 'text-[#E7CFA2] hover:text-[#F2EEE7]' : 'text-[#2F5D3A] hover:text-[#1F2A1F]'
-                }`}
-              >
-                View gallery
-                <span aria-hidden="true">→</span>
-              </Link>
             </header>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -384,17 +360,17 @@ const Home = () => {
               {[
                 {
                   title: 'Two Container Pools',
-                  image: tinyEscape3,
+                  image: swimmingPoolThree,
                   body: 'Sustainable, stylish pools designed for hot Texas days and easy afternoons.'
                 },
                 {
                   title: 'On-Site Café',
-                  image: tinyEscape5,
+                  image: cafeTwo,
                   body: 'Locally roasted coffee, fresh pastries, light bites, and good vibes.'
                 },
                 {
                   title: 'More Packages & Rentals',
-                  image: tinyEscape2,
+                  image: horseRidingTwo,
                   body: 'Additional activity packages and rental options are available on request.'
                 }
               ].map((item, index) => (
@@ -469,63 +445,6 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Section Separator */}
-      <div className={`border-b ${isDarkMode ? 'border-gray-800' : 'border-[#DDE8DD]'}`} />
-
-      {/* Gallery Preview */}
-      <section className={`relative py-16 md:py-24 lg:py-32 overflow-hidden transition-colors duration-500 ${
-        isDarkMode ? 'bg-linear-to-b from-[#0F0D0A] to-[#171310]' : 'bg-linear-to-b from-[#E8EFE1] to-[#D0E0CD]'
-      }`}>
-        <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6">
-          <div className="reveal-on-scroll" data-reveal>
-            <SectionHeader
-              title="Tiny Escape"
-              accent="Gallery"
-              subtitle="A glimpse of our cabins, views, and quiet corners"
-              isDarkMode={isDarkMode}
-              className="mb-12 md:mb-20"
-            />
-          </div>
-
-          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-2 sm:gap-3 md:gap-4">
-            {HOME_GALLERY_IMAGES.map((image, i) => (
-              <Link
-                key={`${image.src}-${i}`}
-                to={underDevelopmentPath}
-                className={`group relative aspect-square overflow-hidden rounded-2xl shadow-xl hover:shadow-2xl transition-all reveal-on-scroll ${
-                  isDarkMode ? 'border border-[rgba(201,163,106,0.2)]' : 'border border-[#C7D5C7]'
-                }`}
-                data-reveal
-                style={{ transitionDelay: `${120 + i * 60}ms` }}
-              >
-                <img
-                  src={image.src}
-                  alt={`Tiny Escape gallery photo ${i + 1}`}
-                  loading="lazy"
-                  decoding="async"
-                  fetchPriority="low"
-                  sizes="(max-width: 640px) 50vw, 25vw"
-                  className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
-                />
-                <div className={`absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity ${
-                  isDarkMode
-                    ? 'bg-linear-to-t from-[rgba(16,13,11,0.9)] via-[rgba(16,13,11,0.35)] to-transparent'
-                    : 'bg-linear-to-t from-[rgba(20,40,30,0.65)] to-transparent'
-                }`} />
-              </Link>
-            ))}
-          </div>
-
-          <div className="text-center mt-12 reveal-on-scroll" data-reveal>
-            <Link to={underDevelopmentPath} className={`inline-block px-8 py-4 rounded-xl border-2 font-bold transition-all hover:scale-105 ${
-              isDarkMode ? 'border-[#C9A36A] text-[#E7CFA2] hover:bg-[rgba(201,163,106,0.12)]' : 'border-[#1F3A2A] text-white bg-linear-to-r from-[#1F3A2A] to-[#5F8C6A] hover:shadow-[0_16px_28px_-20px_rgba(31,58,42,0.5)]'
-            }`}>
-              View Full Gallery
-            </Link>
-          </div>
-        </div>
-      </section>
-
       {/* Map Section */}
       <section className={`relative py-16 md:py-20 overflow-hidden transition-colors duration-500 ${
         isDarkMode ? 'bg-[#120F0C]' : 'bg-[#F3F7F2]'
@@ -554,11 +473,11 @@ const Home = () => {
             />
           </div>
 
-          <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="mt-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5">
             {LOCATION_HIGHLIGHTS.map((item) => (
               <div
                 key={item}
-                className={`rounded-xl border px-4 py-3 ${
+                className={`rounded-lg border px-3 py-2 text-[13px] leading-tight ${
                   isDarkMode
                     ? 'border-[rgba(201,163,106,0.2)] bg-[rgba(22,18,15,0.75)] text-[#CDBEAC]'
                     : 'border-[#DDE8DD] bg-white text-[#3E4F3E]'

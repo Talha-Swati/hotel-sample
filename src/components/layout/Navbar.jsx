@@ -1,10 +1,9 @@
 import React, { memo, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { getNavItems } from '../../data/navigationData';
-import ThemeSelector from './ThemeSelector';
 import logo from '../../assets/logo.png';
 
-const Navbar = ({ isDarkMode, mobileMenuOpen, setMobileMenuOpen, setThemeMode }) => {
+const Navbar = ({ isDarkMode, mobileMenuOpen, setMobileMenuOpen }) => {
   const navItems = getNavItems();
   const [openDropdowns, setOpenDropdowns] = useState({});
   const location = useLocation();
@@ -109,11 +108,6 @@ const Navbar = ({ isDarkMode, mobileMenuOpen, setMobileMenuOpen, setThemeMode })
             <span className="hidden xl:inline">Request Availability</span>
             <span className="xl:hidden">Request</span>
           </Link>
-          
-          <ThemeSelector 
-            isDarkMode={isDarkMode}
-            setThemeMode={setThemeMode}
-          />
           
           <button 
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}

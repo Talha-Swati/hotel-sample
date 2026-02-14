@@ -79,24 +79,24 @@ const Contact = () => {
   // SEO structured data
   const structuredData = useMemo(() => ({
     "@context": "https://schema.org",
-    "@type": "TravelAgency",
-    "name": "PakTourZone",
-    "telephone": "+92-300-1234567",
-    "email": "info@paktourzone.com",
+    "@type": "LodgingBusiness",
+    "name": "The Tiny Escape",
+    "telephone": "+1 (512) 555-0189",
+    "email": "hello@tinyescape.com",
     "address": {
       "@type": "PostalAddress",
-      "addressLocality": "Islamabad",
-      "addressCountry": "Pakistan"
+      "addressLocality": "Texas Hill Country",
+      "addressCountry": "USA"
     },
-    "openingHours": "Mo-Sa 09:00-20:00"
+    "openingHours": "Mo-Sa 09:00-18:00"
   }), []);
 
   return (
     <PageLayout
       seo={{
-        title: "Contact PakTourZone | Plan Your Pakistan Tour",
-        description: "Speak with our travel experts to plan a safe, comfortable Northern Pakistan tour. Fast replies for overseas visitors and clear guidance from start to finish.",
-        keywords: "contact Pakistan travel agency, Northern Pakistan tour inquiry, Pakistan tourism for international travelers, PakTourZone contact",
+        title: 'Contact The Tiny Escape | Request Availability',
+        description: 'Contact The Tiny Escape team to request availability, ask stay questions, and plan a calm Hill Country getaway.',
+        keywords: 'The Tiny Escape contact, request availability, tiny home stay inquiry, Hill Country getaway planning',
         url: "/contact",
         structuredData
       }}

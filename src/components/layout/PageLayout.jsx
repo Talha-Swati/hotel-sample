@@ -35,23 +35,57 @@ const PageLayout = ({
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  useEffect(() => {
+    const elements = Array.from(document.querySelectorAll('[data-reveal], .reveal-on-scroll'));
+    if (!elements.length) {
+      return undefined;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries, obs) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('reveal-in');
+            obs.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.12, rootMargin: '0px 0px -8% 0px' }
+    );
+
+    elements.forEach((element) => {
+      const rect = element.getBoundingClientRect();
+      const inView = rect.top < window.innerHeight * 0.92 && rect.bottom > 0;
+      if (inView) {
+        element.classList.add('reveal-in');
+      } else {
+        observer.observe(element);
+      }
+    });
+
+    return () => observer.disconnect();
+  }, [isDarkMode]);
+
   const handleScrollTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   return (
     <>
-      {seo.title && <SEO {...seo} />}
+      <SEO {...seo} />
       
-      <div className={`min-h-screen transition-colors duration-500 theme-text ${
+      <div className={`site-theme-shell min-h-screen transition-colors duration-500 theme-text ${
         isDarkMode 
-          ? 'bg-linear-to-b from-[#0B0C0E] to-[#0F1419] text-[#E0E7EE]' 
-          : 'light-page-bg text-[#2E2117]'
+          ? 'theme-dark bg-linear-to-b from-[#0F0D0A] via-[#171310] to-[#0F0D0A] text-[#E0E7EE]' 
+          : 'theme-light light-page-bg text-[#2E2117]'
       } ${className}`}>
+        <div className="site-theme-glow" aria-hidden="true" />
         {showNavbar && <Navbar {...navbarProps} />}
         
-        <main className={showNavbar ? 'pt-[72px] lg:pt-[88px]' : undefined}>
-          {children}
+        <main className={`${showNavbar ? 'pt-[72px] lg:pt-[88px]' : ''} relative z-10`}>
+          <div className="site-page-content">
+            {children}
+          </div>
         </main>
 
         <button

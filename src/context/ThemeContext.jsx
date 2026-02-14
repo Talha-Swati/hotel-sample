@@ -1,5 +1,5 @@
 /* eslint-disable react-refresh/only-export-components */
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext } from 'react';
 
 const ThemeContext = createContext();
 
@@ -12,31 +12,10 @@ export const useTheme = () => {
 };
 
 export const ThemeProvider = ({ children }) => {
-  const [themeMode, setThemeMode] = useState(() => {
-    // Load theme from localStorage or default to 'light'
-    const storedTheme = localStorage.getItem('theme');
-    return storedTheme === 'dark' ? 'dark' : 'light';
-  });
-
-  // Compute dark mode based on theme setting
-  const isDarkMode = themeMode === 'dark';
-
-  // Save theme preference to localStorage whenever it changes
-  useEffect(() => {
-    localStorage.setItem('theme', themeMode);
-  }, [themeMode]);
-
-  // Sync theme to document for global styling hooks
-  useEffect(() => {
-    const root = document.documentElement;
-    root.setAttribute('data-theme', themeMode);
-    root.style.colorScheme = themeMode;
-  }, [themeMode]);
-
   const value = {
-    themeMode,
-    setThemeMode,
-    isDarkMode,
+    themeMode: 'light',
+    setThemeMode: () => {},
+    isDarkMode: false,
   };
 
   return (

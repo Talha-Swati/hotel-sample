@@ -19,7 +19,7 @@ const Tours = () => {
     category.id === 'all'
       ? {
           ...category,
-          color: isDarkMode ? category.colorDark : category.colorLight
+          color: category.colorLight
         }
       : category
   );

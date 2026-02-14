@@ -1,4 +1,3 @@
-// Navigation items configuration
 const UNDER_DEVELOPMENT_PATH = '/under-development';
 
 const NAV_ITEMS = [
@@ -48,7 +47,9 @@ const NAV_ITEMS = [
 
 export const getNavItems = () =>
   NAV_ITEMS.map((item) => {
-    if (item.name === 'Home') {
+    const isAllowedLiveRoute = item.name === 'Home' || item.name === 'Stays' || item.name === 'Experiences';
+
+    if (isAllowedLiveRoute) {
       return item;
     }
 

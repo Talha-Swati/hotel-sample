@@ -13,7 +13,6 @@ export const baseTourCategories = [
     name: 'All Stays',
     icon: FaHome,
     count: 8,
-    colorDark: 'from-[#22D3EE] to-[#4DBBFF]',
     colorLight: 'from-[#3B82F6] to-[#60A5FA]'
   },
   {

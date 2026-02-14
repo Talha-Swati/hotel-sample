@@ -1,7 +1,6 @@
 import React, { memo } from 'react';
-import ThemeSelector from './ThemeSelector';
 
-const TopBar = ({ isDarkMode, setThemeMode }) => {
+const TopBar = ({ isDarkMode }) => {
 
   return (
     <div className={`relative z-[60] border-b transition-colors duration-500 backdrop-blur-sm ${
@@ -21,12 +20,7 @@ const TopBar = ({ isDarkMode, setThemeMode }) => {
             <span>Mon - Sat: 9AM - 6PM (PKT)</span>
           </span>
         </div>
-        <div className="flex items-center gap-4">
-          <ThemeSelector 
-            isDarkMode={isDarkMode}
-            setThemeMode={setThemeMode}
-          />
-        </div>
+        <div className="flex items-center gap-4" />
       </div>
     </div>
   );

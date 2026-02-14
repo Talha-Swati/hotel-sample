@@ -1,9 +1,10 @@
 import React, { memo, useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import FlipCard from '../common/FlipCard';
-import tinyEscape2 from '../../assets/tiny escape 2.jpg';
+import tinyEscape2 from '../../assets/Pavilion images/tiny escape 2.jpg';
 import tinyEscape3 from '../../assets/tiny escape 3.jpg';
 import tinyEscape5 from '../../assets/tiny escape 5.jpg';
+import tinyEscape7 from '../../assets/tiny escape 7.jpeg';
 
 const FeaturedTours = ({ isDarkMode }) => {
   const toursPath = '/tours';
@@ -51,7 +52,7 @@ const FeaturedTours = ({ isDarkMode }) => {
       link: '/destination/triangle-2-rani-ridge'
     },
     {
-      frontImage: tinyEscape2,
+      frontImage: tinyEscape7,
       title: "Kona Meadow",
       subtitle: "Apple Home • Sleek and sustainable",
       price: "Apple Home",
@@ -64,21 +65,6 @@ const FeaturedTours = ({ isDarkMode }) => {
         'Outdoor grill and patio'
       ],
       link: '/destination/apple-2-kona-meadows'
-    },
-    {
-      frontImage: tinyEscape3,
-      title: 'Razzo Creek',
-      subtitle: 'Apple Home • Stylish comfort',
-      price: 'Apple Home',
-      description: 'A calm, stylish tiny stay perfect for a digital detox and peaceful weekend reset.',
-      highlights: [
-        'Modern interiors',
-        'Plush bedding',
-        'Smart TV + ambient lights',
-        'Coffee + water included',
-        'Easy self check-in'
-      ],
-      link: '/destination/apple-1-razoo-creek'
     }
   ], []);
 
@@ -131,7 +117,7 @@ const FeaturedTours = ({ isDarkMode }) => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-[1px] sm:gap-3 md:gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-[1px] sm:gap-3 md:gap-6">
           {tours.map((tour, index) => (
             <FlipCard
               key={index}

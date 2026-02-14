@@ -57,15 +57,15 @@ const Destinations = () => {
   const getCategoryBadgeColor = (category) => {
     switch (category) {
       case 'couples':
-        return 'bg-pink-100 text-pink-800 dark:bg-pink-900 dark:text-pink-200';
+        return 'bg-pink-100 text-pink-800';
       case 'family':
-        return 'bg-emerald-100 text-emerald-800 dark:bg-emerald-900 dark:text-emerald-200';
+        return 'bg-emerald-100 text-emerald-800';
       case 'group':
-        return 'bg-sky-100 text-sky-800 dark:bg-sky-900 dark:text-sky-200';
+        return 'bg-sky-100 text-sky-800';
       case 'value':
-        return 'bg-amber-100 text-amber-800 dark:bg-amber-900 dark:text-amber-200';
+        return 'bg-amber-100 text-amber-800';
       default:
-        return 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200';
+        return 'bg-blue-100 text-blue-800';
     }
   };
 

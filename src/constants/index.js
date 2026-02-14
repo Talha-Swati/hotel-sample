@@ -97,13 +97,6 @@ export const SERVICE_CATEGORIES = [
 
 // Theme Configuration
 export const THEME_CONFIG = {
-  dark: {
-    bg: 'bg-gradient-to-b from-[#0B0C0E] to-[#15110D]',
-    text: 'text-[#F2E6D3]',
-    primary: 'text-[#C9A36A]',
-    secondary: 'text-[#BFAE95]',
-    border: 'border-[rgba(201,163,106,0.25)]'
-  },
   light: {
     bg: 'bg-gradient-to-b from-[#FFF9F1] to-[#F7F0E6]',
     text: 'text-[#2E2117]',
