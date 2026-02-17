@@ -63,7 +63,7 @@ export const staysData = [
       },
       signature: {
         title: 'Signature Rate',
-        price: 179,
+        price: 169,
         popular: true,
         features: [
           'Priority view placement',
@@ -73,7 +73,7 @@ export const staysData = [
       },
       extended: {
         title: 'Extended Stay',
-        price: 149,
+        price: 175,
         features: [
           '3+ nights',
           'Mid-stay refresh',
@@ -143,7 +143,7 @@ export const staysData = [
       },
       signature: {
         title: 'Signature Rate',
-        price: 180,
+        price: 175,
         popular: true,
         features: [
           'Preferred creekside placement',
@@ -153,7 +153,7 @@ export const staysData = [
       },
       extended: {
         title: 'Extended Stay',
-        price: 159,
+        price: 180,
         features: [
           '3+ nights',
           'Mid-stay refresh',
@@ -221,7 +221,7 @@ export const staysData = [
       },
       signature: {
         title: 'Signature Rate',
-        price: 169,
+        price: 159,
         popular: true,
         features: [
           'Preferred placement',
@@ -231,7 +231,7 @@ export const staysData = [
       },
       extended: {
         title: 'Extended Stay',
-        price: 139,
+        price: 165,
         features: [
           '3+ nights',
           'Weekly refresh',
@@ -301,7 +301,7 @@ export const staysData = [
       },
       signature: {
         title: 'Signature Rate',
-        price: 179,
+        price: 169,
         popular: true,
         features: [
           'Preferred placement',
@@ -311,7 +311,7 @@ export const staysData = [
       },
       extended: {
         title: 'Extended Stay',
-        price: 149,
+        price: 175,
         features: [
           '3+ nights',
           'Mid-stay refresh',

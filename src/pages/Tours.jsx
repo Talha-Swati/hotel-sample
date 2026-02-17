@@ -94,10 +94,10 @@ const Tours = () => {
                   key={stay.id}
                   title={stay.name}
                   subtitle={`${stay.location} • Sleeps ${stay.sleeps}`}
-                  price={`$${stay.pricing.extended.price}`}
-                  priceNote="from / night"
+                  price={`$${stay.pricing.standard.price}`}
+                  priceNote="starting / night"
                   features={[
-                    `Extended: $${stay.pricing.extended.price} • Standard: $${stay.pricing.standard.price} • Signature: $${stay.pricing.signature.price}`,
+                    `Standard: $${stay.pricing.standard.price} • Signature: $${stay.pricing.signature.price} • Extended: $${stay.pricing.extended.price}`,
                     ...stay.highlights.slice(0, 3),
                     `${stay.bedrooms} bed • ${stay.baths} bath • ${stay.sizeSqFt} sq ft`
                   ]}

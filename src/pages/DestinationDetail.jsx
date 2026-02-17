@@ -79,7 +79,7 @@ const DestinationDetail = memo(() => {
     image: stay.heroImage
   };
 
-  const pricingOrder = ['extended', 'standard', 'signature'];
+  const pricingOrder = ['standard', 'signature', 'extended'];
 
   return (
     <PageLayout
@@ -291,7 +291,7 @@ const DestinationDetail = memo(() => {
                 Rates
               </h2>
               <p className={`mb-5 text-sm ${isDarkMode ? 'text-[#8B949E]' : 'text-[#64748B]'}`}>
-                From ${stay.pricing.extended.price} per night • Standard ${stay.pricing.standard.price} • Signature ${stay.pricing.signature.price}
+                From ${stay.pricing.standard.price} per night • Signature ${stay.pricing.signature.price} • Extended ${stay.pricing.extended.price}
               </p>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 {pricingOrder.map((tier, index) => {

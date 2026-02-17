@@ -9,6 +9,8 @@ const Tours = lazy(() => import('./pages/Tours'));
 const Destinations = lazy(() => import('./pages/Destinations'));
 const DestinationDetail = lazy(() => import('./pages/DestinationDetail'));
 const Gallery = lazy(() => import('./pages/Gallery'));
+const Pavillion = lazy(() => import('./pages/Pavillion'));
+const CreeksCafe = lazy(() => import('./pages/CreeksCafe'));
 const About = lazy(() => import('./pages/About'));
 const Contact = lazy(() => import('./pages/Contact'));
 const BookNow = lazy(() => import('./pages/BookNow'));
@@ -26,6 +28,8 @@ const App = () => {
               <Route path="/tours" element={<Tours />} />
               <Route path="/destinations" element={<Destinations />} />
               <Route path="/destination/:slug" element={<DestinationDetail />} />
+              <Route path="/pavillion" element={<Pavillion />} />
+              <Route path="/creeks-cafe" element={<CreeksCafe />} />
               <Route path="/gallery" element={<Gallery />} />
               <Route path="/about" element={<About />} />
               <Route path="/contact" element={<Contact />} />

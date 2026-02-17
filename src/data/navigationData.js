@@ -13,6 +13,8 @@ const NAV_ITEMS = [
       { name: "Rani Ridge", path: "/destination/triangle-2-rani-ridge", icon: "" },
     ]
   },
+  { name: "Pavillion", path: "/pavillion" },
+  { name: "Creeks cafe", path: "/creeks-cafe" },
   { 
     name: "Experiences", 
     path: "/destinations",
@@ -25,7 +27,12 @@ const NAV_ITEMS = [
 
 export const getNavItems = () =>
   NAV_ITEMS.map((item) => {
-    const isAllowedLiveRoute = item.name === 'Home' || item.name === 'Stays' || item.name === 'Experiences';
+    const isAllowedLiveRoute =
+      item.name === 'Home' ||
+      item.name === 'Stays' ||
+      item.name === 'Pavillion' ||
+      item.name === 'Creeks cafe' ||
+      item.name === 'Experiences';
 
     if (isAllowedLiveRoute) {
       return item;
