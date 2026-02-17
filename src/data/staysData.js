@@ -54,7 +54,7 @@ export const staysData = [
     pricing: {
       standard: {
         title: 'Standard Rate',
-        price: 189,
+        price: 159,
         features: [
           'Nightly rate',
           'Self check-in',
@@ -63,7 +63,7 @@ export const staysData = [
       },
       signature: {
         title: 'Signature Rate',
-        price: 219,
+        price: 179,
         popular: true,
         features: [
           'Priority view placement',
@@ -73,7 +73,7 @@ export const staysData = [
       },
       extended: {
         title: 'Extended Stay',
-        price: 169,
+        price: 149,
         features: [
           '3+ nights',
           'Mid-stay refresh',
@@ -134,7 +134,7 @@ export const staysData = [
     pricing: {
       standard: {
         title: 'Standard Rate',
-        price: 229,
+        price: 169,
         features: [
           'Nightly rate',
           'Outdoor dining area',
@@ -143,7 +143,7 @@ export const staysData = [
       },
       signature: {
         title: 'Signature Rate',
-        price: 259,
+        price: 180,
         popular: true,
         features: [
           'Preferred creekside placement',
@@ -153,7 +153,7 @@ export const staysData = [
       },
       extended: {
         title: 'Extended Stay',
-        price: 199,
+        price: 159,
         features: [
           '3+ nights',
           'Mid-stay refresh',
@@ -212,7 +212,7 @@ export const staysData = [
     pricing: {
       standard: {
         title: 'Standard Rate',
-        price: 169,
+        price: 149,
         features: [
           'Nightly rate',
           'Stargazing deck',
@@ -221,7 +221,7 @@ export const staysData = [
       },
       signature: {
         title: 'Signature Rate',
-        price: 189,
+        price: 169,
         popular: true,
         features: [
           'Preferred placement',
@@ -231,7 +231,7 @@ export const staysData = [
       },
       extended: {
         title: 'Extended Stay',
-        price: 149,
+        price: 139,
         features: [
           '3+ nights',
           'Weekly refresh',
@@ -292,7 +292,7 @@ export const staysData = [
     pricing: {
       standard: {
         title: 'Standard Rate',
-        price: 209,
+        price: 159,
         features: [
           'Nightly rate',
           'Outdoor dining',
@@ -301,7 +301,7 @@ export const staysData = [
       },
       signature: {
         title: 'Signature Rate',
-        price: 239,
+        price: 179,
         popular: true,
         features: [
           'Preferred placement',
@@ -311,7 +311,7 @@ export const staysData = [
       },
       extended: {
         title: 'Extended Stay',
-        price: 189,
+        price: 149,
         features: [
           '3+ nights',
           'Mid-stay refresh',

@@ -1,9 +1,9 @@
-import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useTheme } from '../context/ThemeContext';
 import PageLayout from '../components/layout/PageLayout';
-import TourCategoryCard from '../components/common/TourCategoryCard';
-import { baseTourCategories } from '../data/tourCategoriesData';
+import ThemedPricingCard from '../components/common/ThemedPricingCard';
+import PricingCardMedia from '../components/common/PricingCardMedia';
+import { staysData } from '../data/staysData';
 import { 
   FaUsers, 
   FaMountain, 
@@ -14,19 +14,14 @@ import {
 
 const Tours = () => {
   const { isDarkMode } = useTheme();
-  const [selectedCategory, setSelectedCategory] = useState('all');
-  const tourCategories = baseTourCategories.map((category) =>
-    category.id === 'all'
-      ? {
-          ...category,
-          color: category.colorLight
-        }
-      : category
-  );
-
-  const filteredTours = selectedCategory === 'all' 
-    ? tourCategories.filter(cat => cat.id !== 'all')
-    : tourCategories.filter(cat => cat.id === selectedCategory);
+  const featuredHouses = staysData.slice(0, 4);
+  const averageRating = (featuredHouses.reduce((sum, stay) => sum + stay.rating, 0) / featuredHouses.length).toFixed(1);
+  const greenGradients = [
+    'from-[#1F3A2A] to-[#5F8C6A]',
+    'from-[#2F5D3A] to-[#7BAF7C]',
+    'from-[#254736] to-[#6E9B72]',
+    'from-[#1C4A34] to-[#4F8A62]'
+  ];
 
   return (
     <PageLayout
@@ -62,69 +57,83 @@ const Tours = () => {
                   isDarkMode ? 'bg-[#141A1F]' : 'bg-white'
                 } shadow-lg`}>
                   <FaMountain className={isDarkMode ? 'text-[#22D3EE]' : 'text-[#3B82F6]'} />
-                  <span className="font-semibold">20+ Unique Stays</span>
+                  <span className="font-semibold">4 Featured Houses</span>
                 </div>
                 <div className={`flex items-center gap-2 px-4 py-2 rounded-full ${
                   isDarkMode ? 'bg-[#141A1F]' : 'bg-white'
                 } shadow-lg`}>
                   <FaUsers className={isDarkMode ? 'text-[#22D3EE]' : 'text-[#3B82F6]'} />
-                  <span className="font-semibold">4.9/5 Guest Reviews</span>
+                  <span className="font-semibold">Up to Sleeps 5</span>
                 </div>
                 <div className={`flex items-center gap-2 px-4 py-2 rounded-full ${
                   isDarkMode ? 'bg-[#141A1F]' : 'bg-white'
                 } shadow-lg`}>
                   <FaStar className={isDarkMode ? 'text-[#22D3EE]' : 'text-[#3B82F6]'} />
-                  <span className="font-semibold">Texas Hill Country</span>
+                  <span className="font-semibold">{averageRating}/5 Guest Rating</span>
                 </div>
               </div>
             </div>
           </div>
         </section>
 
-        {/* Category Filter */}
-        <section className={`py-6 backdrop-blur-lg border-b ${
-          isDarkMode ? 'bg-[#0B0C0E]/95 border-[#1E242B]' : 'bg-white/95 border-[#E2E8F0]'
-        }`}>
-          <div className="container mx-auto px-4">
-            <div className="flex overflow-x-auto gap-3 pb-2 scrollbar-hide">
-              {tourCategories.map((category) => (
-                <button
-                  key={category.id}
-                  onClick={() => setSelectedCategory(category.id)}
-                  className={`flex items-center gap-2 px-6 py-3 rounded-xl font-semibold whitespace-nowrap transition-all duration-300 ${
-                    selectedCategory === category.id
-                      ? isDarkMode
-                        ? 'bg-linear-to-r from-[#22D3EE] to-[#4DBBFF] text-[#0B0C0E] shadow-lg shadow-[#22D3EE]/50'
-                        : 'bg-linear-to-r from-[#3B82F6] to-[#60A5FA] text-white shadow-lg shadow-blue-500/50'
-                      : isDarkMode
-                      ? 'bg-[#141A1F] text-[#C4CCD4] hover:bg-[#1E242B]'
-                      : 'bg-[#F8FAFC] text-[#475569] hover:bg-[#E2E8F0]'
-                  } transform hover:scale-105`}
-                >
-                  <span className="text-lg">
-                    {category.icon && <category.icon />}
-                  </span>
-                  <span>{category.name}</span>
-                  <span className={`px-2 py-0.5 rounded-full text-xs ${
-                    selectedCategory === category.id
-                      ? 'bg-white/20'
-                      : isDarkMode ? 'bg-[#0F1419]' : 'bg-white'
-                  }`}>
-                    {category.count}
-                  </span>
-                </button>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* Stays Grid */}
+        {/* Featured Houses */}
         <section className="py-16">
           <div className="container mx-auto px-4">
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                  {filteredTours.map((tour) => (
-                    <TourCategoryCard key={tour.id} tour={tour} isDarkMode={isDarkMode} />
-                  ))}
+            <div className="text-center max-w-3xl mx-auto mb-10">
+              <h2 className={`text-3xl md:text-4xl font-bold mb-4 ${isDarkMode ? 'text-[#E0E7EE]' : 'text-[#0F172A]'}`}>
+                Highlights of Our 4 Houses
+              </h2>
+              <p className={isDarkMode ? 'text-[#C4CCD4]' : 'text-[#475569]'}>
+                Compare features and starting prices, then open each house page for full gallery, amenities, and booking details.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {featuredHouses.map((stay, index) => (
+                <ThemedPricingCard
+                  key={stay.id}
+                  title={stay.name}
+                  subtitle={`${stay.location} • Sleeps ${stay.sleeps}`}
+                  price={`$${stay.pricing.extended.price}`}
+                  priceNote="from / night"
+                  features={[
+                    `Extended: $${stay.pricing.extended.price} • Standard: $${stay.pricing.standard.price} • Signature: $${stay.pricing.signature.price}`,
+                    ...stay.highlights.slice(0, 3),
+                    `${stay.bedrooms} bed • ${stay.baths} bath • ${stay.sizeSqFt} sq ft`
+                  ]}
+                  isDarkMode={isDarkMode}
+                  gradient={greenGradients[index % greenGradients.length]}
+                  accentClass="text-[#7BAF7C]"
+                  accentBorderClass="border-[#5F8C6A]"
+                  accentBgClass="bg-[#2F5D3A] text-white"
+                  highlightLabel={`${stay.rating} ★ (${stay.reviews} reviews)`}
+                  ctaLabel="View House Details"
+                  ctaHref={`/destination/${stay.slug}`}
+                  footerLabel="Stay Type"
+                  footerText={stay.shortDescription}
+                  media={
+                    <PricingCardMedia
+                      imageSrc={stay.heroImage}
+                      imageAlt={stay.name}
+                      heightClass="h-48"
+                      overlayClassName={
+                        isDarkMode
+                          ? 'bg-linear-to-t from-[#0B0C0E]/90 via-[#0B0C0E]/30 to-transparent'
+                          : 'bg-linear-to-t from-black/70 via-black/20 to-transparent'
+                      }
+                      topRight={(
+                        <div className={`px-3 py-1 rounded-full text-xs font-semibold ${
+                          isDarkMode
+                            ? 'bg-[#0B0C0E]/80 text-[#E0E7EE] border border-[#1F2A33]'
+                            : 'bg-white/90 text-[#0F172A]'
+                        }`}>
+                          {stay.category}
+                        </div>
+                      )}
+                    />
+                  }
+                />
+              ))}
             </div>
           </div>
         </section>
@@ -196,7 +205,7 @@ const Tours = () => {
                 className={`px-8 py-4 rounded-xl font-bold text-lg transition-all duration-300 ${
                   isDarkMode
                     ? 'bg-linear-to-r from-[#22D3EE] to-[#4DBBFF] text-[#0B0C0E] hover:shadow-lg hover:shadow-[#22D3EE]/50'
-                    : 'bg-linear-to-r from-[#3B82F6] to-[#60A5FA] text-white hover:shadow-lg hover:shadow-blue-500/50'
+                    : 'bg-[#1F3A2A] text-[#F7FBF7] hover:bg-[#2F5D3A] hover:shadow-lg hover:shadow-[#2F5D3A]/35'
                 } transform hover:scale-105`}
               >
                 Request Custom Stay
@@ -206,7 +215,7 @@ const Tours = () => {
                 className={`px-8 py-4 rounded-xl font-bold text-lg border-2 transition-all duration-300 ${
                   isDarkMode
                     ? 'border-[#22D3EE] text-[#22D3EE] hover:bg-[#22D3EE] hover:text-[#0B0C0E]'
-                    : 'border-[#2563EB] text-[#1D4ED8] hover:bg-[#2563EB] hover:text-white'
+                    : 'border-[#1F3A2A] text-[#1F3A2A] hover:bg-[#1F3A2A] hover:text-[#F7FBF7]'
                 }`}
               >
                 Contact Us

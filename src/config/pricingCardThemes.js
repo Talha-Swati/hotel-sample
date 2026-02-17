@@ -136,11 +136,15 @@ export const PRICING_CARD_THEMES = {
   },
   destinationPricing: {
     gradients: [
-      'from-[#111827] to-[#F97316]',
-      'from-[#111827] to-[#6366F1]',
-      'from-[#111827] to-[#A3E635]',
-      'from-[#1F2937] to-[#F59E0B]'
-    ]
+      'from-[#1F3A2A] to-[#5F8C6A]',
+      'from-[#2F5D3A] to-[#7BAF7C]',
+      'from-[#254736] to-[#6E9B72]'
+    ],
+    accentClass: 'text-[#7BAF7C]',
+    accentBorderClass: 'border-[#5F8C6A]',
+    accentBgClass: 'bg-[#2F5D3A] text-white',
+    footerLabel: 'Check-in',
+    footerText: '3:00 PM • Check-out 11:00 AM'
   }
 };
 

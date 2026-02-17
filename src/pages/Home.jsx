@@ -67,7 +67,7 @@ const EXPERIENCE_ADDONS = [
     note: 'Scenic guided rides through peaceful countryside routes near the property.',
     image: horseRidingOne,
     count: 'Add-on activity',
-    link: '/trip/adventure'
+    link: '/destinations#horseback-riding'
   },
   {
     title: 'Swimming Pool',
@@ -81,14 +81,14 @@ const EXPERIENCE_ADDONS = [
     note: 'Add an ATV session for a fun, high-energy outdoor ride.',
     image: 'https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=1400&q=80',
     count: 'Add-on activity',
-    link: '/trip/adventure'
+    link: '/destinations#atv-adventure'
   },
   {
     title: 'Trails',
     note: 'Explore nearby nature trails at your own pace for morning or sunset walks.',
     image: 'https://images.unsplash.com/photo-1501554728187-ce583db33af7?auto=format&fit=crop&w=1400&q=80',
     count: 'Included experience',
-    link: '/trip/adventure'
+    link: '/destinations#trails'
   },
   {
     title: 'Fire Pit (Included with Stay)',

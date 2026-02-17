@@ -66,12 +66,12 @@ const Navbar = ({ isDarkMode, mobileMenuOpen, setMobileMenuOpen }) => {
               </Link>
               
               {item.hasDropdown && item.dropdownItems && (
-                <div className={`absolute left-0 top-full mt-2 ${item.name === 'Destinations' ? 'w-[520px]' : 'w-64'} rounded-xl border shadow-2xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 overflow-hidden z-50 backdrop-blur-xl ${
+                <div className={`absolute left-0 top-full mt-2 ${item.name === 'Stays' ? 'w-[320px]' : 'w-64'} rounded-xl border shadow-2xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 overflow-hidden z-50 backdrop-blur-xl ${
                   isDarkMode
                     ? 'bg-[rgba(18,15,12,0.78)] border-[rgba(201,163,106,0.2)]'
                     : 'bg-[rgba(12,36,26,0.55)] border-[rgba(231,240,233,0.22)] shadow-[rgba(10,28,20,0.45)]'
                 }`}>
-                  <div className={item.name === 'Destinations' ? 'p-2 grid grid-cols-2 gap-1' : 'p-2'}>
+                  <div className={item.name === 'Stays' ? 'p-2 grid grid-cols-1 gap-1' : 'p-2'}>
                     {item.dropdownItems.map((dropItem, dropIndex) => (
                       <Link
                         key={dropIndex}

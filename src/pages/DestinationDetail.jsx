@@ -79,6 +79,8 @@ const DestinationDetail = memo(() => {
     image: stay.heroImage
   };
 
+  const pricingOrder = ['extended', 'standard', 'signature'];
+
   return (
     <PageLayout
       seo={seo}
@@ -288,24 +290,32 @@ const DestinationDetail = memo(() => {
               <h2 className={`text-3xl font-bold mb-6 ${isDarkMode ? 'text-[#E0E7EE]' : 'text-[#0F172A]'}`}>
                 Rates
               </h2>
+              <p className={`mb-5 text-sm ${isDarkMode ? 'text-[#8B949E]' : 'text-[#64748B]'}`}>
+                From ${stay.pricing.extended.price} per night • Standard ${stay.pricing.standard.price} • Signature ${stay.pricing.signature.price}
+              </p>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                {Object.entries(stay.pricing).map(([key, rate], index) => (
-                  <ThemedPricingCard
-                    key={key}
-                    title={rate.title}
-                    price={`$${rate.price}`}
-                    priceNote="per night"
-                    features={rate.features}
-                    isDarkMode={isDarkMode}
-                    themeKey="destinationPricing"
-                    themeIndex={index}
-                    highlightLabel={rate.popular ? 'Most Popular' : undefined}
-                    ctaLabel="Request Availability"
-                    onCtaClick={() => handleBookNow(rate)}
-                    footerLabel="Check-in"
-                    footerText={`${stay.checkIn} • Check-out ${stay.checkOut}`}
-                  />
-                ))}
+                {pricingOrder.map((tier, index) => {
+                  const rate = stay.pricing[tier];
+                  if (!rate) return null;
+
+                  return (
+                    <ThemedPricingCard
+                      key={tier}
+                      title={rate.title}
+                      price={`$${rate.price}`}
+                      priceNote="per night"
+                      features={rate.features}
+                      isDarkMode={isDarkMode}
+                      themeKey="destinationPricing"
+                      themeIndex={index}
+                      highlightLabel={rate.popular ? 'Most Popular' : undefined}
+                      ctaLabel="Request Availability"
+                      onCtaClick={() => handleBookNow(rate)}
+                      footerLabel="Check-in"
+                      footerText={`${stay.checkIn} • Check-out ${stay.checkOut}`}
+                    />
+                  );
+                })}
               </div>
             </section>
           </div>

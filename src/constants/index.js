@@ -7,7 +7,6 @@
 export const QUICK_LINKS = [
   { name: 'Stays', path: '/tours' },
   { name: 'Experiences', path: '/destinations' },
-  { name: 'Special Offers', path: '/offers' },
   { name: 'Contact', path: '/contact' }
 ];
 
@@ -58,41 +57,42 @@ export const TOUR_CATEGORIES = [
   {
     id: 'family',
     name: 'Family Packages',
-    path: '/trip/family',
+    path: '/destinations#swimming-pool',
     description: 'Perfect adventures for families with children'
   },
   {
     id: 'romantic',
     name: 'Romantic Stays',
-    path: '/trip/romantic',
+    path: '/destinations#horseback-riding',
     description: 'Romantic escapes designed for slow mornings'
   },
   {
     id: 'adventure',
     name: 'Adventure Tours',
-    path: '/trip/adventure',
+    path: '/destinations#atv-adventure',
     description: 'Thrilling experiences for adrenaline seekers'
   },
   {
     id: 'corporate',
     name: 'Corporate Tours',
-    path: '/trip/corporate',
+    path: '/destinations#trails',
     description: 'Team building and corporate retreats'
   },
   {
     id: 'budget',
     name: 'Budget Tours',
-    path: '/trip/budget',
+    path: '/destinations#firepit',
     description: 'Affordable adventures without compromising quality'
   }
 ];
 
 // Service Categories
 export const SERVICE_CATEGORIES = [
-  { id: 'hotels', name: 'Hotel Booking', path: '/services/hotels' },
-  { id: 'transport', name: 'Transport Services', path: '/services/transport' },
-  { id: 'insurance', name: 'Travel Insurance', path: '/services/insurance' },
-  { id: 'photography', name: 'Photography Services', path: '/services/photography' }
+  { id: 'horseback', name: 'Horseback Riding', path: '/destinations#horseback-riding' },
+  { id: 'pool', name: 'Swimming Pool', path: '/destinations#swimming-pool' },
+  { id: 'trails', name: 'Trails', path: '/destinations#trails' },
+  { id: 'firepit', name: 'Firepit', path: '/destinations#firepit' },
+  { id: 'atv', name: 'ATV Adventure', path: '/destinations#atv-adventure' }
 ];
 
 // Theme Configuration
