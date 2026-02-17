@@ -1,10 +1,7 @@
 import React, { memo, useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import FlipCard from '../common/FlipCard';
-import tinyEscape2 from '../../assets/Pavilion images/tiny escape 2.jpg';
-import tinyEscape3 from '../../assets/tiny escape 3.jpg';
-import tinyEscape5 from '../../assets/tiny escape 5.jpg';
-import tinyEscape7 from '../../assets/tiny escape 7.jpeg';
+import { getStayBySlug } from '../../data/staysData';
 
 const FeaturedTours = ({ isDarkMode }) => {
   const toursPath = '/tours';
@@ -20,9 +17,14 @@ const FeaturedTours = ({ isDarkMode }) => {
   }, []);
 
   // Memoize tours data to prevent recreation on every render
-  const tours = useMemo(() => [
+  const tours = useMemo(() => {
+    const catalina = getStayBySlug('triangle-1-catalina-ridge');
+    const rani = getStayBySlug('triangle-2-rani-ridge');
+    const kona = getStayBySlug('apple-2-kona-meadows');
+
+    return [
     {
-      frontImage: tinyEscape3,
+      frontImage: catalina?.heroImage,
       title: "Catalina Ridge",
       subtitle: "A-Frame Cabin • Panoramic windows",
       price: "A-Frame",
@@ -37,7 +39,7 @@ const FeaturedTours = ({ isDarkMode }) => {
       link: '/destination/triangle-1-catalina-ridge'
     },
     {
-      frontImage: tinyEscape5,
+      frontImage: rani?.heroImage,
       title: "Rani Ridge",
       subtitle: "A-Frame Cabin • Cozy retreat",
       price: "A-Frame",
@@ -52,7 +54,7 @@ const FeaturedTours = ({ isDarkMode }) => {
       link: '/destination/triangle-2-rani-ridge'
     },
     {
-      frontImage: tinyEscape7,
+      frontImage: kona?.heroImage,
       title: "Kona Meadow",
       subtitle: "Apple Home • Sleek and sustainable",
       price: "Apple Home",
@@ -66,7 +68,8 @@ const FeaturedTours = ({ isDarkMode }) => {
       ],
       link: '/destination/apple-2-kona-meadows'
     }
-  ], []);
+  ];
+  }, []);
 
   return (
     <section className={`relative py-16 md:py-24 lg:py-32 overflow-hidden transition-colors duration-500 ${

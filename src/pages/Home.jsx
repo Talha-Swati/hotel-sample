@@ -19,20 +19,10 @@ import tinyEscape3 from '../assets/tiny escape 3.jpg';
 import tinyEscape5 from '../assets/tiny escape 5.jpg';
 import tinyEscape7 from '../assets/tiny escape 7.jpeg';
 import tinyEscape11 from '../assets/tiny escape 11.jpeg';
-import newYearVideo from '../assets/videos/New Year Celebration video.mp4';
 import horseRidingOne from '../assets/horse riding/horse riding/horse riding 1.jpg';
 import horseRidingTwo from '../assets/horse riding/horse riding/horse riding 2.jpg';
 import swimmingPoolThree from '../assets/swimming pool/swimming pool/swimming pool 3.jpg';
 import cafeTwo from '../assets/prefab house portable container cafe/prefab house portable container cafe/cafe 2.jpg';
-
-const RECENT_MOMENTS = [
-  {
-    title: 'New Year Celebration',
-    src: newYearVideo,
-    poster: tinyEscape3,
-    description: 'Grateful for your support as we welcome a year of peaceful escapes.'
-  }
-];
 
 const INCLUDED_FEATURES = [
   {
@@ -151,7 +141,6 @@ const Home = () => {
   );
 
   const underDevelopmentPath = '/under-development';
-  const recentMoments = RECENT_MOMENTS;
 
 
   return (
@@ -273,69 +262,6 @@ const Home = () => {
                 </Link>
               ))}
             </div>
-          </div>
-        </section>
-
-        {/* Recent Moments */}
-        <section aria-labelledby="recent-moments" className={`relative py-16 lg:py-20 overflow-hidden transition-colors duration-500 ${
-          isDarkMode ? 'bg-[#14110E]' : 'bg-[#F3F7F2]'
-        }`}>
-          <div className="mx-auto max-w-7xl px-4 sm:px-6">
-            <header className="mb-10">
-              <div>
-                <p className={`text-xs font-semibold uppercase tracking-[0.28em] ${
-                  isDarkMode ? 'text-[#C9A36A]' : 'text-[#2F5D3A]'
-                }`}>
-                  Recent Moments
-                </p>
-                <h2 id="recent-moments" className={`mt-2 text-3xl md:text-4xl font-bold ${
-                  isDarkMode ? 'text-[#F2EEE7]' : 'text-[#1F2A1F]'
-                }`}>
-                  Tiny Escape in motion
-                </h2>
-              </div>
-            </header>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {recentMoments.map((video) => (
-                <div key={video.title} className="w-full space-y-3">
-                  <article
-                    className={`overflow-hidden rounded-2xl border transition-all duration-500 ${
-                      isDarkMode
-                        ? 'bg-[#16120F] border-[rgba(201,163,106,0.25)] hover:border-[rgba(201,163,106,0.45)] hover:-translate-y-1'
-                        : 'bg-white border-[#DDE8DD] hover:border-[#CFE3CF] hover:-translate-y-1'
-                    }`}
-                  >
-                    <div className="relative">
-                      <video
-                        src={video.src}
-                        className="h-[200px] w-full object-cover"
-                        poster={video.poster}
-                        muted
-                        playsInline
-                        loop
-                        preload="none"
-                        controls
-                      />
-                      <div className={`absolute inset-0 pointer-events-none ${
-                        isDarkMode
-                          ? 'bg-linear-to-t from-[rgba(11,12,14,0.5)] via-transparent to-transparent'
-                          : 'bg-linear-to-t from-[rgba(243,247,242,0.35)] via-transparent to-transparent'
-                      }`} />
-                    </div>
-                    <div className="p-5">
-                      <h3 className={`text-lg font-bold ${isDarkMode ? 'text-[#F2EEE7]' : 'text-[#1F2A1F]'}`}>
-                        {video.title}
-                      </h3>
-                    </div>
-                  </article>
-                  <p className={`text-sm ${isDarkMode ? 'text-[#A79C8C]' : 'text-[#4B5F4B]'}`}>
-                    {video.description}
-                  </p>
-                </div>
-              ))}
-            </div>
-
           </div>
         </section>
 

@@ -20,12 +20,12 @@ export const staysData = [
     checkIn: '3:00 PM',
     checkOut: '11:00 AM',
     petFriendly: false,
-    heroImage: tinyEscape3,
+    heroImage: tinyHouse1,
     gallery: [
-      tinyEscape3,
-      tinyEscape3,
-      tinyEscape3,
-      tinyEscape3
+      tinyHouse1,
+      tinyHouse1,
+      tinyHouse1,
+      tinyHouse1
     ],
     highlights: [
       'Private firepit with sunset views',
@@ -180,12 +180,12 @@ export const staysData = [
     checkIn: '3:00 PM',
     checkOut: '11:00 AM',
     petFriendly: false,
-    heroImage: tinyHouse1,
+    heroImage: tinyEscape3,
     gallery: [
-      tinyHouse1,
-      tinyHouse1,
-      tinyHouse1,
-      tinyHouse1
+      tinyEscape3,
+      tinyEscape3,
+      tinyEscape3,
+      tinyEscape3
     ],
     highlights: [
       'Vaulted ceilings and tall glass',
@@ -258,12 +258,12 @@ export const staysData = [
     checkIn: '3:00 PM',
     checkOut: '11:00 AM',
     petFriendly: true,
-    heroImage: tinyHouse1,
+    heroImage: tinyEscape3,
     gallery: [
-      tinyHouse1,
-      tinyHouse1,
-      tinyHouse1,
-      tinyHouse1
+      tinyEscape3,
+      tinyEscape3,
+      tinyEscape3,
+      tinyEscape3
     ],
     highlights: [
       'Large deck with open views',

@@ -5,6 +5,7 @@ import logo from '../../assets/logo.png';
 
 const Footer = ({ isDarkMode }) => {
   const underDevelopmentPath = '/under-development';
+  const staticPageExceptions = new Set(['Gallery', 'About', 'Contact']);
 
   return (
     <footer className={`border-t pt-10 sm:pt-16 pb-8 transition-colors ${
@@ -38,7 +39,7 @@ const Footer = ({ isDarkMode }) => {
               {QUICK_LINKS.map((link) => (
                 <li key={link.name}>
                   <Link 
-                    to={underDevelopmentPath} 
+                    to={staticPageExceptions.has(link.name) ? underDevelopmentPath : link.path}
                     className={`text-sm sm:text-base hover:text-white transition hover:underline ${
                       isDarkMode ? 'text-[#BFAE95]' : 'text-[#DCE8DC]'
                     }`}
@@ -57,7 +58,7 @@ const Footer = ({ isDarkMode }) => {
               {POPULAR_DESTINATIONS.map((dest) => (
                 <li key={dest.slug}>
                   <Link 
-                    to={underDevelopmentPath} 
+                    to={`/destination/${dest.slug}`}
                     className={`text-sm sm:text-base hover:text-white transition hover:underline ${
                       isDarkMode ? 'text-[#BFAE95]' : 'text-[#DCE8DC]'
                     }`}
@@ -105,7 +106,7 @@ const Footer = ({ isDarkMode }) => {
                 <span key={link.path} className="flex items-center gap-2">
                   {index > 0 && <span>|</span>}
                   <Link 
-                    to={underDevelopmentPath}
+                    to={link.path}
                     className={`hover:underline transition ${
                       isDarkMode ? 'hover:text-[#C9A36A]' : 'hover:text-white'
                     }`}
