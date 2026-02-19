@@ -1,5 +1,6 @@
-const API_BASE_URL =
-  import.meta.env.VITE_API_BASE_URL || import.meta.env.VITE_API_URL || 'http://localhost:5000';
+const RAW_API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
+const API_BASE_URL = RAW_API_BASE_URL.replace(/\/+$/, '');
+const API_ROOT = API_BASE_URL.endsWith('/api') ? API_BASE_URL : `${API_BASE_URL}/api`;
 
 const normalizePath = (path) => {
   if (!path) return '';
@@ -7,15 +8,20 @@ const normalizePath = (path) => {
 };
 
 export const apiClient = async (path, options = {}) => {
-  const url = `${API_BASE_URL}/api${normalizePath(path)}`;
+  const url = `${API_ROOT}${normalizePath(path)}`;
 
-  const response = await fetch(url, {
-    headers: {
-      'Content-Type': 'application/json',
-      ...(options.headers || {}),
-    },
-    ...options,
-  });
+  let response;
+  try {
+    response = await fetch(url, {
+      headers: {
+        'Content-Type': 'application/json',
+        ...(options.headers || {}),
+      },
+      ...options,
+    });
+  } catch (_error) {
+    throw new Error(`Unable to reach API at ${url}. Check VITE_API_BASE_URL and backend availability.`);
+  }
 
   let payload = null;
   try {

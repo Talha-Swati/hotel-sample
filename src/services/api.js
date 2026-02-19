@@ -1,34 +1,19 @@
 /**
  * API Service Layer
  * Central place for all API calls - ready for backend integration
- * 
- * When you connect to backend:
- * 1. Replace BASE_URL with your actual API endpoint
- * 2. Remove mock data returns
- * 3. Implement actual fetch/axios calls
+ *
+ * Uses apiClient so base URL comes from VITE_API_BASE_URL.
  */
-
-const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+import { apiClient } from './apiClient';
 
 // Generic API request handler
 export const apiRequest = async (endpoint, options = {}) => {
   try {
-    const response = await fetch(`${BASE_URL}${endpoint}`, {
-      headers: {
-        'Content-Type': 'application/json',
-        ...options.headers,
-      },
-      ...options,
-    });
-
-    if (!response.ok) {
-      throw new Error(`API Error: ${response.statusText}`);
-    }
-
-    return await response.json();
+    return await apiClient(endpoint, options);
   } catch (error) {
-    console.error('API Request Failed:', error);
-    throw error;
+    const message = error?.message || 'Request failed. Please try again.';
+    console.error('API Request Failed:', message);
+    throw new Error(message);
   }
 };
 
