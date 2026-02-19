@@ -7,10 +7,10 @@ const NAV_ITEMS = [
     path: "/tours", 
     hasDropdown: true,
     dropdownItems: [
-      { name: "Razoo Creek", path: "/destination/apple-1-razoo-creek", icon: "" },
-      { name: "Kona Meadows", path: "/destination/apple-2-kona-meadows", icon: "" },
-      { name: "Catalina Ridge", path: "/destination/triangle-1-catalina-ridge", icon: "" },
-      { name: "Rani Ridge", path: "/destination/triangle-2-rani-ridge", icon: "" },
+      { name: "Razoo Creek", path: "/stay/apple-1-razoo-creek", icon: "" },
+      { name: "Kona Meadows", path: "/stay/apple-2-kona-meadows", icon: "" },
+      { name: "Catalina Ridge", path: "/stay/triangle-1-catalina-ridge", icon: "" },
+      { name: "Rani Ridge", path: "/stay/triangle-2-rani-ridge", icon: "" },
     ]
   },
   { name: "Pavillion", path: "/pavillion" },

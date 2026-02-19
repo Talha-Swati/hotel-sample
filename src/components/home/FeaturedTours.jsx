@@ -1,12 +1,14 @@
 import React, { memo, useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import FlipCard from '../common/FlipCard';
-import { getStayBySlug } from '../../data/staysData';
+import { getAllStays } from '../../data/staysData';
+import { useHousesData } from '../../hooks/useHousesData';
 
 const FeaturedTours = ({ isDarkMode }) => {
   const toursPath = '/tours';
   const [isMobile, setIsMobile] = useState(false);
   const [expandedCard, setExpandedCard] = useState(null);
+  const { houses } = useHousesData({ fallbackData: getAllStays() });
 
   useEffect(() => {
     const media = window.matchMedia('(max-width: 767px)');
@@ -18,9 +20,9 @@ const FeaturedTours = ({ isDarkMode }) => {
 
   // Memoize tours data to prevent recreation on every render
   const tours = useMemo(() => {
-    const catalina = getStayBySlug('triangle-1-catalina-ridge');
-    const rani = getStayBySlug('triangle-2-rani-ridge');
-    const kona = getStayBySlug('apple-2-kona-meadows');
+    const catalina = houses.find((stay) => stay.slug === 'triangle-1-catalina-ridge');
+    const rani = houses.find((stay) => stay.slug === 'triangle-2-rani-ridge');
+    const kona = houses.find((stay) => stay.slug === 'apple-2-kona-meadows');
 
     return [
     {
@@ -36,7 +38,7 @@ const FeaturedTours = ({ isDarkMode }) => {
         'Outdoor seating with grill',
         'Smart self check-in locks'
       ],
-      link: '/destination/triangle-1-catalina-ridge'
+      link: '/stay/triangle-1-catalina-ridge'
     },
     {
       frontImage: rani?.heroImage,
@@ -51,7 +53,7 @@ const FeaturedTours = ({ isDarkMode }) => {
         'Modern private bath',
         'Back patio seating'
       ],
-      link: '/destination/triangle-2-rani-ridge'
+      link: '/stay/triangle-2-rani-ridge'
     },
     {
       frontImage: kona?.heroImage,
@@ -66,10 +68,10 @@ const FeaturedTours = ({ isDarkMode }) => {
         'Heating + AC',
         'Outdoor grill and patio'
       ],
-      link: '/destination/apple-2-kona-meadows'
+      link: '/stay/apple-2-kona-meadows'
     }
   ];
-  }, []);
+  }, [houses]);
 
   return (
     <section className={`relative py-16 md:py-24 lg:py-32 overflow-hidden transition-colors duration-500 ${

@@ -1,7 +1,7 @@
 // Tours Data - All tour packages organized by category
 
-import swatImage1 from '../assets/destinations/swat1.jpeg';
-import swatImage2 from '../assets/destinations/swat2.jpeg';
+const swatImage1 = 'https://images.unsplash.com/photo-1544735716-392fe2489ffa?w=1200&q=80';
+const swatImage2 = 'https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=1200&q=80';
 
 export const toursData = {
   family: {

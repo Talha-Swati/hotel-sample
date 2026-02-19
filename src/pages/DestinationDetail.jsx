@@ -4,6 +4,9 @@ import { useTheme } from '../context/ThemeContext';
 import PageLayout from '../components/layout/PageLayout';
 import ThemedPricingCard from '../components/common/ThemedPricingCard';
 import { getStayBySlug } from '../data/staysData';
+import { getHouseBySlug, getHousePackagesBySlug } from '../services/houses';
+import { getDestinationSchema } from '../utils/structuredData';
+import { normalizeHouseToStay } from '../utils/houseDataNormalizer';
 import {
   FaMapMarkerAlt,
   FaStar,
@@ -22,14 +25,68 @@ const DestinationDetail = memo(() => {
   const { isDarkMode } = useTheme();
 
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [stay, setStay] = useState(null);
+  const [isLoadingStay, setIsLoadingStay] = useState(true);
+  const [fallbackToast, setFallbackToast] = useState('');
 
-  const stay = useMemo(() => getStayBySlug(slug), [slug]);
+  const localStay = useMemo(() => getStayBySlug(slug), [slug]);
 
   useEffect(() => {
-    if (!stay) {
-      navigate('/tours');
-    }
-  }, [navigate, stay]);
+    if (!fallbackToast) return undefined;
+
+    const timeout = setTimeout(() => setFallbackToast(''), 4500);
+    return () => clearTimeout(timeout);
+  }, [fallbackToast]);
+
+  useEffect(() => {
+    let mounted = true;
+
+    const hydrateStayFromApi = async () => {
+      setIsLoadingStay(true);
+
+      try {
+        const [houseResponse, packagesResponse] = await Promise.all([
+          getHouseBySlug(slug),
+          getHousePackagesBySlug(slug),
+        ]);
+
+        const house = houseResponse?.data;
+        const packages = packagesResponse?.data || [];
+
+        if (!house) {
+          throw new Error('House data missing from API response');
+        }
+
+        const mergedStay = normalizeHouseToStay({
+          house,
+          packages,
+          fallbackStay: localStay,
+        });
+
+        if (mounted) {
+          setStay(mergedStay);
+          setIsLoadingStay(false);
+        }
+      } catch (_error) {
+        if (!mounted) return;
+
+        if (localStay) {
+          setStay(localStay);
+          setFallbackToast('Live rates are unavailable right now. Showing local fallback data.');
+          setIsLoadingStay(false);
+        } else {
+          setIsLoadingStay(false);
+          navigate('/tours');
+        }
+      }
+    };
+
+    hydrateStayFromApi();
+
+    return () => {
+      mounted = false;
+    };
+  }, [localStay, navigate, slug]);
 
   useEffect(() => {
     if (!stay?.gallery?.length) return;
@@ -43,7 +100,7 @@ const DestinationDetail = memo(() => {
     return () => clearInterval(interval);
   }, [stay?.gallery?.length]);
 
-  if (!stay) {
+  if (isLoadingStay || !stay) {
     return (
       <div className={`min-h-screen flex items-center justify-center ${
         isDarkMode ? 'bg-[#0B0C0E] text-[#E0E7EE]' : 'bg-white text-[#0F172A]'
@@ -56,7 +113,7 @@ const DestinationDetail = memo(() => {
     );
   }
 
-  const handleBookNow = (rate) => {
+  const handleBookNow = (rate, packageCode) => {
     navigate('/book-now', {
       state: {
         packageData: {
@@ -65,7 +122,8 @@ const DestinationDetail = memo(() => {
           duration: 'Per night',
           currency: 'USD',
           stayType: rate.title,
-          source: `stay-${slug}`
+          source: `stay-${slug}`,
+          packageCode,
         }
       }
     });
@@ -75,8 +133,9 @@ const DestinationDetail = memo(() => {
     title: `${stay.name} | The Tiny Escape`,
     description: stay.shortDescription,
     keywords: `The Tiny Escape, ${stay.name}, tiny home, cabin stay, ${stay.location}`,
-    url: `/destination/${stay.slug}`,
-    image: stay.heroImage
+    url: `/stay/${stay.slug}`,
+    image: stay.heroImage,
+    structuredData: getDestinationSchema(stay),
   };
 
   const pricingOrder = ['standard', 'signature', 'extended'];
@@ -86,6 +145,14 @@ const DestinationDetail = memo(() => {
       seo={seo}
       className={isDarkMode ? 'bg-[#0B0C0E] text-[#E0E7EE]' : 'bg-[#F8FAFC] text-[#0F172A]'}
     >
+      {fallbackToast && (
+        <div className="fixed top-24 right-4 z-[60] max-w-sm">
+          <div className="px-4 py-3 rounded-lg border border-amber-200 bg-amber-50 text-amber-700 text-sm font-medium shadow-lg">
+            {fallbackToast}
+          </div>
+        </div>
+      )}
+
       {/* Hero Section */}
       <section className="relative h-[60vh] md:h-[70vh] overflow-hidden">
         <div className="absolute inset-0">
@@ -190,7 +257,17 @@ const DestinationDetail = memo(() => {
                   Amenities
                 </a>
                 <button
-                  onClick={() => navigate('/book-now', { state: { packageData: { title: stay.name } } })}
+                  onClick={() =>
+                    navigate('/book-now', {
+                      state: {
+                        packageData: {
+                          title: stay.name,
+                          source: `stay-${stay.slug}`,
+                          packageCode: 'standard',
+                        },
+                      },
+                    })
+                  }
                   className="px-6 py-3 bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white font-semibold rounded-lg transition-all border border-white/30"
                 >
                   Request Availability
@@ -310,7 +387,7 @@ const DestinationDetail = memo(() => {
                       themeIndex={index}
                       highlightLabel={rate.popular ? 'Most Popular' : undefined}
                       ctaLabel="Request Availability"
-                      onCtaClick={() => handleBookNow(rate)}
+                      onCtaClick={() => handleBookNow(rate, tier)}
                       footerLabel="Check-in"
                       footerText={`${stay.checkIn} • Check-out ${stay.checkOut}`}
                     />
@@ -352,7 +429,17 @@ const DestinationDetail = memo(() => {
                   Share your dates and preferences and we will match you with the best stay.
                 </p>
                 <button
-                  onClick={() => navigate('/book-now', { state: { packageData: { title: stay.name } } })}
+                  onClick={() =>
+                    navigate('/book-now', {
+                      state: {
+                        packageData: {
+                          title: stay.name,
+                          source: `stay-${stay.slug}`,
+                          packageCode: 'standard',
+                        },
+                      },
+                    })
+                  }
                   className="w-full py-3 bg-white text-[#22D3EE] rounded-lg font-semibold hover:bg-gray-100 transition-all"
                 >
                   Request Availability

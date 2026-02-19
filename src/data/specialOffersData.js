@@ -16,7 +16,7 @@ export const specialOfferPackages = [
     validUntil: '2026-03-15',
     badge: 'Midweek',
     description: 'Quiet midweek nights with sunset views and a private firepit.',
-    link: '/destination/apple-1-razoo-creek'
+    link: '/stay/apple-1-razoo-creek'
   },
   {
     id: 'apple-2-family',
@@ -33,7 +33,7 @@ export const specialOfferPackages = [
     validUntil: '2026-04-01',
     badge: 'Family',
     description: 'Creekside stays with space to gather and unwind.',
-    link: '/destination/apple-2-kona-meadows'
+    link: '/stay/apple-2-kona-meadows'
   },
   {
     id: 'triangle-1-extended',
@@ -50,7 +50,7 @@ export const specialOfferPackages = [
     validUntil: '2026-05-10',
     badge: 'Extended',
     description: 'Save on longer stays with a weekly refresh included.',
-    link: '/destination/triangle-1-catalina-ridge'
+    link: '/stay/triangle-1-catalina-ridge'
   },
   {
     id: 'triangle-2-weekend',
@@ -67,6 +67,6 @@ export const specialOfferPackages = [
     validUntil: '2026-04-20',
     badge: 'Weekend',
     description: 'Open skies, shared meals, and a large outdoor deck.',
-    link: '/destination/triangle-2-rani-ridge'
+    link: '/stay/triangle-2-rani-ridge'
   }
 ];

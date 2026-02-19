@@ -1,0 +1,73 @@
+export const sortHousesByOrder = (items = []) =>
+  [...items].sort((first, second) => {
+    const firstOrder = first.sortOrder ?? 999;
+    const secondOrder = second.sortOrder ?? 999;
+
+    if (firstOrder === secondOrder) {
+      return (first.name || '').localeCompare(second.name || '');
+    }
+
+    return firstOrder - secondOrder;
+  });
+
+export const createPricingFromPackages = (packages = [], fallbackPricing = {}) => {
+  const packageMap = Object.fromEntries((packages || []).map((pkg) => [pkg.code, pkg]));
+
+  const standardPrice = packageMap.standard?.pricePerNight ?? fallbackPricing?.standard?.price ?? 0;
+  const signaturePrice = packageMap.signature?.pricePerNight ?? fallbackPricing?.signature?.price ?? standardPrice;
+  const extendedPrice = packageMap.extended?.pricePerNight ?? fallbackPricing?.extended?.price ?? standardPrice;
+
+  return {
+    standard: {
+      title: 'Standard Rate',
+      price: standardPrice,
+      features: packageMap.standard?.perks || fallbackPricing?.standard?.features || [],
+    },
+    signature: {
+      title: 'Signature Rate',
+      price: signaturePrice,
+      popular: packageMap.signature?.isPopular ?? fallbackPricing?.signature?.popular ?? true,
+      features: packageMap.signature?.perks || fallbackPricing?.signature?.features || [],
+    },
+    extended: {
+      title: 'Extended Stay',
+      price: extendedPrice,
+      features: packageMap.extended?.perks || fallbackPricing?.extended?.features || [],
+    },
+  };
+};
+
+export const normalizeHouseToStay = ({ house, packages = [], fallbackStay = null }) => {
+  if (!house) {
+    return fallbackStay || null;
+  }
+
+  return {
+    ...(fallbackStay || {}),
+    id: house.slug,
+    slug: house.slug,
+    name: house.name,
+    location: house.baseLocation || fallbackStay?.location || 'Texas',
+    description: house.description || fallbackStay?.description || '',
+    shortDescription: fallbackStay?.shortDescription || house.description || '',
+    heroImage: house.heroImage || fallbackStay?.heroImage || '',
+    gallery: house.galleryImages?.length ? house.galleryImages : fallbackStay?.gallery || [house.heroImage],
+    sleeps: house.capacity ?? fallbackStay?.sleeps ?? 1,
+    bedrooms: house.beds ?? fallbackStay?.bedrooms ?? 1,
+    baths: house.baths ?? fallbackStay?.baths ?? 1,
+    amenities: house.amenities?.length ? house.amenities : fallbackStay?.amenities || [],
+    highlights: fallbackStay?.highlights || house.amenities || [],
+    policies: fallbackStay?.policies || ['Quiet hours after 10:00 PM'],
+    houseRules: fallbackStay?.houseRules || [`Maximum ${house.capacity ?? 2} guests`],
+    checkIn: fallbackStay?.checkIn || '3:00 PM',
+    checkOut: fallbackStay?.checkOut || '11:00 AM',
+    petFriendly: fallbackStay?.petFriendly || false,
+    rating: fallbackStay?.rating || 4.8,
+    reviews: fallbackStay?.reviews || 0,
+    sizeSqFt: fallbackStay?.sizeSqFt || 420,
+    category: fallbackStay?.category || 'stay',
+    tagline: fallbackStay?.tagline || `${house.name} stay`,
+    sortOrder: house.sortOrder ?? fallbackStay?.sortOrder ?? 999,
+    pricing: createPricingFromPackages(packages, fallbackStay?.pricing),
+  };
+};

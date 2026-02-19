@@ -1,12 +1,16 @@
-import { useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useTheme } from '../context/ThemeContext';
 import PageLayout from '../components/layout/PageLayout';
+import BookingCalendar from '../components/BookingCalendar';
 import { contactInfo } from '../data/contactData';
+import { getAllStays } from '../data/staysData';
+import { useHousesData } from '../hooks/useHousesData';
+import { createBookingRequest } from '../services/bookings';
+import { getHousePackagesBySlug } from '../services/houses';
 import { getWhatsAppLink } from '../utils/helpers';
+import { getFAQSchema } from '../utils/structuredData';
 import { 
-  FaCalendarAlt,
-  FaUsers, 
   FaCheckCircle,
   FaLock,
   FaInfoCircle,
@@ -20,6 +24,7 @@ const BookNow = () => {
 
   const phoneContact = contactInfo.find((item) => item.iconKey === 'phone');
   const whatsappLink = getWhatsAppLink(phoneContact?.details);
+  const { houses } = useHousesData({ fallbackData: getAllStays() });
 
   // Get stay data from navigation state or default
   const packageData = location.state?.packageData || {
@@ -57,10 +62,131 @@ const BookNow = () => {
   });
 
   const [bookingConfirmed, setBookingConfirmed] = useState(false);
+  const [confirmedBookingId, setConfirmedBookingId] = useState('');
+  const [submissionState, setSubmissionState] = useState({
+    loading: false,
+    error: '',
+  });
+  const [toast, setToast] = useState({
+    visible: false,
+    type: 'error',
+    message: '',
+  });
+  const [calendarStatus, setCalendarStatus] = useState({
+    available: null,
+    reason: null,
+    nights: 0,
+    minNightsSatisfied: true,
+  });
+  const [calendarMeta, setCalendarMeta] = useState({
+    loading: false,
+    packageCode: 'standard',
+    minNights: 1,
+    pricePerNight: Number(packageData?.price) || 0,
+  });
+
+  const showToast = useCallback((type, message) => {
+    setToast({ visible: true, type, message });
+  }, []);
+
+  useEffect(() => {
+    if (!toast.visible) return undefined;
+
+    const timeout = setTimeout(() => {
+      setToast((prev) => ({ ...prev, visible: false }));
+    }, 4200);
+
+    return () => clearTimeout(timeout);
+  }, [toast.visible]);
+
+  const stayFromTitle = useMemo(() => {
+    if (!packageData?.title) return null;
+    return houses.find((item) => item.name === packageData.title) || null;
+  }, [houses, packageData?.title]);
+
+  const houseSlug = useMemo(() => {
+    if (packageData?.source?.startsWith('stay-')) {
+      return packageData.source.replace('stay-', '');
+    }
+
+    if (packageData?.slug) {
+      return packageData.slug;
+    }
+
+    return stayFromTitle?.slug || '';
+  }, [packageData?.source, packageData?.slug, stayFromTitle?.slug]);
+
+  const resolvedPackageCode = useMemo(() => {
+    const explicitCode = packageData?.packageCode;
+
+    if (explicitCode && ['standard', 'signature', 'extended'].includes(explicitCode)) {
+      return explicitCode;
+    }
+
+    const stayType = `${packageData?.stayType || ''}`.toLowerCase();
+
+    if (stayType.includes('signature')) return 'signature';
+    if (stayType.includes('extended')) return 'extended';
+    if (stayType.includes('standard')) return 'standard';
+
+    return 'standard';
+  }, [packageData?.packageCode, packageData?.stayType]);
+
+  useEffect(() => {
+    let mounted = true;
+
+    const syncPackageMeta = async () => {
+      if (!houseSlug) {
+        setCalendarMeta({
+          loading: false,
+          packageCode: resolvedPackageCode,
+          minNights: 1,
+          pricePerNight: Number(packageData?.price) || 0,
+        });
+        return;
+      }
+
+      setCalendarMeta((prev) => ({ ...prev, loading: true, packageCode: resolvedPackageCode }));
+
+      try {
+        const response = await getHousePackagesBySlug(houseSlug);
+        const packages = response?.data || [];
+        const matchedPackage = packages.find((pkg) => pkg.code === resolvedPackageCode);
+
+        if (!mounted) return;
+
+        setCalendarMeta({
+          loading: false,
+          packageCode: resolvedPackageCode,
+          minNights: matchedPackage?.minNights || 1,
+          pricePerNight: Number(matchedPackage?.pricePerNight) || Number(packageData?.price) || 0,
+        });
+      } catch (_error) {
+        if (!mounted) return;
+
+        setCalendarMeta({
+          loading: false,
+          packageCode: resolvedPackageCode,
+          minNights: 1,
+          pricePerNight: Number(packageData?.price) || 0,
+        });
+        showToast('error', 'Could not load live package rates. Using fallback values for now.');
+      }
+    };
+
+    syncPackageMeta();
+
+    return () => {
+      mounted = false;
+    };
+  }, [houseSlug, packageData?.price, resolvedPackageCode, showToast]);
 
 
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
+    if (submissionState.error) {
+      setSubmissionState((prev) => ({ ...prev, error: '' }));
+    }
     setBookingData(prev => ({
       ...prev,
       [name]: type === 'checkbox' ? checked : value
@@ -84,8 +210,37 @@ const BookNow = () => {
     return diff > 0 ? diff : 0;
   };
 
+  const selectedNights = calendarStatus.nights || getNights();
+  const totalGuests = Number(bookingData.adults) + Number(bookingData.children);
+  const estimatedSubtotal = Number((calendarMeta.pricePerNight * selectedNights).toFixed(2));
+  const estimatedCleaningFee = 0;
+  const estimatedTax = 0;
+  const estimatedTotal = Number((estimatedSubtotal + estimatedCleaningFee + estimatedTax).toFixed(2));
+
+  const canContinueStep2 =
+    Boolean(bookingData.checkIn && bookingData.checkOut) &&
+    calendarStatus.available === true &&
+    calendarStatus.minNightsSatisfied;
+
+  const handleCalendarDateChange = useCallback(({ checkIn, checkOut }) => {
+    setBookingData((prev) => ({
+      ...prev,
+      checkIn,
+      checkOut,
+    }));
+  }, []);
+
+  const handleAvailabilityChange = useCallback((nextStatus) => {
+    setCalendarStatus(nextStatus);
+  }, []);
+
   const handleNextStep = (e) => {
     e.preventDefault();
+
+    if (step === 2 && !canContinueStep2) {
+      return;
+    }
+
     if (step < 4) {
       setStep(step + 1);
       window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -99,12 +254,72 @@ const BookNow = () => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Here you would process the request
-    console.log('Stay request submitted:', bookingData);
-    setBookingConfirmed(true);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    if (submissionState.loading) {
+      return;
+    }
+
+    setSubmissionState({ loading: true, error: '' });
+
+    try {
+      if (houseSlug) {
+        const payload = {
+          houseSlug,
+          packageCode: calendarMeta.packageCode,
+          guest: {
+            name: bookingData.fullName,
+            email: bookingData.email,
+            phone: `${bookingData.countryCode}${bookingData.phone}`,
+            country: bookingData.country,
+            nationality: bookingData.nationality,
+          },
+          stay: {
+            checkIn: bookingData.checkIn,
+            checkOut: bookingData.checkOut,
+            guests: totalGuests,
+          },
+          preferences: {
+            unitType: bookingData.unitType,
+            viewType: bookingData.view,
+            notes: [
+              bookingData.specialRequests,
+              bookingData.pets === 'yes' ? 'Bringing pets: Yes' : '',
+              bookingData.addOns.length ? `Add-ons: ${bookingData.addOns.join(', ')}` : '',
+            ]
+              .filter(Boolean)
+              .join(' | '),
+          },
+          pricing: {
+            subtotal: estimatedSubtotal,
+            cleaningFee: estimatedCleaningFee,
+            tax: estimatedTax,
+            total: estimatedTotal,
+          },
+        };
+
+        const response = await createBookingRequest(payload);
+        setConfirmedBookingId(response?.bookingId || response?.summary?.bookingId || '');
+      } else {
+        setConfirmedBookingId('');
+      }
+
+      setBookingConfirmed(true);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } catch (error) {
+      setSubmissionState({
+        loading: false,
+        error:
+          error?.message ||
+          'Unable to submit your request right now. Please review details and try again.',
+      });
+      showToast('error', error?.message || 'Booking request failed. Please try again.');
+      return;
+    }
+
+    setSubmissionState({ loading: false, error: '' });
+    showToast('success', 'Booking request submitted successfully.');
   };
 
   const countryCodes = [
@@ -122,11 +337,51 @@ const BookNow = () => {
   ];
 
   const progressSteps = [
-    { number: 1, title: 'Guest Info', icon: <FaUsers /> },
-    { number: 2, title: 'Stay Details', icon: <FaCalendarAlt /> },
-    { number: 3, title: 'Preferences', icon: <FaCheckCircle /> },
-    { number: 4, title: 'Review', icon: <FaInfoCircle /> }
+    { number: 1, title: 'Guest Info' },
+    { number: 2, title: 'Stay Details' },
+    { number: 3, title: 'Preferences' },
+    { number: 4, title: 'Review' }
   ];
+
+  const bookingStructuredData = useMemo(
+    () => ([
+      {
+        '@context': 'https://schema.org',
+        '@type': 'WebPage',
+        name: 'Request Availability | The Tiny Escape',
+        description:
+          'Request dates for Tiny Escape stays in Texas with transparent pricing and quick confirmation.',
+        url: 'https://tinyescape.vercel.app/book-now',
+      },
+      getFAQSchema([
+        {
+          question: 'When will I receive confirmation?',
+          answer: 'Most requests receive a response within 24 hours after availability review.',
+        },
+        {
+          question: 'Is payment required immediately?',
+          answer: 'No. Availability and final pricing are confirmed first before any payment steps.',
+        },
+      ]),
+    ]),
+    []
+  );
+
+  const fieldBaseClass = `w-full px-4 py-3 rounded-lg border transition-all focus:outline-none focus:ring-2 focus:ring-offset-1 ${
+    isDarkMode
+      ? 'bg-[#17120D] border-[#2A2119] text-[#E9E2D7] placeholder-[#9E907F] focus:ring-[#C9A36A]/40 focus:border-[#C9A36A]'
+      : 'bg-[#FFFDF8] border-[#D6C7B3] text-[#2E2117] placeholder-[#7A6A57] focus:ring-[#2F5D3A]/25 focus:border-[#5F8C6A]'
+  }`;
+
+  const selectBaseClass = `w-full px-4 py-3 rounded-lg border transition-all focus:outline-none focus:ring-2 focus:ring-offset-1 ${
+    isDarkMode
+      ? 'bg-[#17120D] border-[#2A2119] text-[#E9E2D7] focus:ring-[#C9A36A]/40 focus:border-[#C9A36A]'
+      : 'bg-[#FFFDF8] border-[#D6C7B3] text-[#2E2117] focus:ring-[#2F5D3A]/25 focus:border-[#5F8C6A]'
+  }`;
+
+  const sectionTitleClass = isDarkMode ? 'text-[#F2EEE7]' : 'text-[#2E2117]';
+  const labelClass = isDarkMode ? 'text-[#D6C8B8]' : 'text-[#4A3A2B]';
+  const mutedTextClass = isDarkMode ? 'text-[#A99985]' : 'text-[#6B5B4B]';
 
   if (bookingConfirmed) {
     return (
@@ -134,7 +389,8 @@ const BookNow = () => {
         seo={{
           title: 'Request Received - Tiny Escape',
           description: 'Your stay request has been received',
-          url: '/book-now'
+          url: '/book-now',
+          structuredData: bookingStructuredData,
         }}
       >
         <div className={`min-h-screen transition-colors duration-500 ${
@@ -150,6 +406,11 @@ const BookNow = () => {
                 <p className={`text-xl mb-6 ${isDarkMode ? 'text-[#C4CCD4]' : 'text-[#374151]'}`}>
                   Thank you for choosing Tiny Escape
                 </p>
+                {confirmedBookingId && (
+                  <p className={`text-sm font-semibold ${isDarkMode ? 'text-[#22D3EE]' : 'text-[#2563EB]'}`}>
+                    Booking ID: {confirmedBookingId}
+                  </p>
+                )}
               </div>
 
               <div className={`p-8 rounded-xl ${isDarkMode ? 'bg-[#141A1F]' : 'bg-white border border-[#E2E8F0]'} ${
@@ -200,8 +461,8 @@ const BookNow = () => {
                   onClick={() => navigate('/')}
                   className={`px-8 py-4 rounded-lg font-bold transition-all duration-300 ${
                     isDarkMode
-                      ? 'bg-linear-to-r from-[#22D3EE] to-[#4DBBFF] text-[#0B0C0E] hover:shadow-lg hover:shadow-[#22D3EE]/50'
-                      : 'bg-linear-to-r from-[#3B82F6] to-[#60A5FA] text-white hover:shadow-lg hover:shadow-blue-500/50'
+                      ? 'bg-linear-to-r from-[#C9A36A] to-[#E7CFA2] text-[#0F0D0A] hover:shadow-lg hover:shadow-[#C9A36A]/35'
+                      : 'bg-linear-to-r from-[#2F5D3A] to-[#5F8C6A] text-white hover:shadow-lg hover:shadow-[#2F5D3A]/35'
                   } transform hover:scale-105`}
                 >
                   Back to Home
@@ -210,8 +471,8 @@ const BookNow = () => {
                   onClick={() => navigate('/tours')}
                   className={`px-8 py-4 rounded-lg font-bold transition-all duration-300 border-2 ${
                     isDarkMode
-                      ? 'border-[#22D3EE] text-[#22D3EE] hover:bg-[#22D3EE] hover:text-[#0B0C0E]'
-                      : 'border-[#2563EB] text-[#1D4ED8] hover:bg-[#2563EB] hover:text-white'
+                      ? 'border-[#C9A36A] text-[#E7CFA2] hover:bg-[#C9A36A] hover:text-[#0F0D0A]'
+                      : 'border-[#2F5D3A] text-[#2F5D3A] hover:bg-[#2F5D3A] hover:text-white'
                   }`}
                 >
                   Explore Stays
@@ -228,29 +489,47 @@ const BookNow = () => {
     <PageLayout
       seo={{
         title: 'Request Availability | The Tiny Escape',
-        description: 'Request dates for Tiny Escape stays in Texas. Quick response, transparent options, and calm, private lodging.',
-        keywords: 'Tiny Escape request, tiny home availability, Texas cabin stay, resort lodging inquiry',
-        url: '/book-now'
+        description: 'Request availability for Tiny Escape stays in Texas Hill Country. Clear pricing, fast confirmation, and a secure booking inquiry flow.',
+        keywords: 'Tiny Escape booking, stay availability, Texas Hill Country lodging, tiny home reservation request',
+        url: '/book-now',
+        structuredData: bookingStructuredData,
       }}
     >
 
+        {toast.visible && (
+          <div className="fixed top-24 right-4 z-[60] max-w-sm">
+            <div
+              className={`px-4 py-3 rounded-lg border shadow-lg text-sm font-medium ${
+                toast.type === 'success'
+                  ? 'bg-green-50 border-green-200 text-green-700'
+                  : 'bg-red-50 border-red-200 text-red-700'
+              }`}
+            >
+              {toast.message}
+            </div>
+          </div>
+        )}
+
         {/* Hero */}
-        <section className={`relative py-12 ${isDarkMode ? 'bg-linear-to-br from-[#0B0C0E] via-[#0A3A67] to-[#0B0C0E]' : 'bg-linear-to-br from-white via-[#EBF8FF] to-white'}`}>
+        <section className={`relative py-12 border-b ${isDarkMode ? 'bg-linear-to-br from-[#0F0D0A] via-[#171310] to-[#0F0D0A] border-[#2A2119]' : 'bg-linear-to-br from-[#FFF9F1] via-[#F5F0E6] to-[#FFF9F1] border-[#E6D7C3]'}`}>
           <div className="container mx-auto px-4">
             <h1 className={`text-3xl md:text-4xl font-bold mb-4 text-center ${
-              isDarkMode ? 'bg-linear-to-r from-[#22D3EE] to-[#4DBBFF]' : 'bg-linear-to-r from-[#3B82F6] to-[#60A5FA]'
+              isDarkMode ? 'bg-linear-to-r from-[#C9A36A] to-[#E7CFA2]' : 'bg-linear-to-r from-[#2F5D3A] to-[#7BAF7C]'
             } bg-clip-text text-transparent`}>
               Request Availability
             </h1>
-            <p className={`text-center ${isDarkMode ? 'text-[#C4CCD4]' : 'text-[#475569]'}`}>
+            <p className={`text-center font-medium ${mutedTextClass}`}>
               {packageData.title}
             </p>
           </div>
         </section>
 
         {/* Progress Bar */}
-        <div className={`py-4 backdrop-blur-lg border-b ${isDarkMode ? 'bg-[#0B0C0E]/95 border-[#1E242B]' : 'bg-white/95 border-[#E2E8F0]'}`}>
+        <div className={`py-4 backdrop-blur-lg border-b ${isDarkMode ? 'bg-[#14110E]/95 border-[#2A2119]' : 'bg-[#FFFCF7]/95 border-[#E6D7C3]'}`}>
           <div className="container mx-auto px-4">
+            <div className={`text-center text-sm mb-3 font-semibold ${mutedTextClass}`}>
+              Step {step} of {progressSteps.length} • {progressSteps.find((item) => item.number === step)?.title}
+            </div>
             <div className="flex justify-between items-center max-w-4xl mx-auto">
               {progressSteps.map((item, idx) => (
                 <div key={item.number} className="flex items-center flex-1">
@@ -258,18 +537,18 @@ const BookNow = () => {
                     <div className={`w-12 h-12 rounded-full flex items-center justify-center font-bold transition-all ${
                       step >= item.number
                         ? isDarkMode
-                          ? 'bg-linear-to-r from-[#22D3EE] to-[#4DBBFF] text-[#0B0C0E]'
-                          : 'bg-linear-to-r from-[#3B82F6] to-[#60A5FA] text-white'
+                          ? 'bg-linear-to-r from-[#C9A36A] to-[#E7CFA2] text-[#0F0D0A] ring-2 ring-[#C9A36A]/30'
+                          : 'bg-linear-to-r from-[#2F5D3A] to-[#7BAF7C] text-white ring-2 ring-[#7BAF7C]/40'
                         : isDarkMode
-                        ? 'bg-[#1E242B] text-[#8B949E]'
-                        : 'bg-[#F8FAFC] text-[#94A3B8]'
+                        ? 'bg-[#201A15] text-[#8E7D68]'
+                        : 'bg-[#F8F2E8] text-[#9B8A75]'
                     }`}>
-                      {item.icon}
+                      {item.number}
                     </div>
                     <span className={`mt-2 text-xs hidden md:block ${
                       step >= item.number
-                        ? isDarkMode ? 'text-[#22D3EE]' : 'text-[#3B82F6]'
-                      : isDarkMode ? 'text-[#8B949E]' : 'text-[#94A3B8]'
+                        ? isDarkMode ? 'text-[#E7CFA2]' : 'text-[#2F5D3A]'
+                      : mutedTextClass
                     }`}>
                       {item.title}
                     </span>
@@ -277,8 +556,8 @@ const BookNow = () => {
                   {idx < progressSteps.length - 1 && (
                     <div className={`h-1 flex-1 mx-2 ${
                       step > item.number
-                        ? isDarkMode ? 'bg-[#22D3EE]' : 'bg-[#3B82F6]'
-                      : isDarkMode ? 'bg-[#1E242B]' : 'bg-[#E2E8F0]'
+                        ? isDarkMode ? 'bg-[#C9A36A]' : 'bg-[#5F8C6A]'
+                      : isDarkMode ? 'bg-[#2A2119]' : 'bg-[#E6D7C3]'
                     }`}></div>
                   )}
                 </div>
@@ -303,12 +582,12 @@ const BookNow = () => {
                     {/* Step 1: Guest Information */}
                     {step === 1 && (
                       <div className="space-y-6">
-                        <h2 className={`text-2xl font-bold mb-6 ${isDarkMode ? 'text-[#E0E7EE]' : 'text-[#0F172A]'}`}>
+                        <h2 className={`text-2xl font-bold mb-6 ${sectionTitleClass}`}>
                           Guest Information
                         </h2>
 
                         <div>
-                          <label className={`block mb-2 font-semibold ${isDarkMode ? 'text-[#C4CCD4]' : 'text-[#374151]'}`}>
+                          <label className={`block mb-2 font-semibold ${labelClass}`}>
                             Full Name *
                           </label>
                           <input
@@ -318,17 +597,13 @@ const BookNow = () => {
                             onChange={handleInputChange}
                             required
                             placeholder="John Smith"
-                            className={`w-full px-4 py-3 rounded-lg border transition-all ${
-                              isDarkMode
-                                ? 'bg-[#0F1419] border-[#1E242B] text-[#E0E7EE] placeholder-[#8B949E]'
-                                : 'bg-white border-[#CBD5E1] text-[#0F172A] placeholder-[#94A3B8]'
-                            } focus:outline-none focus:ring-2 focus:ring-opacity-20`}
+                            className={fieldBaseClass}
                           />
                         </div>
 
                         <div className="grid md:grid-cols-2 gap-6">
                           <div>
-                            <label className={`block mb-2 font-semibold ${isDarkMode ? 'text-[#C4CCD4]' : 'text-[#374151]'}`}>
+                            <label className={`block mb-2 font-semibold ${labelClass}`}>
                               Email Address *
                             </label>
                             <input
@@ -338,16 +613,12 @@ const BookNow = () => {
                               onChange={handleInputChange}
                               required
                               placeholder="john@example.com"
-                              className={`w-full px-4 py-3 rounded-lg border transition-all ${
-                                isDarkMode
-                                  ? 'bg-[#0F1419] border-[#1E242B] text-[#E0E7EE] placeholder-[#8B949E]'
-                                  : 'bg-white border-[#CBD5E1] text-[#0F172A] placeholder-[#94A3B8]'
-                              } focus:outline-none focus:ring-2 focus:ring-opacity-20`}
+                              className={fieldBaseClass}
                             />
                           </div>
 
                           <div>
-                            <label className={`block mb-2 font-semibold ${isDarkMode ? 'text-[#C4CCD4]' : 'text-[#374151]'}`}>
+                            <label className={`block mb-2 font-semibold ${labelClass}`}>
                               Phone Number *
                             </label>
                             <div className="flex gap-2">
@@ -355,11 +626,11 @@ const BookNow = () => {
                                 name="countryCode"
                                 value={bookingData.countryCode}
                                 onChange={handleInputChange}
-                                className={`px-3 py-3 rounded-lg border ${
+                                className={`w-24 px-3 py-3 rounded-lg border transition-all focus:outline-none focus:ring-2 focus:ring-offset-1 ${
                                   isDarkMode
-                                    ? 'bg-[#0F1419] border-[#1E242B] text-[#E0E7EE]'
-                                    : 'bg-white border-[#CBD5E1]'
-                                } focus:outline-none`}
+                                    ? 'bg-[#17120D] border-[#2A2119] text-[#E9E2D7] focus:ring-[#C9A36A]/40 focus:border-[#C9A36A]'
+                                    : 'bg-[#FFFDF8] border-[#D6C7B3] text-[#2E2117] focus:ring-[#2F5D3A]/25 focus:border-[#5F8C6A]'
+                                }`}
                               >
                                 {countryCodes.map((item) => (
                                   <option key={item.code} value={item.code}>
@@ -374,11 +645,7 @@ const BookNow = () => {
                                 onChange={handleInputChange}
                                 required
                                 placeholder="1234567890"
-                                className={`flex-1 px-4 py-3 rounded-lg border ${
-                                  isDarkMode
-                                    ? 'bg-[#0F1419] border-[#1E242B] text-[#E0E7EE] placeholder-[#8B949E]'
-                                    : 'bg-white border-[#CBD5E1] placeholder-[#94A3B8]'
-                                } focus:outline-none focus:ring-2`}
+                                className={`flex-1 ${fieldBaseClass}`}
                               />
                             </div>
                           </div>
@@ -386,7 +653,7 @@ const BookNow = () => {
 
                         <div className="grid md:grid-cols-2 gap-6">
                           <div>
-                            <label className={`block mb-2 font-semibold ${isDarkMode ? 'text-[#C4CCD4]' : 'text-[#374151]'}`}>
+                            <label className={`block mb-2 font-semibold ${labelClass}`}>
                               Country of Residence *
                             </label>
                             <input
@@ -396,16 +663,12 @@ const BookNow = () => {
                               onChange={handleInputChange}
                               required
                               placeholder="United States"
-                              className={`w-full px-4 py-3 rounded-lg border ${
-                                isDarkMode
-                                  ? 'bg-[#0F1419] border-[#1E242B] text-[#E0E7EE] placeholder-[#8B949E]'
-                                  : 'bg-white border-[#CBD5E1] placeholder-[#94A3B8]'
-                              } focus:outline-none focus:ring-2`}
+                              className={fieldBaseClass}
                             />
                           </div>
 
                           <div>
-                            <label className={`block mb-2 font-semibold ${isDarkMode ? 'text-[#C4CCD4]' : 'text-[#374151]'}`}>
+                            <label className={`block mb-2 font-semibold ${labelClass}`}>
                               Nationality *
                             </label>
                             <input
@@ -415,11 +678,7 @@ const BookNow = () => {
                               onChange={handleInputChange}
                               required
                               placeholder="American"
-                              className={`w-full px-4 py-3 rounded-lg border ${
-                                isDarkMode
-                                  ? 'bg-[#0F1419] border-[#1E242B] text-[#E0E7EE] placeholder-[#8B949E]'
-                                  : 'bg-white border-[#CBD5E1] placeholder-[#94A3B8]'
-                              } focus:outline-none focus:ring-2`}
+                              className={fieldBaseClass}
                             />
                           </div>
                         </div>
@@ -429,13 +688,13 @@ const BookNow = () => {
                     {/* Step 2: Stay Details */}
                     {step === 2 && (
                       <div className="space-y-6">
-                        <h2 className={`text-2xl font-bold mb-6 ${isDarkMode ? 'text-[#E0E7EE]' : 'text-[#0F172A]'}`}>
+                        <h2 className={`text-2xl font-bold mb-6 ${sectionTitleClass}`}>
                           Stay Details
                         </h2>
 
                         <div className="grid md:grid-cols-2 gap-6">
                           <div>
-                            <label className={`block mb-2 font-semibold ${isDarkMode ? 'text-[#C4CCD4]' : 'text-[#374151]'}`}>
+                            <label className={`block mb-2 font-semibold ${labelClass}`}>
                               Number of Adults *
                             </label>
                             <select
@@ -443,11 +702,7 @@ const BookNow = () => {
                               value={bookingData.adults}
                               onChange={handleInputChange}
                               required
-                              className={`w-full px-4 py-3 rounded-lg border ${
-                                isDarkMode
-                                  ? 'bg-[#0F1419] border-[#1E242B] text-[#E0E7EE]'
-                                  : 'bg-white border-[#CBD5E1]'
-                              } focus:outline-none focus:ring-2`}
+                              className={selectBaseClass}
                             >
                               {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(num => (
                                 <option key={num} value={num}>{num}</option>
@@ -456,18 +711,14 @@ const BookNow = () => {
                           </div>
 
                           <div>
-                            <label className={`block mb-2 font-semibold ${isDarkMode ? 'text-[#C4CCD4]' : 'text-[#374151]'}`}>
+                            <label className={`block mb-2 font-semibold ${labelClass}`}>
                               Number of Children (Under 12)
                             </label>
                             <select
                               name="children"
                               value={bookingData.children}
                               onChange={handleInputChange}
-                              className={`w-full px-4 py-3 rounded-lg border ${
-                                isDarkMode
-                                  ? 'bg-[#0F1419] border-[#1E242B] text-[#E0E7EE]'
-                                  : 'bg-white border-[#CBD5E1]'
-                              } focus:outline-none focus:ring-2`}
+                              className={selectBaseClass}
                             >
                               {[0, 1, 2, 3, 4, 5].map(num => (
                                 <option key={num} value={num}>{num}</option>
@@ -477,56 +728,40 @@ const BookNow = () => {
                         </div>
 
                         <div>
-                          <label className={`block mb-2 font-semibold ${isDarkMode ? 'text-[#C4CCD4]' : 'text-[#374151]'}`}>
-                            Check-in Date *
+                          <label className={`block mb-2 font-semibold ${labelClass}`}>
+                            Select Your Dates *
                           </label>
-                          <input
-                            type="date"
-                            name="checkIn"
-                            value={bookingData.checkIn}
-                            onChange={handleInputChange}
-                            required
-                            min={new Date().toISOString().split('T')[0]}
-                            className={`w-full px-4 py-3 rounded-lg border ${
-                              isDarkMode
-                                ? 'bg-[#0F1419] border-[#1E242B] text-[#E0E7EE]'
-                                : 'bg-white border-[#CBD5E1]'
-                            } focus:outline-none focus:ring-2`}
+                          <BookingCalendar
+                            houseSlug={houseSlug}
+                            packageCode={calendarMeta.packageCode}
+                            minNights={calendarMeta.minNights}
+                            checkIn={bookingData.checkIn}
+                            checkOut={bookingData.checkOut}
+                            onDateChange={handleCalendarDateChange}
+                            onAvailabilityChange={handleAvailabilityChange}
+                            isDarkMode={isDarkMode}
                           />
+                          {calendarMeta.loading && (
+                            <p className={`text-sm mt-2 ${mutedTextClass}`}>
+                              Loading package rules…
+                            </p>
+                          )}
+                          {!houseSlug && (
+                            <p className={`text-sm mt-2 ${isDarkMode ? 'text-amber-400' : 'text-amber-600'}`}>
+                              House slug is missing in this request context. Date blocking may be limited.
+                            </p>
+                          )}
                         </div>
 
                         <div>
-                          <label className={`block mb-2 font-semibold ${isDarkMode ? 'text-[#C4CCD4]' : 'text-[#374151]'}`}>
-                            Check-out Date *
-                          </label>
-                          <input
-                            type="date"
-                            name="checkOut"
-                            value={bookingData.checkOut}
-                            onChange={handleInputChange}
-                            required
-                            min={bookingData.checkIn || new Date().toISOString().split('T')[0]}
-                            className={`w-full px-4 py-3 rounded-lg border ${
-                              isDarkMode
-                                ? 'bg-[#0F1419] border-[#1E242B] text-[#E0E7EE]'
-                                : 'bg-white border-[#CBD5E1]'
-                            } focus:outline-none focus:ring-2`}
-                          />
-                        </div>
-
-                        <div>
-                          <label className={`block mb-2 font-semibold ${isDarkMode ? 'text-[#C4CCD4]' : 'text-[#374151]'}`}>
+                          <label className={`block mb-2 font-semibold ${labelClass}`}>
                             Bringing Pets?
                           </label>
                           <select
                             name="pets"
                             value={bookingData.pets}
                             onChange={handleInputChange}
-                            className={`w-full px-4 py-3 rounded-lg border ${
-                              isDarkMode
-                                ? 'bg-[#0F1419] border-[#1E242B] text-[#E0E7EE]'
-                                : 'bg-white border-[#CBD5E1]'
-                            } focus:outline-none focus:ring-2`}
+                            className={selectBaseClass}
                           >
                             <option value="no">No</option>
                             <option value="yes">Yes</option>
@@ -534,7 +769,7 @@ const BookNow = () => {
                         </div>
 
                         <div>
-                          <label className={`block mb-2 font-semibold ${isDarkMode ? 'text-[#C4CCD4]' : 'text-[#374151]'}`}>
+                          <label className={`block mb-2 font-semibold ${labelClass}`}>
                             Special Requests or Notes
                           </label>
                           <textarea
@@ -543,11 +778,7 @@ const BookNow = () => {
                             onChange={handleInputChange}
                             rows="4"
                             placeholder="Accessibility, celebrations, arrival timing, or anything else to know..."
-                            className={`w-full px-4 py-3 rounded-lg border ${
-                              isDarkMode
-                                ? 'bg-[#0F1419] border-[#1E242B] text-[#E0E7EE] placeholder-[#8B949E]'
-                                : 'bg-white border-[#CBD5E1] placeholder-[#94A3B8]'
-                            } focus:outline-none focus:ring-2`}
+                            className={fieldBaseClass}
                           ></textarea>
                         </div>
                       </div>
@@ -711,7 +942,19 @@ const BookNow = () => {
                           <div className={`p-4 rounded-lg ${isDarkMode ? 'bg-[#0F1419]' : 'bg-[#F8FAFC]'} `}>
                             <div className={`text-xs uppercase tracking-wider ${isDarkMode ? 'text-[#8B949E]' : 'text-[#64748B]'}`}>Guests</div>
                             <div className={`font-semibold ${isDarkMode ? 'text-[#E0E7EE]' : 'text-[#0F172A]'}`}>
-                              {parseInt(bookingData.adults) + parseInt(bookingData.children)} guests
+                              {totalGuests} guests
+                            </div>
+                          </div>
+                          <div className={`p-4 rounded-lg ${isDarkMode ? 'bg-[#0F1419]' : 'bg-[#F8FAFC]'} `}>
+                            <div className={`text-xs uppercase tracking-wider ${isDarkMode ? 'text-[#8B949E]' : 'text-[#64748B]'}`}>Nights</div>
+                            <div className={`font-semibold ${isDarkMode ? 'text-[#E0E7EE]' : 'text-[#0F172A]'}`}>
+                              {selectedNights || 'TBD'}
+                            </div>
+                          </div>
+                          <div className={`p-4 rounded-lg ${isDarkMode ? 'bg-[#0F1419]' : 'bg-[#F8FAFC]'} `}>
+                            <div className={`text-xs uppercase tracking-wider ${isDarkMode ? 'text-[#8B949E]' : 'text-[#64748B]'}`}>Estimated Total</div>
+                            <div className={`font-semibold ${isDarkMode ? 'text-[#E0E7EE]' : 'text-[#0F172A]'}`}>
+                              ${estimatedTotal.toFixed(2)}
                             </div>
                           </div>
                           <div className={`p-4 rounded-lg ${isDarkMode ? 'bg-[#0F1419]' : 'bg-[#F8FAFC]'} `}>
@@ -745,7 +988,10 @@ const BookNow = () => {
                     )}
 
                     {/* Navigation Buttons */}
-                    <div className={`flex gap-4 mt-8 pt-6 border-t ${isDarkMode ? 'border-[#1E242B]' : 'border-[#E2E8F0]'}`}>
+                    <div className={`sticky bottom-0 z-20 -mx-8 mt-8 px-8 py-4 border-t ${
+                      isDarkMode ? 'border-[#2A2119] bg-[#14110E]/95' : 'border-[#E6D7C3] bg-[#FFFCF7]/95'
+                    } backdrop-blur-lg`}>
+                      <div className="flex gap-4">
                       {step > 1 && (
                         <button
                           type="button"
@@ -761,15 +1007,38 @@ const BookNow = () => {
                       )}
                       <button
                         type="submit"
+                        disabled={(step === 2 && !canContinueStep2) || submissionState.loading}
                         className={`flex-1 px-8 py-3 rounded-lg font-bold transition-all duration-300 ${
+                          (step === 2 && !canContinueStep2) || submissionState.loading
+                            ? isDarkMode
+                              ? 'bg-[#1E242B] text-[#8B949E] cursor-not-allowed'
+                              : 'bg-[#E2E8F0] text-[#94A3B8] cursor-not-allowed'
+                            :
                           isDarkMode
-                            ? 'bg-linear-to-r from-[#22D3EE] to-[#4DBBFF] text-[#0B0C0E] hover:shadow-lg hover:shadow-[#22D3EE]/50'
-                            : 'bg-linear-to-r from-[#3B82F6] to-[#60A5FA] text-white hover:shadow-lg hover:shadow-blue-500/50'
-                        } transform hover:scale-105`}
+                            ? 'bg-linear-to-r from-[#C9A36A] to-[#E7CFA2] text-[#0F0D0A] hover:shadow-lg hover:shadow-[#C9A36A]/35'
+                            : 'bg-linear-to-r from-[#2F5D3A] to-[#5F8C6A] text-white hover:shadow-lg hover:shadow-[#2F5D3A]/35'
+                        } ${(step === 2 && !canContinueStep2) || submissionState.loading ? '' : 'transform hover:scale-105'}`}
                       >
-                        {step === 4 ? 'Submit Request' : 'Continue'}
+                        {step === 4
+                          ? (submissionState.loading ? 'Submitting...' : 'Submit Request')
+                          : step === 1
+                            ? 'Next: Stay Details'
+                            : step === 2
+                              ? 'Next: Preferences'
+                              : 'Next: Review'}
                       </button>
+                      </div>
                     </div>
+                    {step === 2 && !canContinueStep2 && (
+                      <p className={`mt-3 text-sm ${isDarkMode ? 'text-amber-400' : 'text-amber-700'}`}>
+                        Select a valid available date range that meets minimum nights to continue.
+                      </p>
+                    )}
+                    {submissionState.error && (
+                      <p className={`mt-3 text-sm ${isDarkMode ? 'text-red-400' : 'text-red-600'}`}>
+                        {submissionState.error}
+                      </p>
+                    )}
                   </div>
                 </form>
               </div>
@@ -792,11 +1061,62 @@ const BookNow = () => {
                     <div className={`font-semibold ${isDarkMode ? 'text-[#E0E7EE]' : 'text-[#0F172A]'}`}>
                       {packageData.title}
                     </div>
+                    <div>
+                      <span
+                        className={`inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold ${
+                          calendarStatus.available === true
+                            ? 'bg-green-500/15 text-green-500'
+                            : calendarStatus.available === false
+                              ? 'bg-red-500/15 text-red-500'
+                              : isDarkMode
+                                ? 'bg-[#1E242B] text-[#8B949E]'
+                                : 'bg-[#EEF2F7] text-[#64748B]'
+                        }`}
+                      >
+                        {calendarStatus.available === true
+                          ? 'Dates Available'
+                          : calendarStatus.available === false
+                            ? 'Dates Unavailable'
+                            : 'Availability Pending'}
+                      </span>
+                    </div>
                     <div className={`text-sm ${isDarkMode ? 'text-[#8B949E]' : 'text-[#475569]'}`}>
                       Dates: {bookingData.checkIn || 'TBD'} to {bookingData.checkOut || 'TBD'}
                     </div>
                     <div className={`text-sm ${isDarkMode ? 'text-[#8B949E]' : 'text-[#475569]'}`}>
-                      Nights: {getNights() || 'TBD'}
+                      Nights: {selectedNights || 'TBD'}
+                    </div>
+                    <div className={`text-sm ${isDarkMode ? 'text-[#8B949E]' : 'text-[#475569]'}`}>
+                      Package: {calendarMeta.packageCode}
+                    </div>
+                    <div className={`text-sm ${isDarkMode ? 'text-[#8B949E]' : 'text-[#475569]'}`}>
+                      Estimate: ${estimatedTotal.toFixed(2)}
+                    </div>
+                  </div>
+
+                  <div className={`mb-6 rounded-lg border p-4 ${isDarkMode ? 'border-[#1E242B] bg-[#0F1419]' : 'border-[#E2E8F0] bg-[#F8FAFC]'}`}>
+                    <h4 className={`text-sm font-bold mb-3 ${isDarkMode ? 'text-[#E0E7EE]' : 'text-[#0F172A]'}`}>
+                      Price Breakdown
+                    </h4>
+                    <div className="space-y-2 text-sm">
+                      <div className="flex justify-between">
+                        <span className={isDarkMode ? 'text-[#C4CCD4]' : 'text-[#475569]'}>
+                          ${Number(calendarMeta.pricePerNight || 0).toFixed(2)} × {selectedNights || 0} night(s)
+                        </span>
+                        <span className={isDarkMode ? 'text-[#E0E7EE]' : 'text-[#0F172A]'}>${estimatedSubtotal.toFixed(2)}</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className={isDarkMode ? 'text-[#C4CCD4]' : 'text-[#475569]'}>Cleaning Fee</span>
+                        <span className={isDarkMode ? 'text-[#E0E7EE]' : 'text-[#0F172A]'}>${estimatedCleaningFee.toFixed(2)}</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className={isDarkMode ? 'text-[#C4CCD4]' : 'text-[#475569]'}>Tax</span>
+                        <span className={isDarkMode ? 'text-[#E0E7EE]' : 'text-[#0F172A]'}>${estimatedTax.toFixed(2)}</span>
+                      </div>
+                      <div className={`mt-2 pt-2 border-t flex justify-between font-bold ${isDarkMode ? 'border-[#1E242B] text-[#E0E7EE]' : 'border-[#E2E8F0] text-[#0F172A]'}`}>
+                        <span>Estimated Total</span>
+                        <span>${estimatedTotal.toFixed(2)}</span>
+                      </div>
                     </div>
                   </div>
 
@@ -804,7 +1124,7 @@ const BookNow = () => {
                     <div className="flex justify-between">
                       <span className={isDarkMode ? 'text-[#C4CCD4]' : 'text-[#475569]'}>Guests:</span>
                       <span className={isDarkMode ? 'text-[#E0E7EE]' : 'text-[#0F172A]'}>
-                        {parseInt(bookingData.adults) + parseInt(bookingData.children)}
+                        {totalGuests}
                       </span>
                     </div>
                     <div className="flex justify-between">

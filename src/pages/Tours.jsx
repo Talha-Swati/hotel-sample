@@ -3,7 +3,8 @@ import { useTheme } from '../context/ThemeContext';
 import PageLayout from '../components/layout/PageLayout';
 import ThemedPricingCard from '../components/common/ThemedPricingCard';
 import PricingCardMedia from '../components/common/PricingCardMedia';
-import { staysData } from '../data/staysData';
+import { getAllStays } from '../data/staysData';
+import { useHousesData } from '../hooks/useHousesData';
 import { 
   FaUsers, 
   FaMountain, 
@@ -14,8 +15,11 @@ import {
 
 const Tours = () => {
   const { isDarkMode } = useTheme();
-  const featuredHouses = staysData.slice(0, 4);
-  const averageRating = (featuredHouses.reduce((sum, stay) => sum + stay.rating, 0) / featuredHouses.length).toFixed(1);
+  const { houses, isLoading, isFallback } = useHousesData({ fallbackData: getAllStays() });
+  const featuredHouses = houses.slice(0, 4);
+  const averageRating = featuredHouses.length
+    ? (featuredHouses.reduce((sum, stay) => sum + (stay.rating || 0), 0) / featuredHouses.length).toFixed(1)
+    : '0.0';
   const greenGradients = [
     'from-[#1F3A2A] to-[#5F8C6A]',
     'from-[#2F5D3A] to-[#7BAF7C]',
@@ -79,6 +83,12 @@ const Tours = () => {
         {/* Featured Houses */}
         <section className="py-16">
           <div className="container mx-auto px-4">
+            {isFallback && (
+              <div className="mb-6 rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-amber-700 text-sm font-medium">
+                Live houses API is unavailable. Showing local fallback data.
+              </div>
+            )}
+
             <div className="text-center max-w-3xl mx-auto mb-10">
               <h2 className={`text-3xl md:text-4xl font-bold mb-4 ${isDarkMode ? 'text-[#E0E7EE]' : 'text-[#0F172A]'}`}>
                 Highlights of Our 4 Houses
@@ -88,53 +98,61 @@ const Tours = () => {
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {featuredHouses.map((stay, index) => (
-                <ThemedPricingCard
-                  key={stay.id}
-                  title={stay.name}
-                  subtitle={`${stay.location} • Sleeps ${stay.sleeps}`}
-                  price={`$${stay.pricing.standard.price}`}
-                  priceNote="starting / night"
-                  features={[
-                    `Standard: $${stay.pricing.standard.price} • Signature: $${stay.pricing.signature.price} • Extended: $${stay.pricing.extended.price}`,
-                    ...stay.highlights.slice(0, 3),
-                    `${stay.bedrooms} bed • ${stay.baths} bath • ${stay.sizeSqFt} sq ft`
-                  ]}
-                  isDarkMode={isDarkMode}
-                  gradient={greenGradients[index % greenGradients.length]}
-                  accentClass="text-[#7BAF7C]"
-                  accentBorderClass="border-[#5F8C6A]"
-                  accentBgClass="bg-[#2F5D3A] text-white"
-                  highlightLabel={`${stay.rating} ★ (${stay.reviews} reviews)`}
-                  ctaLabel="View House Details"
-                  ctaHref={`/destination/${stay.slug}`}
-                  footerLabel="Stay Type"
-                  footerText={stay.shortDescription}
-                  media={
-                    <PricingCardMedia
-                      imageSrc={stay.heroImage}
-                      imageAlt={stay.name}
-                      heightClass="h-48"
-                      overlayClassName={
-                        isDarkMode
-                          ? 'bg-linear-to-t from-[#0B0C0E]/90 via-[#0B0C0E]/30 to-transparent'
-                          : 'bg-linear-to-t from-black/70 via-black/20 to-transparent'
-                      }
-                      topRight={(
-                        <div className={`px-3 py-1 rounded-full text-xs font-semibold ${
+            {isLoading ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {[1, 2, 3].map((item) => (
+                  <div key={item} className={`h-80 rounded-2xl animate-pulse ${isDarkMode ? 'bg-[#141A1F]' : 'bg-[#E2E8F0]'}`} />
+                ))}
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {featuredHouses.map((stay, index) => (
+                  <ThemedPricingCard
+                    key={stay.id || stay.slug}
+                    title={stay.name}
+                    subtitle={`${stay.location} • Sleeps ${stay.sleeps}`}
+                    price={`$${stay.pricing?.standard?.price || 0}`}
+                    priceNote="starting / night"
+                    features={[
+                      `Standard: $${stay.pricing?.standard?.price || 0} • Signature: $${stay.pricing?.signature?.price || 0} • Extended: $${stay.pricing?.extended?.price || 0}`,
+                      ...(stay.highlights || []).slice(0, 3),
+                      `${stay.bedrooms || 1} bed • ${stay.baths || 1} bath • ${stay.sizeSqFt || 420} sq ft`
+                    ]}
+                    isDarkMode={isDarkMode}
+                    gradient={greenGradients[index % greenGradients.length]}
+                    accentClass="text-[#7BAF7C]"
+                    accentBorderClass="border-[#5F8C6A]"
+                    accentBgClass="bg-[#2F5D3A] text-white"
+                    highlightLabel={`${stay.rating || 4.8} ★ (${stay.reviews || 0} reviews)`}
+                    ctaLabel="View House Details"
+                    ctaHref={`/stay/${stay.slug}`}
+                    footerLabel="Stay Type"
+                    footerText={stay.shortDescription || stay.description || ''}
+                    media={
+                      <PricingCardMedia
+                        imageSrc={stay.heroImage}
+                        imageAlt={stay.name}
+                        heightClass="h-48"
+                        overlayClassName={
                           isDarkMode
-                            ? 'bg-[#0B0C0E]/80 text-[#E0E7EE] border border-[#1F2A33]'
-                            : 'bg-white/90 text-[#0F172A]'
-                        }`}>
-                          {stay.category}
-                        </div>
-                      )}
-                    />
-                  }
-                />
-              ))}
-            </div>
+                            ? 'bg-linear-to-t from-[#0B0C0E]/90 via-[#0B0C0E]/30 to-transparent'
+                            : 'bg-linear-to-t from-black/70 via-black/20 to-transparent'
+                        }
+                        topRight={(
+                          <div className={`px-3 py-1 rounded-full text-xs font-semibold ${
+                            isDarkMode
+                              ? 'bg-[#0B0C0E]/80 text-[#E0E7EE] border border-[#1F2A33]'
+                              : 'bg-white/90 text-[#0F172A]'
+                          }`}>
+                            {stay.category || 'stay'}
+                          </div>
+                        )}
+                      />
+                    }
+                  />
+                ))}
+              </div>
+            )}
           </div>
         </section>
 

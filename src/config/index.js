@@ -19,9 +19,9 @@ export const config = {
     name: 'The Tiny Escape',
     url: import.meta.env.VITE_SITE_URL || 'https://tinyescape.vercel.app',
     tagline: 'Find your next stay',
-    email: 'info@tinyescape.vercel.app',
-    phone: '+92 300 1234567',
-    whatsapp: '+92 300 1234567',
+    email: 'hello@tinyescape.com',
+    phone: '+1 (512) 555-0189',
+    whatsapp: '+15125550189',
   },
 
   // Social Media Links
@@ -51,6 +51,7 @@ export const config = {
   // Google Analytics / Tracking
   analytics: {
     googleAnalyticsId: import.meta.env.VITE_GA_ID || '',
+    googleTagManagerId: import.meta.env.VITE_GTM_ID || '',
     facebookPixelId: import.meta.env.VITE_FB_PIXEL_ID || '',
   },
 

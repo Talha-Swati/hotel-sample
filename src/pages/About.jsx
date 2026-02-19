@@ -1,6 +1,7 @@
 import { useMemo } from 'react';
 import { useTheme } from '../context/ThemeContext';
 import PageLayout from '../components/layout/PageLayout';
+import config from '../config';
 import { FaQuoteLeft, FaMountain, FaUsers, FaHeart, FaAward, FaGlobeAsia, FaHandshake, FaLinkedin, FaTwitter, FaEnvelope } from 'react-icons/fa';
 
 const About = () => {
@@ -82,13 +83,16 @@ const About = () => {
   ];
 
   // SEO structured data
-  const structuredData = useMemo(() => ({
+  const structuredData = useMemo(() => {
+    const siteUrl = (config.site.url || '').replace(/\/$/, '');
+
+    return {
     "@context": "https://schema.org",
     "@type": "LodgingBusiness",
     "name": "Tiny Escape",
     "description": "Design-forward tiny homes and cabin stays in Texas.",
-    "url": "https://tinyescape.com",
-    "logo": "https://tinyescape.com/logo.png",
+    "url": siteUrl,
+    "logo": `${siteUrl}/logo.png`,
     "foundingDate": "2019",
     "founders": [
       {
@@ -107,7 +111,8 @@ const About = () => {
         "jobTitle": "Experience Designer"
       }
     ]
-  }), []);
+    };
+  }, []);
 
   return (
     <PageLayout

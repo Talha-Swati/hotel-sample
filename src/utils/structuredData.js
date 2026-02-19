@@ -1,12 +1,15 @@
 // Structured Data (Schema.org) for SEO
+import config from '../config';
+
+const siteUrl = (config.site.url || '').replace(/\/$/, '');
 
 export const getOrganizationSchema = () => ({
   "@context": "https://schema.org",
   "@type": "LodgingBusiness",
   "name": "The Tiny Escape",
   "description": "Design-forward tiny homes and cabin stays in the Texas Hill Country.",
-  "url": "https://tinyescape.com",
-  "logo": "https://tinyescape.com/logo.png",
+  "url": siteUrl,
+  "logo": `${siteUrl}/logo.png`,
   "image": "https://images.unsplash.com/photo-1470770841072-f978cf4d019e?w=1200",
   "telephone": "+1-512-555-0134",
   "email": "hello@tinyescape.com",
@@ -17,9 +20,9 @@ export const getOrganizationSchema = () => ({
     "addressLocality": "Texas Hill Country"
   },
   "sameAs": [
-    "https://facebook.com/tinyescape",
-    "https://instagram.com/tinyescape",
-    "https://twitter.com/tinyescape"
+    config.social.facebook,
+    config.social.instagram,
+    config.social.twitter
   ],
   "priceRange": "$$",
   "areaServed": {
@@ -39,7 +42,7 @@ export const getStaySchema = (stay) => ({
     "price": stay.pricing?.standard?.price,
     "priceCurrency": "USD",
     "availability": "https://schema.org/InStock",
-    "url": `https://tinyescape.com/destination/${stay.slug}`,
+    "url": `${siteUrl}/stay/${stay.slug}`,
     "validFrom": new Date().toISOString()
   },
   "provider": {
@@ -57,7 +60,7 @@ export const getBreadcrumbSchema = (items) => ({
     "@type": "ListItem",
     "position": index + 1,
     "name": item.name,
-    "item": `https://paktourzone.com${item.url}`
+    "item": `${siteUrl}${item.url}`
   }))
 });
 

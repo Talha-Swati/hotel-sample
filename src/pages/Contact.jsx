@@ -1,6 +1,7 @@
 import { useState, useMemo } from 'react';
 import { useTheme } from '../context/ThemeContext';
 import PageLayout from '../components/layout/PageLayout';
+import config from '../config';
 import { contactInfo, countryCodes, tourInterests, months } from '../data/contactData';
 import { getWhatsAppLink } from '../utils/helpers';
 import { 
@@ -81,8 +82,8 @@ const Contact = () => {
     "@context": "https://schema.org",
     "@type": "LodgingBusiness",
     "name": "The Tiny Escape",
-    "telephone": "+1 (512) 555-0189",
-    "email": "hello@tinyescape.com",
+    "telephone": config.site.phone,
+    "email": config.site.email,
     "address": {
       "@type": "PostalAddress",
       "addressLocality": "Texas Hill Country",
@@ -117,13 +118,13 @@ const Contact = () => {
                   isDarkMode ? 'bg-linear-to-r from-[#22D3EE] to-[#4DBBFF]' : 'bg-linear-to-r from-[#3B82F6] to-[#60A5FA]'
                 } bg-clip-text text-transparent`}
               >
-                Plan Your Pakistan Tour
+                Plan Your Tiny Escape
               </h1>
               <p className={`text-lg md:text-xl mb-4 ${isDarkMode ? 'text-[#C4CCD4]' : 'text-[#374151]'}`}>
-                Tell us your dates and interests, and our team will build a safe, seamless itinerary for your overseas visit
+                Share your dates and preferences, and our team will match you with the right stay.
               </p>
               <p className={`text-base ${isDarkMode ? 'text-[#8B949E]' : 'text-[#64748B]'}`}>
-                Serving overseas travelers worldwide • WhatsApp support available
+                Fast response • WhatsApp support available
               </p>
             </div>
           </div>

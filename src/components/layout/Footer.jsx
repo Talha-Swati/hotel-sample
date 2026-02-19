@@ -58,7 +58,7 @@ const Footer = ({ isDarkMode }) => {
               {POPULAR_DESTINATIONS.map((dest) => (
                 <li key={dest.slug}>
                   <Link 
-                    to={`/destination/${dest.slug}`}
+                    to={`/stay/${dest.slug}`}
                     className={`text-sm sm:text-base hover:text-white transition hover:underline ${
                       isDarkMode ? 'text-[#BFAE95]' : 'text-[#DCE8DC]'
                     }`}

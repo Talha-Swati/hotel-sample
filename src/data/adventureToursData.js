@@ -16,7 +16,7 @@ export const adventureTours = [
       'Professional high altitude guides',
       'Complete camping and trekking equipment'
     ],
-    link: '/destination/k2-base-camp'
+    link: '/stay/k2-base-camp'
   },
   {
     id: 2,
@@ -54,7 +54,7 @@ export const adventureTours = [
       'Traditional Hunza village stays',
       'Organic local cuisine experience'
     ],
-    link: '/destination/hunza-valley'
+    link: '/stay/hunza-valley'
   },
   {
     id: 4,
@@ -92,7 +92,7 @@ export const adventureTours = [
       'White water rafting in Swat River',
       'Traditional Pashtun hospitality'
     ],
-    link: '/destination/swat-valley'
+    link: '/stay/swat-valley'
   },
   {
     id: 6,
@@ -130,7 +130,7 @@ export const adventureTours = [
       'Comfortable valley stays',
       'Photography friendly landscapes'
     ],
-    link: '/destination/neelam-valley'
+    link: '/stay/neelam-valley'
   },
   {
     id: 8,
@@ -149,6 +149,6 @@ export const adventureTours = [
       'Camping under the stars',
       'Professional trekking support'
     ],
-    link: '/destination/ratti-gali'
+    link: '/stay/ratti-gali'
   }
 ];

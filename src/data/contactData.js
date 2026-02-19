@@ -2,28 +2,28 @@ export const contactInfo = [
   {
     iconKey: 'phone',
     title: 'Phone',
-    details: '+92 300 1234567',
+    details: '+1 (512) 555-0189',
     subtext: 'WhatsApp Available',
-    link: 'tel:+923285000209'
+    link: 'tel:+15125550189'
   },
   {
     iconKey: 'email',
     title: 'Email',
-    details: 'info@paktourzone.com',
+    details: 'hello@tinyescape.com',
     subtext: 'Response within 24 hours',
-    link: 'mailto:info@paktourzone.com'
+    link: 'mailto:hello@tinyescape.com'
   },
   {
     iconKey: 'location',
     title: 'Office Location',
-    details: 'Islamabad, Pakistan',
-    subtext: 'Serving Northern Pakistan',
+    details: 'Texas Hill Country, USA',
+    subtext: 'Serving Texas travelers',
     link: null
   },
   {
     iconKey: 'hours',
     title: 'Working Hours',
-    details: 'Mon - Sat: 9AM - 8PM PKT',
+    details: 'Mon - Sat: 9AM - 6PM CT',
     subtext: 'Sunday: By Appointment',
     link: null
   }

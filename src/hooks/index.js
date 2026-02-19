@@ -2,3 +2,4 @@
 export { useNavbarSetup } from './useNavbarSetup';
 export { useClickOutside } from './useClickOutside';
 export { useForm } from './useForm';
+export { useHousesData } from './useHousesData';

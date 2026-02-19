@@ -12,12 +12,15 @@ const SEO = ({
   imageType = "image/jpeg",
   url = "/",
   type = "website",
-  structuredData = null
+  structuredData = null,
+  robots = 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1',
+  googleBot = 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1'
 }) => {
-  const siteUrl = config.site.url;
+  const siteUrl = (config.site.url || '').replace(/\/$/, '');
+  const normalizedUrl = `${url || '/'}`;
   const fullUrl = url.startsWith('http')
-    ? url
-    : `${siteUrl}${url.startsWith('/') ? url : `/${url}`}`;
+    ? normalizedUrl
+    : `${siteUrl}${normalizedUrl.startsWith('/') ? normalizedUrl : `/${normalizedUrl}`}`;
   
   return (
     <Helmet>
@@ -50,7 +53,8 @@ const SEO = ({
       <meta name="twitter:image:alt" content={imageAlt} />
       
       {/* Additional SEO Tags */}
-      <meta name="robots" content="index, follow" />
+      <meta name="robots" content={robots} />
+      <meta name="googlebot" content={googleBot} />
       <meta name="language" content="English" />
       <meta name="revisit-after" content="7 days" />
       <meta name="author" content={config.site.name} />

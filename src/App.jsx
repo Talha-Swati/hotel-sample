@@ -1,8 +1,9 @@
 import { lazy, Suspense } from 'react';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate, useParams } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import { ThemeProvider } from './context/ThemeContext';
 import UnderDevelopment from './pages/UnderDevelopment';
+import TrackingScripts from './components/common/TrackingScripts';
 
 const Home = lazy(() => import('./pages/Home'));
 const Tours = lazy(() => import('./pages/Tours'));
@@ -17,17 +18,25 @@ const BookNow = lazy(() => import('./pages/BookNow'));
 const CustomStayRequest = lazy(() => import('./pages/CustomStayRequest'));
 const PrivacyPolicy = lazy(() => import('./pages/PrivacyPolicy'));
 const TermsConditions = lazy(() => import('./pages/TermsConditions'));
+
+const LegacyDestinationRedirect = () => {
+  const { slug } = useParams();
+  return <Navigate to={`/stay/${slug}`} replace />;
+};
+
 const App = () => {
   return (
     <ThemeProvider>
       <HelmetProvider>
+        <TrackingScripts />
         <BrowserRouter>
           <Suspense fallback={null}>
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/tours" element={<Tours />} />
               <Route path="/destinations" element={<Destinations />} />
-              <Route path="/destination/:slug" element={<DestinationDetail />} />
+              <Route path="/stay/:slug" element={<DestinationDetail />} />
+              <Route path="/destination/:slug" element={<LegacyDestinationRedirect />} />
               <Route path="/pavillion" element={<Pavillion />} />
               <Route path="/creeks-cafe" element={<CreeksCafe />} />
               <Route path="/gallery" element={<Gallery />} />

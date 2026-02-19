@@ -8,7 +8,7 @@
  * 3. Implement actual fetch/axios calls
  */
 
-const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000/api';
+const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 
 // Generic API request handler
 export const apiRequest = async (endpoint, options = {}) => {
@@ -76,6 +76,17 @@ export const staysAPI = {
   },
 };
 
+// Houses API (backend-integrated)
+export const housesAPI = {
+  getAll: async () => apiRequest('/houses', { method: 'GET' }),
+
+  getBySlug: async (slug) => apiRequest(`/houses/${slug}`, { method: 'GET' }),
+
+  getPackagesBySlug: async (slug) => apiRequest(`/houses/${slug}/packages`, { method: 'GET' }),
+
+  getUnavailableDates: async (slug) => apiRequest(`/houses/${slug}/unavailable-dates`, { method: 'GET' }),
+};
+
 // Gallery API
 export const galleryAPI = {
   // Get all photos
@@ -106,24 +117,22 @@ export const reviewsAPI = {
 
 // Bookings API
 export const bookingsAPI = {
+  checkAvailability: async (payload) =>
+    apiRequest('/bookings/check-availability', {
+      method: 'POST',
+      body: JSON.stringify(payload),
+    }),
+
   // Create new booking
   create: async (bookingData) => {
-    // TODO: Replace with actual API call
-    // return apiRequest('/bookings', { method: 'POST', body: JSON.stringify(bookingData) });
-    console.log('Booking created:', bookingData);
-    return Promise.resolve({ 
-      success: true, 
-      bookingId: `BK-${Date.now()}`,
-      message: 'Booking received! We will contact you shortly.' 
+    return apiRequest('/bookings', {
+      method: 'POST',
+      body: JSON.stringify(bookingData),
     });
   },
 
   // Get booking by ID
-  getById: async () => {
-    // TODO: Replace with actual API call
-    // return apiRequest(`/bookings/${bookingId}`);
-    return Promise.resolve(null);
-  },
+  getById: async (bookingId) => apiRequest(`/bookings/${bookingId}`, { method: 'GET' }),
 };
 
 // Contact API
@@ -173,6 +182,7 @@ const calculateEstimatedPrice = (tourData) => {
 export default {
   tours: toursAPI,
   stays: staysAPI,
+  houses: housesAPI,
   gallery: galleryAPI,
   reviews: reviewsAPI,
   bookings: bookingsAPI,
