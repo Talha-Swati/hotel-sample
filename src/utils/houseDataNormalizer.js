@@ -50,8 +50,11 @@ export const normalizeHouseToStay = ({ house, packages = [], fallbackStay = null
     location: house.baseLocation || fallbackStay?.location || 'Texas',
     description: house.description || fallbackStay?.description || '',
     shortDescription: fallbackStay?.shortDescription || house.description || '',
-    heroImage: house.heroImage || fallbackStay?.heroImage || '',
-    gallery: house.galleryImages?.length ? house.galleryImages : fallbackStay?.gallery || [house.heroImage],
+    heroImage: fallbackStay?.heroImage || house.heroImage || '',
+    gallery:
+      (fallbackStay?.gallery?.length ? fallbackStay.gallery : null) ||
+      (house.galleryImages?.length ? house.galleryImages : null) ||
+      [fallbackStay?.heroImage || house.heroImage],
     sleeps: house.capacity ?? fallbackStay?.sleeps ?? 1,
     bedrooms: house.beds ?? fallbackStay?.bedrooms ?? 1,
     baths: house.baths ?? fallbackStay?.baths ?? 1,
