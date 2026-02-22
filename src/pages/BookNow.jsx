@@ -52,14 +52,25 @@ const BookNow = () => {
     pets: 'no',
     specialRequests: '',
 
-    // Stay Preferences
-    unitType: 'studio',
-    view: 'hill',
+    // Add-ons
     addOns: [],
 
     // Confirmation
     agreeToTerms: false
   });
+
+  const ADD_ON_OPTIONS = [
+    { value: 'horse-riding', label: 'Horse Riding', price: 15 },
+    { value: 'atv', label: 'ATV Adventure', price: 20 },
+  ];
+  const CLEANING_FEE = 40;
+  const TAX_RATE = 0.06;
+  const CANCELLATION_POLICY = '100% refund up to 30 days before arrival, 50% refund up to 14 days before arrival';
+
+  const ADD_ON_PRICE_MAP = ADD_ON_OPTIONS.reduce((acc, option) => {
+    acc[option.value] = option.price;
+    return acc;
+  }, {});
 
   const [bookingConfirmed, setBookingConfirmed] = useState(false);
   const [confirmedBookingId, setConfirmedBookingId] = useState('');
@@ -202,10 +213,24 @@ const BookNow = () => {
     }));
   };
 
+  const parseYMDToLocalDate = (value) => {
+    if (!value || typeof value !== 'string') return null;
+
+    const match = value.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+    if (!match) return null;
+
+    const year = Number(match[1]);
+    const month = Number(match[2]) - 1;
+    const day = Number(match[3]);
+
+    return new Date(year, month, day);
+  };
+
   const getNights = () => {
     if (!bookingData.checkIn || !bookingData.checkOut) return 0;
-    const start = new Date(bookingData.checkIn);
-    const end = new Date(bookingData.checkOut);
+    const start = parseYMDToLocalDate(bookingData.checkIn);
+    const end = parseYMDToLocalDate(bookingData.checkOut);
+    if (!start || !end) return 0;
     const diff = Math.ceil((end - start) / (1000 * 60 * 60 * 24));
     return diff > 0 ? diff : 0;
   };
@@ -213,11 +238,14 @@ const BookNow = () => {
   const selectedNights = calendarStatus.nights || getNights();
   const totalGuests = Number(bookingData.adults) + Number(bookingData.children);
   const estimatedSubtotal = Number((calendarMeta.pricePerNight * selectedNights).toFixed(2));
-  const estimatedCleaningFee = 0;
-  const estimatedTax = 0;
-  const estimatedTotal = Number((estimatedSubtotal + estimatedCleaningFee + estimatedTax).toFixed(2));
+  const selectedAddOnTotal = Number(
+    bookingData.addOns.reduce((sum, option) => sum + (ADD_ON_PRICE_MAP[option] || 0), 0).toFixed(2)
+  );
+  const estimatedCleaningFee = CLEANING_FEE;
+  const estimatedTax = Number(((estimatedSubtotal + selectedAddOnTotal + estimatedCleaningFee) * TAX_RATE).toFixed(2));
+  const estimatedTotal = Number((estimatedSubtotal + selectedAddOnTotal + estimatedCleaningFee + estimatedTax).toFixed(2));
 
-  const canContinueStep2 =
+  const canContinueStep1 =
     Boolean(bookingData.checkIn && bookingData.checkOut) &&
     calendarStatus.available === true &&
     calendarStatus.minNightsSatisfied;
@@ -237,11 +265,11 @@ const BookNow = () => {
   const handleNextStep = (e) => {
     e.preventDefault();
 
-    if (step === 2 && !canContinueStep2) {
+    if (step === 1 && !canContinueStep1) {
       return;
     }
 
-    if (step < 4) {
+    if (step < 3) {
       setStep(step + 1);
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
@@ -281,20 +309,21 @@ const BookNow = () => {
             guests: totalGuests,
           },
           preferences: {
-            unitType: bookingData.unitType,
-            viewType: bookingData.view,
+            addOns: bookingData.addOns,
             notes: [
               bookingData.specialRequests,
               bookingData.pets === 'yes' ? 'Bringing pets: Yes' : '',
-              bookingData.addOns.length ? `Add-ons: ${bookingData.addOns.join(', ')}` : '',
             ]
               .filter(Boolean)
               .join(' | '),
           },
           pricing: {
             subtotal: estimatedSubtotal,
+            addOnsFee: selectedAddOnTotal,
             cleaningFee: estimatedCleaningFee,
             tax: estimatedTax,
+            taxRate: TAX_RATE,
+            cancellationPolicy: CANCELLATION_POLICY,
             total: estimatedTotal,
           },
         };
@@ -339,8 +368,7 @@ const BookNow = () => {
   const progressSteps = [
     { number: 1, title: 'Guest Info' },
     { number: 2, title: 'Stay Details' },
-    { number: 3, title: 'Preferences' },
-    { number: 4, title: 'Review' }
+    { number: 3, title: 'Review' }
   ];
 
   const bookingStructuredData = useMemo(
@@ -572,7 +600,7 @@ const BookNow = () => {
             <div className="grid lg:grid-cols-3 gap-8">
               {/* Form Column */}
               <div className="lg:col-span-2">
-                <form onSubmit={step === 4 ? handleSubmit : handleNextStep}>
+                <form onSubmit={step === 3 ? handleSubmit : handleNextStep}>
                   <div className={`p-8 rounded-2xl ${isDarkMode ? 'bg-[#141A1F]' : 'bg-white border border-[#E2E8F0]'} ${
                     isDarkMode
                       ? 'shadow-[0_10px_24px_-18px_rgba(0,0,0,0.7)]'
@@ -682,6 +710,32 @@ const BookNow = () => {
                             />
                           </div>
                         </div>
+
+                        <div>
+                          <label className={`block mb-2 font-semibold ${labelClass}`}>
+                            Select Your Dates *
+                          </label>
+                          <BookingCalendar
+                            houseSlug={houseSlug}
+                            packageCode={calendarMeta.packageCode}
+                            minNights={calendarMeta.minNights}
+                            checkIn={bookingData.checkIn}
+                            checkOut={bookingData.checkOut}
+                            onDateChange={handleCalendarDateChange}
+                            onAvailabilityChange={handleAvailabilityChange}
+                            isDarkMode={isDarkMode}
+                          />
+                          {calendarMeta.loading && (
+                            <p className={`text-sm mt-2 ${mutedTextClass}`}>
+                              Loading package rules…
+                            </p>
+                          )}
+                          {!houseSlug && (
+                            <p className={`text-sm mt-2 ${isDarkMode ? 'text-amber-400' : 'text-amber-600'}`}>
+                              House slug is missing in this request context. Date blocking may be limited.
+                            </p>
+                          )}
+                        </div>
                       </div>
                     )}
 
@@ -729,32 +783,6 @@ const BookNow = () => {
 
                         <div>
                           <label className={`block mb-2 font-semibold ${labelClass}`}>
-                            Select Your Dates *
-                          </label>
-                          <BookingCalendar
-                            houseSlug={houseSlug}
-                            packageCode={calendarMeta.packageCode}
-                            minNights={calendarMeta.minNights}
-                            checkIn={bookingData.checkIn}
-                            checkOut={bookingData.checkOut}
-                            onDateChange={handleCalendarDateChange}
-                            onAvailabilityChange={handleAvailabilityChange}
-                            isDarkMode={isDarkMode}
-                          />
-                          {calendarMeta.loading && (
-                            <p className={`text-sm mt-2 ${mutedTextClass}`}>
-                              Loading package rules…
-                            </p>
-                          )}
-                          {!houseSlug && (
-                            <p className={`text-sm mt-2 ${isDarkMode ? 'text-amber-400' : 'text-amber-600'}`}>
-                              House slug is missing in this request context. Date blocking may be limited.
-                            </p>
-                          )}
-                        </div>
-
-                        <div>
-                          <label className={`block mb-2 font-semibold ${labelClass}`}>
                             Bringing Pets?
                           </label>
                           <select
@@ -766,6 +794,41 @@ const BookNow = () => {
                             <option value="no">No</option>
                             <option value="yes">Yes</option>
                           </select>
+                        </div>
+
+                        <div>
+                          <label className={`block mb-3 font-semibold ${labelClass}`}>
+                            Add-ons
+                          </label>
+                          <div className="grid md:grid-cols-2 gap-4">
+                            {ADD_ON_OPTIONS.map((option) => (
+                              <label
+                                key={option.value}
+                                className={`p-4 rounded-lg border-2 cursor-pointer transition-all ${
+                                  bookingData.addOns.includes(option.value)
+                                    ? isDarkMode
+                                      ? 'border-[#C9A36A] bg-[#C9A36A]/10'
+                                      : 'border-[#2F5D3A] bg-[#ECF7ED]'
+                                    : isDarkMode
+                                    ? 'border-[#2A2119] hover:border-[#C9A36A]/50'
+                                    : 'border-[#E2E8F0] hover:border-[#86B992]'
+                                }`}
+                              >
+                                <input
+                                  type="checkbox"
+                                  checked={bookingData.addOns.includes(option.value)}
+                                  onChange={() => toggleAddOn(option.value)}
+                                  className="mr-3"
+                                />
+                                <span className={`font-semibold ${isDarkMode ? 'text-[#E0E7EE]' : 'text-[#0F172A]'}`}>
+                                  {option.label}
+                                </span>
+                                <span className={`ml-2 text-sm font-medium ${isDarkMode ? 'text-[#C9A36A]' : 'text-[#2F5D3A]'}`}>
+                                  +${option.price}
+                                </span>
+                              </label>
+                            ))}
+                          </div>
                         </div>
 
                         <div>
@@ -784,148 +847,21 @@ const BookNow = () => {
                       </div>
                     )}
 
-                    {/* Step 3: Stay Preferences */}
+                    {/* Step 3: Review */}
                     {step === 3 && (
-                      <div className="space-y-6">
-                        <h2 className={`text-2xl font-bold mb-6 ${isDarkMode ? 'text-[#E0E7EE]' : 'text-[#0F172A]'}`}>
-                          Stay Preferences
-                        </h2>
-
-                        <div>
-                          <label className={`block mb-3 font-semibold ${isDarkMode ? 'text-[#C4CCD4]' : 'text-[#374151]'}`}>
-                            Unit Type
-                          </label>
-                          <div className="grid md:grid-cols-4 gap-4">
-                            {[
-                              { value: 'studio', label: 'Studio', note: 'Compact and cozy' },
-                              { value: 'loft', label: 'Loft', note: 'Extra sleeping nook' },
-                              { value: 'family', label: 'Family', note: 'Sleeps 4-6' },
-                              { value: 'premium', label: 'Premium', note: 'Top-tier finishes' }
-                            ].map((option) => (
-                              <label
-                                key={option.value}
-                                className={`p-4 rounded-lg border-2 cursor-pointer transition-all ${
-                                  bookingData.unitType === option.value
-                                    ? isDarkMode
-                                      ? 'border-[#22D3EE] bg-[#22D3EE]/10'
-                                      : 'border-[#2563EB] bg-blue-50'
-                                    : isDarkMode
-                                    ? 'border-[#1E242B] hover:border-[#22D3EE]/50'
-                                    : 'border-[#E2E8F0] hover:border-[#93C5FD]'
-                                }`}
-                              >
-                                <input
-                                  type="radio"
-                                  name="unitType"
-                                  value={option.value}
-                                  checked={bookingData.unitType === option.value}
-                                  onChange={handleInputChange}
-                                  className="sr-only"
-                                />
-                                <div className="text-center">
-                                  <div className={`font-bold mb-1 ${isDarkMode ? 'text-[#E0E7EE]' : 'text-[#0F172A]'}`}>
-                                    {option.label}
-                                  </div>
-                                  <div className={`text-sm ${isDarkMode ? 'text-[#8B949E]' : 'text-[#475569]'}`}>
-                                    {option.note}
-                                  </div>
-                                </div>
-                              </label>
-                            ))}
-                          </div>
-                        </div>
-
-                        <div>
-                          <label className={`block mb-3 font-semibold ${isDarkMode ? 'text-[#C4CCD4]' : 'text-[#374151]'}`}>
-                            View Preference
-                          </label>
-                          <div className="grid md:grid-cols-4 gap-4">
-                            {[
-                              { value: 'hill', label: 'Hill Country' },
-                              { value: 'river', label: 'Creekside' },
-                              { value: 'meadow', label: 'Meadow' },
-                              { value: 'forest', label: 'Woodland' }
-                            ].map((option) => (
-                              <label
-                                key={option.value}
-                                className={`p-4 rounded-lg border-2 cursor-pointer transition-all ${
-                                  bookingData.view === option.value
-                                    ? isDarkMode
-                                      ? 'border-[#22D3EE] bg-[#22D3EE]/10'
-                                      : 'border-[#2563EB] bg-blue-50'
-                                    : isDarkMode
-                                    ? 'border-[#1E242B] hover:border-[#22D3EE]/50'
-                                    : 'border-[#E2E8F0] hover:border-[#93C5FD]'
-                                }`}
-                              >
-                                <input
-                                  type="radio"
-                                  name="view"
-                                  value={option.value}
-                                  checked={bookingData.view === option.value}
-                                  onChange={handleInputChange}
-                                  className="sr-only"
-                                />
-                                <div className="text-center">
-                                  <div className={`font-bold ${isDarkMode ? 'text-[#E0E7EE]' : 'text-[#0F172A]'}`}>
-                                    {option.label}
-                                  </div>
-                                </div>
-                              </label>
-                            ))}
-                          </div>
-                        </div>
-
-                        <div>
-                          <label className={`block mb-3 font-semibold ${isDarkMode ? 'text-[#C4CCD4]' : 'text-[#374151]'}`}>
-                            Add-ons
-                          </label>
-                          <div className="grid md:grid-cols-2 gap-4">
-                            {[
-                              { value: 'firewood', label: 'Firewood Bundle' },
-                              { value: 'late-checkout', label: 'Late Checkout' },
-                              { value: 'welcome-basket', label: 'Welcome Basket' },
-                              { value: 'extra-linens', label: 'Extra Linens' }
-                            ].map((option) => (
-                              <label
-                                key={option.value}
-                                className={`p-4 rounded-lg border-2 cursor-pointer transition-all ${
-                                  bookingData.addOns.includes(option.value)
-                                    ? isDarkMode
-                                      ? 'border-[#22D3EE] bg-[#22D3EE]/10'
-                                      : 'border-[#2563EB] bg-blue-50'
-                                    : isDarkMode
-                                    ? 'border-[#1E242B] hover:border-[#22D3EE]/50'
-                                    : 'border-[#E2E8F0] hover:border-[#93C5FD]'
-                                }`}
-                              >
-                                <input
-                                  type="checkbox"
-                                  checked={bookingData.addOns.includes(option.value)}
-                                  onChange={() => toggleAddOn(option.value)}
-                                  className="mr-3"
-                                />
-                                <span className={`font-semibold ${isDarkMode ? 'text-[#E0E7EE]' : 'text-[#0F172A]'}`}>
-                                  {option.label}
-                                </span>
-                              </label>
-                            ))}
-                          </div>
-                        </div>
-                      </div>
-                    )}
-
-                    {/* Step 4: Review */}
-                    {step === 4 && (
                       <div className="space-y-6">
                         <h2 className={`text-2xl font-bold mb-6 ${isDarkMode ? 'text-[#E0E7EE]' : 'text-[#0F172A]'}`}>
                           Review and Submit
                         </h2>
 
-                        <div className={`p-4 rounded-lg ${isDarkMode ? 'bg-blue-500/10 border border-blue-500/20' : 'bg-blue-50 border border-[#BFDBFE]'} `}>
+                        <div className={`p-4 rounded-lg ${
+                          isDarkMode
+                            ? 'bg-[#1D3A28] border border-[#2A5B3F]'
+                            : 'bg-[#ECF7ED] border border-[#86B992]'
+                        } `}>
                           <div className="flex items-start gap-3">
-                            <FaInfoCircle className="text-blue-500 mt-1" />
-                            <div className={`text-sm ${isDarkMode ? 'text-[#C4CCD4]' : 'text-[#475569]'}`}>
+                            <FaInfoCircle className={isDarkMode ? 'text-[#9AD7A2] mt-1' : 'text-[#2F5D3A] mt-1'} />
+                            <div className={`text-sm ${isDarkMode ? 'text-[#E8F5E9]' : 'text-[#1F3A29]'}`}>
                               <p className="font-semibold mb-1">Request Review:</p>
                               <p>We will confirm availability and send final details before any payment is required.</p>
                             </div>
@@ -957,17 +893,73 @@ const BookNow = () => {
                               ${estimatedTotal.toFixed(2)}
                             </div>
                           </div>
-                          <div className={`p-4 rounded-lg ${isDarkMode ? 'bg-[#0F1419]' : 'bg-[#F8FAFC]'} `}>
-                            <div className={`text-xs uppercase tracking-wider ${isDarkMode ? 'text-[#8B949E]' : 'text-[#64748B]'}`}>Unit</div>
-                            <div className={`font-semibold ${isDarkMode ? 'text-[#E0E7EE]' : 'text-[#0F172A]'}`}>
-                              {bookingData.unitType}
+                        </div>
+
+                        {bookingData.addOns.length > 0 && (
+                          <div className={`p-4 rounded-lg ${isDarkMode ? 'bg-[#0F1419]' : 'bg-[#F8FAFC]'}`}>
+                            <div className={`text-xs uppercase tracking-wider mb-2 ${isDarkMode ? 'text-[#8B949E]' : 'text-[#64748B]'}`}>
+                              Selected Add-ons (Applied to Checkout)
+                            </div>
+                            <div className="space-y-2">
+                              {bookingData.addOns.map((addOn) => {
+                                const option = ADD_ON_OPTIONS.find((item) => item.value === addOn);
+                                if (!option) return null;
+                                return (
+                                  <div key={option.value} className="flex items-center justify-between">
+                                    <span className={isDarkMode ? 'text-[#C4CCD4]' : 'text-[#475569]'}>{option.label}</span>
+                                    <span className={`font-semibold ${isDarkMode ? 'text-[#E0E7EE]' : 'text-[#0F172A]'}`}>
+                                      +${option.price.toFixed(2)}
+                                    </span>
+                                  </div>
+                                );
+                              })}
                             </div>
                           </div>
-                          <div className={`p-4 rounded-lg ${isDarkMode ? 'bg-[#0F1419]' : 'bg-[#F8FAFC]'} `}>
-                            <div className={`text-xs uppercase tracking-wider ${isDarkMode ? 'text-[#8B949E]' : 'text-[#64748B]'}`}>View</div>
-                            <div className={`font-semibold ${isDarkMode ? 'text-[#E0E7EE]' : 'text-[#0F172A]'}`}>
-                              {bookingData.view}
+                        )}
+
+                        <div className={`p-4 rounded-lg border ${isDarkMode ? 'bg-[#0F1419] border-[#1E242B]' : 'bg-[#F8FAFC] border-[#E2E8F0]'}`}>
+                          <div className={`text-xs uppercase tracking-wider mb-3 ${isDarkMode ? 'text-[#8B949E]' : 'text-[#64748B]'}`}>
+                            Checkout Breakdown
+                          </div>
+                          <div className="space-y-2 text-sm">
+                            <div className="flex items-center justify-between">
+                              <span className={isDarkMode ? 'text-[#C4CCD4]' : 'text-[#475569]'}>
+                                ${Number(calendarMeta.pricePerNight || 0).toFixed(2)} × {selectedNights || 0} night(s)
+                              </span>
+                              <span className={isDarkMode ? 'text-[#E0E7EE]' : 'text-[#0F172A]'}>${estimatedSubtotal.toFixed(2)}</span>
                             </div>
+                            {bookingData.addOns.map((addOn) => {
+                              const option = ADD_ON_OPTIONS.find((item) => item.value === addOn);
+                              if (!option) return null;
+                              return (
+                                <div key={`checkout-${option.value}`} className="flex items-center justify-between">
+                                  <span className={isDarkMode ? 'text-[#C4CCD4]' : 'text-[#475569]'}>
+                                    {option.label}
+                                  </span>
+                                  <span className={isDarkMode ? 'text-[#E0E7EE]' : 'text-[#0F172A]'}>
+                                    +${option.price.toFixed(2)}
+                                  </span>
+                                </div>
+                              );
+                            })}
+                            <div className="flex items-center justify-between">
+                              <span className={isDarkMode ? 'text-[#C4CCD4]' : 'text-[#475569]'}>State Tax (6%)</span>
+                              <span className={isDarkMode ? 'text-[#E0E7EE]' : 'text-[#0F172A]'}>+${estimatedTax.toFixed(2)}</span>
+                            </div>
+                            <div className={`pt-2 mt-2 border-t flex items-center justify-between font-bold ${isDarkMode ? 'border-[#1E242B] text-[#E0E7EE]' : 'border-[#E2E8F0] text-[#0F172A]'}`}>
+                              <span>Estimated Total</span>
+                              <span>${estimatedTotal.toFixed(2)}</span>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className={`p-4 rounded-lg ${isDarkMode ? 'bg-[#0F1419]' : 'bg-[#F8FAFC]'}`}>
+                          <div className={`text-xs uppercase tracking-wider mb-2 ${isDarkMode ? 'text-[#8B949E]' : 'text-[#64748B]'}`}>
+                            Pricing Notes
+                          </div>
+                          <div className={`text-sm space-y-1 ${isDarkMode ? 'text-[#C4CCD4]' : 'text-[#475569]'}`}>
+                            <p>State Tax: 6%</p>
+                            <p>Cancellation: {CANCELLATION_POLICY}</p>
                           </div>
                         </div>
 
@@ -1007,9 +999,9 @@ const BookNow = () => {
                       )}
                       <button
                         type="submit"
-                        disabled={(step === 2 && !canContinueStep2) || submissionState.loading}
+                        disabled={(step === 1 && !canContinueStep1) || submissionState.loading}
                         className={`flex-1 px-8 py-3 rounded-lg font-bold transition-all duration-300 ${
-                          (step === 2 && !canContinueStep2) || submissionState.loading
+                          (step === 1 && !canContinueStep1) || submissionState.loading
                             ? isDarkMode
                               ? 'bg-[#1E242B] text-[#8B949E] cursor-not-allowed'
                               : 'bg-[#E2E8F0] text-[#94A3B8] cursor-not-allowed'
@@ -1017,19 +1009,17 @@ const BookNow = () => {
                           isDarkMode
                             ? 'bg-linear-to-r from-[#C9A36A] to-[#E7CFA2] text-[#0F0D0A] hover:shadow-lg hover:shadow-[#C9A36A]/35'
                             : 'bg-linear-to-r from-[#2F5D3A] to-[#5F8C6A] text-white hover:shadow-lg hover:shadow-[#2F5D3A]/35'
-                        } ${(step === 2 && !canContinueStep2) || submissionState.loading ? '' : 'transform hover:scale-105'}`}
+                        } ${(step === 1 && !canContinueStep1) || submissionState.loading ? '' : 'transform hover:scale-105'}`}
                       >
-                        {step === 4
+                        {step === 3
                           ? (submissionState.loading ? 'Submitting...' : 'Submit Request')
                           : step === 1
                             ? 'Next: Stay Details'
-                            : step === 2
-                              ? 'Next: Preferences'
-                              : 'Next: Review'}
+                            : 'Next: Review'}
                       </button>
                       </div>
                     </div>
-                    {step === 2 && !canContinueStep2 && (
+                    {step === 1 && !canContinueStep1 && (
                       <p className={`mt-3 text-sm ${isDarkMode ? 'text-amber-400' : 'text-amber-700'}`}>
                         Select a valid available date range that meets minimum nights to continue.
                       </p>
@@ -1106,11 +1096,15 @@ const BookNow = () => {
                         <span className={isDarkMode ? 'text-[#E0E7EE]' : 'text-[#0F172A]'}>${estimatedSubtotal.toFixed(2)}</span>
                       </div>
                       <div className="flex justify-between">
+                        <span className={isDarkMode ? 'text-[#C4CCD4]' : 'text-[#475569]'}>Add-ons</span>
+                        <span className={isDarkMode ? 'text-[#E0E7EE]' : 'text-[#0F172A]'}>${selectedAddOnTotal.toFixed(2)}</span>
+                      </div>
+                      <div className="flex justify-between">
                         <span className={isDarkMode ? 'text-[#C4CCD4]' : 'text-[#475569]'}>Cleaning Fee</span>
                         <span className={isDarkMode ? 'text-[#E0E7EE]' : 'text-[#0F172A]'}>${estimatedCleaningFee.toFixed(2)}</span>
                       </div>
                       <div className="flex justify-between">
-                        <span className={isDarkMode ? 'text-[#C4CCD4]' : 'text-[#475569]'}>Tax</span>
+                        <span className={isDarkMode ? 'text-[#C4CCD4]' : 'text-[#475569]'}>State Tax (6%)</span>
                         <span className={isDarkMode ? 'text-[#E0E7EE]' : 'text-[#0F172A]'}>${estimatedTax.toFixed(2)}</span>
                       </div>
                       <div className={`mt-2 pt-2 border-t flex justify-between font-bold ${isDarkMode ? 'border-[#1E242B] text-[#E0E7EE]' : 'border-[#E2E8F0] text-[#0F172A]'}`}>
@@ -1127,23 +1121,14 @@ const BookNow = () => {
                         {totalGuests}
                       </span>
                     </div>
-                    <div className="flex justify-between">
-                      <span className={isDarkMode ? 'text-[#C4CCD4]' : 'text-[#475569]'}>Unit:</span>
-                      <span className={isDarkMode ? 'text-[#E0E7EE]' : 'text-[#0F172A]'}>
-                        {bookingData.unitType}
-                      </span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className={isDarkMode ? 'text-[#C4CCD4]' : 'text-[#475569]'}>View:</span>
-                      <span className={isDarkMode ? 'text-[#E0E7EE]' : 'text-[#0F172A]'}>
-                        {bookingData.view}
-                      </span>
-                    </div>
                   </div>
 
                   <div className={`border-t mt-4 pt-4 ${isDarkMode ? 'border-[#1E242B]' : 'border-[#E2E8F0]'} `}>
                     <div className={`text-sm ${isDarkMode ? 'text-[#C4CCD4]' : 'text-[#475569]'}`}>
                       We will confirm availability and pricing after review.
+                    </div>
+                    <div className={`text-xs mt-2 ${isDarkMode ? 'text-[#A7B0BA]' : 'text-[#64748B]'}`}>
+                      Cancellation policy: {CANCELLATION_POLICY}
                     </div>
                   </div>
 

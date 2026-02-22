@@ -12,7 +12,7 @@ const HOUSE_SLUGS = [
   'triangle-2-rani-ridge',
 ];
 
-const PACKAGE_CODES = ['standard', 'signature', 'extended'];
+const PACKAGE_CODES = ['standard'];
 
 const verifySeed = async () => {
   try {

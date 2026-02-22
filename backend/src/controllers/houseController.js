@@ -40,7 +40,7 @@ const getHousePackages = asyncHandler(async (req, res) => {
     throw new ApiError(404, `House not found for slug: ${slug}`);
   }
 
-  const packages = await Package.find({ houseId: house._id })
+  const packages = await Package.find({ houseId: house._id, code: 'standard' })
     .sort({ pricePerNight: 1, createdAt: 1 })
     .select('-__v')
     .lean();

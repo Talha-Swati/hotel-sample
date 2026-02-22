@@ -1,22 +1,11 @@
-import React, { memo, useEffect, useMemo, useState } from 'react';
+import React, { memo, useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import FlipCard from '../common/FlipCard';
 import { getAllStays } from '../../data/staysData';
 import { useHousesData } from '../../hooks/useHousesData';
 
 const FeaturedTours = ({ isDarkMode }) => {
   const toursPath = '/tours';
-  const [isMobile, setIsMobile] = useState(false);
-  const [expandedCard, setExpandedCard] = useState(null);
   const { houses } = useHousesData({ fallbackData: getAllStays() });
-
-  useEffect(() => {
-    const media = window.matchMedia('(max-width: 767px)');
-    const updateMobileState = () => setIsMobile(media.matches);
-    updateMobileState();
-    media.addEventListener('change', updateMobileState);
-    return () => media.removeEventListener('change', updateMobileState);
-  }, []);
 
   // Memoize tours data to prevent recreation on every render
   const tours = useMemo(() => {
@@ -29,45 +18,21 @@ const FeaturedTours = ({ isDarkMode }) => {
       frontImage: catalina?.heroImage,
       title: "Catalina Ridge",
       subtitle: "A-Frame Cabin • Panoramic windows",
-      price: "A-Frame",
       description: "Warm wood interiors, panoramic windows, and a private deck invite you to slow down and soak in the beauty around you.",
-      highlights: [
-        'Stylish interiors with modern amenities',
-        'Kitchenette with essentials',
-        'Heating + AC',
-        'Outdoor seating with grill',
-        'Smart self check-in locks'
-      ],
       link: '/stay/triangle-1-catalina-ridge'
     },
     {
       frontImage: rani?.heroImage,
       title: "Rani Ridge",
       subtitle: "A-Frame Cabin • Cozy retreat",
-      price: "A-Frame",
       description: "A peaceful A-Frame stay designed for couples and small families looking to reset and reconnect.",
-      highlights: [
-        'Plush bedding and linens',
-        'Smart TV and Govee lights',
-        'Complimentary coffee + water',
-        'Modern private bath',
-        'Back patio seating'
-      ],
       link: '/stay/triangle-2-rani-ridge'
     },
     {
       frontImage: kona?.heroImage,
       title: "Kona Meadow",
       subtitle: "Apple Home • Sleek and sustainable",
-      price: "Apple Home",
       description: "Innovative tiny-home design blending eco-conscious living with comfort and style.",
-      highlights: [
-        'Sleek, sustainable layout',
-        'Kitchenette essentials',
-        'Smart lock entry',
-        'Heating + AC',
-        'Outdoor grill and patio'
-      ],
       link: '/stay/apple-2-kona-meadows'
     }
   ];
@@ -122,17 +87,64 @@ const FeaturedTours = ({ isDarkMode }) => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-[1px] sm:gap-3 md:gap-6">
-          {tours.map((tour, index) => (
-            <FlipCard
-              key={index}
-              isDarkMode={isDarkMode}
-              isMobile={isMobile}
-              isExpanded={expandedCard === index}
-              onToggle={() => setExpandedCard((prev) => (prev === index ? null : index))}
-              {...tour}
-            />
-          ))}
+        <div className="space-y-14 md:space-y-20">
+          {tours.map((tour, index) => {
+            const isImageRight = index % 2 === 0;
+            const contentOrderClass = isImageRight ? 'md:order-1' : 'md:order-2';
+            const imageOrderClass = isImageRight ? 'md:order-2' : 'md:order-1';
+
+            return (
+              <article
+                key={tour.title}
+                className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-14 items-center reveal-on-scroll"
+                data-reveal
+                style={{ transitionDelay: `${index * 70}ms` }}
+              >
+                <div className={contentOrderClass}>
+                  <p className={`mb-3 text-xs md:text-sm font-semibold tracking-[0.2em] uppercase ${isDarkMode ? 'text-[#8B949E]' : 'text-[#64748B]'}`}>
+                    Stay {String(index + 1).padStart(2, '0')}
+                  </p>
+                  <h3 className={`text-3xl md:text-5xl font-extrabold uppercase tracking-tight mb-3 bg-clip-text text-transparent ${
+                    isDarkMode
+                      ? 'bg-linear-to-r from-[#A8C9B1] to-[#5F8C6A]'
+                      : 'bg-linear-to-r from-[#2F5D3A] to-[#7BAF7C]'
+                  }`}>
+                    {tour.title}
+                  </h3>
+                  <p className={`text-sm sm:text-base md:text-lg font-medium mb-4 ${isDarkMode ? 'text-[#CDBEAC]' : 'text-[#4B5F4B]'}`}>
+                    {tour.subtitle}
+                  </p>
+                  <p className={`text-base md:text-xl md:leading-[1.45] leading-relaxed ${isDarkMode ? 'text-[#B7C0CC]' : 'text-[#334155]'}`}>
+                    {tour.description}
+                  </p>
+                  <div className="mt-8">
+                    <Link
+                      to={tour.link}
+                      className={`inline-flex items-center justify-center min-w-[170px] rounded-full px-6 py-3 text-sm md:text-base font-semibold transition-all duration-300 ${
+                        isDarkMode
+                          ? 'bg-linear-to-r from-[#1F3A2A] to-[#5F8C6A] text-[#F7FBF7] hover:from-[#5F8C6A] hover:to-[#1F3A2A]'
+                          : 'bg-linear-to-r from-[#2F5D3A] to-[#7BAF7C] text-white hover:from-[#7BAF7C] hover:to-[#2F5D3A]'
+                      }`}
+                    >
+                      Post Details
+                    </Link>
+                  </div>
+                </div>
+
+                <div className={imageOrderClass}>
+                  <div className={`overflow-hidden rounded-2xl border ${isDarkMode ? 'border-[rgba(201,163,106,0.25)]' : 'border-[#DDE8DD]'}`}>
+                    <img
+                      src={tour.frontImage}
+                      alt={tour.title}
+                      loading="lazy"
+                      decoding="async"
+                      className="w-full h-[280px] sm:h-[340px] md:h-[390px] lg:h-[430px] object-cover transition-transform duration-700 hover:scale-[1.03]"
+                    />
+                  </div>
+                </div>
+              </article>
+            );
+          })}
         </div>
 
         <div className="text-center mt-10 sm:mt-12">

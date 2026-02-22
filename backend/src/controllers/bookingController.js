@@ -8,6 +8,16 @@ const {
   hasOverlapBooking,
 } = require('../utils/bookingHelpers');
 
+const ADD_ON_PRICE_MAP = {
+  'horse-riding': 15,
+  atv: 20,
+};
+
+const STATE_TAX_RATE = 0.06;
+const FIXED_CLEANING_FEE = 40;
+const CANCELLATION_POLICY =
+  '100% refund up to 30 days before arrival, 50% refund up to 14 days before arrival.';
+
 const resolveHouse = async ({ houseId, slug }) => {
   if (houseId) {
     return House.findOne({ _id: houseId, isActive: true }).lean();
@@ -21,11 +31,16 @@ const resolvePackage = async ({ packageId, packageCode, houseId }) => {
     return Package.findOne({ _id: packageId, houseId }).lean();
   }
 
-  return Package.findOne({ houseId, code: packageCode }).lean();
+  const safePackageCode = packageCode === 'standard' ? packageCode : 'standard';
+  return Package.findOne({ houseId, code: safePackageCode }).lean();
 };
 
 const checkAvailability = asyncHandler(async (req, res) => {
   const { houseId, houseSlug, slug, checkIn, checkOut, packageCode } = req.body;
+
+  if (packageCode && packageCode !== 'standard') {
+    throw new ApiError(400, 'Only standard package is currently available');
+  }
 
   const normalizedSlug = houseSlug || slug;
   const house = await resolveHouse({ houseId, slug: normalizedSlug });
@@ -102,6 +117,10 @@ const createBookingRequest = asyncHandler(async (req, res) => {
     pricing,
   } = req.body;
 
+  if (packageCode && packageCode !== 'standard') {
+    throw new ApiError(400, 'Only standard package is currently available');
+  }
+
   const house = await resolveHouse({ houseId, slug: houseSlug });
 
   if (!house) {
@@ -138,6 +157,19 @@ const createBookingRequest = asyncHandler(async (req, res) => {
 
   const bookingId = await generateBookingId();
 
+  const normalizedAddOns = Array.isArray(preferences.addOns)
+    ? preferences.addOns.filter((item) => Object.prototype.hasOwnProperty.call(ADD_ON_PRICE_MAP, item))
+    : [];
+  const computedSubtotal = Number((Number(selectedPackage.pricePerNight || 0) * nights).toFixed(2));
+  const computedAddOnsFee = Number(
+    normalizedAddOns.reduce((sum, item) => sum + (ADD_ON_PRICE_MAP[item] || 0), 0).toFixed(2)
+  );
+  const normalizedCleaningFee = Number(FIXED_CLEANING_FEE.toFixed(2));
+  const computedTax = Number(((computedSubtotal + computedAddOnsFee + normalizedCleaningFee) * STATE_TAX_RATE).toFixed(2));
+  const computedTotal = Number(
+    (computedSubtotal + computedAddOnsFee + normalizedCleaningFee + computedTax).toFixed(2)
+  );
+
   const booking = await BookingRequest.create({
     bookingId,
     houseId: house._id,
@@ -152,9 +184,18 @@ const createBookingRequest = asyncHandler(async (req, res) => {
     preferences: {
       unitType: preferences.unitType || '',
       viewType: preferences.viewType || '',
+      addOns: normalizedAddOns,
       notes: preferences.notes || '',
     },
-    pricing,
+    pricing: {
+      subtotal: computedSubtotal,
+      addOnsFee: computedAddOnsFee,
+      cleaningFee: normalizedCleaningFee,
+      tax: computedTax,
+      taxRate: STATE_TAX_RATE,
+      cancellationPolicy: CANCELLATION_POLICY,
+      total: computedTotal,
+    },
     status: 'pending',
     paymentStatus: 'none',
     square: {

@@ -35,7 +35,7 @@ const checkAvailabilitySchema = z
         slug: slugSchema.optional(),
         checkIn: dateStringSchema,
         checkOut: dateStringSchema,
-        packageCode: z.enum(['standard', 'signature', 'extended']).optional(),
+        packageCode: z.enum(['standard']).optional(),
       })
       .superRefine((value, ctx) => {
         if (!value.houseId && !value.slug && !value.houseSlug) {
@@ -70,7 +70,7 @@ const createBookingSchema = z
       houseId: objectIdSchema.optional(),
       houseSlug: slugSchema.optional(),
       packageId: objectIdSchema.optional(),
-      packageCode: z.enum(['standard', 'signature', 'extended']).optional(),
+      packageCode: z.enum(['standard']).optional(),
       guest: z.object({
         name: z.string().trim().min(1).max(120),
         email: z.string().trim().email().max(200),
@@ -87,13 +87,17 @@ const createBookingSchema = z
         .object({
           unitType: z.string().trim().max(100).optional(),
           viewType: z.string().trim().max(100).optional(),
+          addOns: z.array(z.enum(['horse-riding', 'atv'])).max(10).optional(),
           notes: z.string().trim().max(2000).optional(),
         })
         .optional(),
       pricing: z.object({
         subtotal: z.number().min(0),
+        addOnsFee: z.number().min(0).default(0),
         cleaningFee: z.number().min(0).default(0),
         tax: z.number().min(0).default(0),
+        taxRate: z.number().min(0).max(1).default(0),
+        cancellationPolicy: z.string().trim().max(500).optional(),
         total: z.number().min(0),
       }),
     }),

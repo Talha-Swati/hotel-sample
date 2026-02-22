@@ -73,6 +73,10 @@ const preferencesSchema = new mongoose.Schema(
       trim: true,
       default: '',
     },
+    addOns: {
+      type: [String],
+      default: [],
+    },
     notes: {
       type: String,
       trim: true,
@@ -90,6 +94,12 @@ const pricingSchema = new mongoose.Schema(
       required: true,
       min: 0,
     },
+    addOnsFee: {
+      type: Number,
+      required: true,
+      min: 0,
+      default: 0,
+    },
     cleaningFee: {
       type: Number,
       required: true,
@@ -101,6 +111,18 @@ const pricingSchema = new mongoose.Schema(
       required: true,
       min: 0,
       default: 0,
+    },
+    taxRate: {
+      type: Number,
+      required: true,
+      min: 0,
+      default: 0,
+    },
+    cancellationPolicy: {
+      type: String,
+      trim: true,
+      default: '',
+      maxlength: 500,
     },
     total: {
       type: Number,

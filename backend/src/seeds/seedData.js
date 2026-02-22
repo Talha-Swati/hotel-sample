@@ -35,22 +35,6 @@ const HOUSE_SEED_DATA = [
         perks: ['Nightly rate', 'Self check-in', 'Private deck access'],
         isPopular: false,
       },
-      signature: {
-        name: 'Signature',
-        code: 'signature',
-        pricePerNight: 169,
-        minNights: 1,
-        perks: ['Priority view placement', 'Early check-in (subject to availability)', 'Welcome basket'],
-        isPopular: true,
-      },
-      extended: {
-        name: 'Extended',
-        code: 'extended',
-        pricePerNight: 175,
-        minNights: 3,
-        perks: ['3+ nights', 'Mid-stay refresh', 'Complimentary firewood bundle'],
-        isPopular: false,
-      },
     },
   },
   {
@@ -80,22 +64,6 @@ const HOUSE_SEED_DATA = [
         pricePerNight: 169,
         minNights: 1,
         perks: ['Nightly rate', 'Outdoor dining area', 'Creek access'],
-        isPopular: false,
-      },
-      signature: {
-        name: 'Signature',
-        code: 'signature',
-        pricePerNight: 175,
-        minNights: 1,
-        perks: ['Preferred creekside placement', 'Late checkout (subject to availability)', 'Welcome basket'],
-        isPopular: true,
-      },
-      extended: {
-        name: 'Extended',
-        code: 'extended',
-        pricePerNight: 180,
-        minNights: 3,
-        perks: ['3+ nights', 'Mid-stay refresh', 'Complimentary firewood bundle'],
         isPopular: false,
       },
     },
@@ -129,22 +97,6 @@ const HOUSE_SEED_DATA = [
         perks: ['Nightly rate', 'Stargazing deck', 'Self check-in'],
         isPopular: false,
       },
-      signature: {
-        name: 'Signature',
-        code: 'signature',
-        pricePerNight: 159,
-        minNights: 1,
-        perks: ['Preferred placement', 'Welcome basket', 'Late checkout (subject to availability)'],
-        isPopular: true,
-      },
-      extended: {
-        name: 'Extended',
-        code: 'extended',
-        pricePerNight: 165,
-        minNights: 3,
-        perks: ['3+ nights', 'Weekly refresh', 'Complimentary coffee kit'],
-        isPopular: false,
-      },
     },
   },
   {
@@ -174,22 +126,6 @@ const HOUSE_SEED_DATA = [
         pricePerNight: 159,
         minNights: 1,
         perks: ['Nightly rate', 'Outdoor dining', 'Self check-in'],
-        isPopular: false,
-      },
-      signature: {
-        name: 'Signature',
-        code: 'signature',
-        pricePerNight: 169,
-        minNights: 1,
-        perks: ['Preferred placement', 'Welcome basket', 'Late checkout (subject to availability)'],
-        isPopular: true,
-      },
-      extended: {
-        name: 'Extended',
-        code: 'extended',
-        pricePerNight: 175,
-        minNights: 3,
-        perks: ['3+ nights', 'Mid-stay refresh', 'Complimentary firewood bundle'],
         isPopular: false,
       },
     },
@@ -266,12 +202,17 @@ const seed = async () => {
 
     await Package.bulkWrite(packageOperations);
 
+    await Package.deleteMany({
+      houseId: { $in: Array.from(houseIdMap.values()) },
+      code: { $ne: 'standard' },
+    });
+
     const houseCount = await House.countDocuments({
       slug: { $in: HOUSE_SEED_DATA.map((house) => house.slug) },
     });
 
     const packageCount = await Package.countDocuments({
-      code: { $in: ['standard', 'signature', 'extended'] },
+      code: { $in: ['standard'] },
       houseId: { $in: Array.from(houseIdMap.values()) },
     });
 

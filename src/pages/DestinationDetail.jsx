@@ -138,7 +138,7 @@ const DestinationDetail = memo(() => {
     structuredData: getDestinationSchema(stay),
   };
 
-  const pricingOrder = ['standard', 'signature', 'extended'];
+  const standardRate = stay.pricing?.standard;
 
   return (
     <PageLayout
@@ -288,25 +288,16 @@ const DestinationDetail = memo(() => {
               <p className={`text-lg leading-relaxed ${isDarkMode ? 'text-[#C9D6DF]' : 'text-[#334155]'}`}>
                 {stay.description}
               </p>
-            </section>
-
-            <section>
-              <h2 className={`text-3xl font-bold mb-6 ${isDarkMode ? 'text-[#E0E7EE]' : 'text-[#0F172A]'}`}>
-                Highlights
-              </h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {stay.highlights.map((highlight) => (
-                  <div
+              <div className="mt-6 flex flex-wrap gap-2">
+                {(stay.highlights || []).slice(0, 6).map((highlight) => (
+                  <span
                     key={highlight}
-                    className={`flex items-start gap-3 p-4 rounded-lg ${
-                      isDarkMode ? 'bg-[#0F1419]' : 'bg-[#F8FAFC]'
+                    className={`px-3 py-1 rounded-full text-sm ${
+                      isDarkMode ? 'bg-[#0F1419] text-[#C9D6DF]' : 'bg-[#F1F5F9] text-[#334155]'
                     }`}
                   >
-                    <FaCheck className="text-[#22D3EE] mt-1 shrink-0" />
-                    <span className={isDarkMode ? 'text-[#C9D6DF]' : 'text-[#334155]'}>
-                      {highlight}
-                    </span>
-                  </div>
+                    {highlight}
+                  </span>
                 ))}
               </div>
             </section>
@@ -368,31 +359,24 @@ const DestinationDetail = memo(() => {
                 Rates
               </h2>
               <p className={`mb-5 text-sm ${isDarkMode ? 'text-[#8B949E]' : 'text-[#64748B]'}`}>
-                From ${stay.pricing.standard.price} per night • Signature ${stay.pricing.signature.price} • Extended ${stay.pricing.extended.price}
+                From ${standardRate?.price || 0} per night
               </p>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                {pricingOrder.map((tier, index) => {
-                  const rate = stay.pricing[tier];
-                  if (!rate) return null;
-
-                  return (
-                    <ThemedPricingCard
-                      key={tier}
-                      title={rate.title}
-                      price={`$${rate.price}`}
-                      priceNote="per night"
-                      features={rate.features}
-                      isDarkMode={isDarkMode}
-                      themeKey="destinationPricing"
-                      themeIndex={index}
-                      highlightLabel={rate.popular ? 'Most Popular' : undefined}
-                      ctaLabel="Request Availability"
-                      onCtaClick={() => handleBookNow(rate, tier)}
-                      footerLabel="Check-in"
-                      footerText={`${stay.checkIn} • Check-out ${stay.checkOut}`}
-                    />
-                  );
-                })}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {standardRate && (
+                  <ThemedPricingCard
+                    title={standardRate.title}
+                    price={`$${standardRate.price}`}
+                    priceNote="per night"
+                    features={standardRate.features}
+                    isDarkMode={isDarkMode}
+                    themeKey="destinationPricing"
+                    themeIndex={0}
+                    ctaLabel="Request Availability"
+                    onCtaClick={() => handleBookNow(standardRate, 'standard')}
+                    footerLabel="Check-in"
+                    footerText={`${stay.checkIn} • Check-out ${stay.checkOut}`}
+                  />
+                )}
               </div>
             </section>
           </div>

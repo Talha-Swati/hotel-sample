@@ -12,14 +12,14 @@ const packageSchema = new mongoose.Schema(
       type: String,
       required: true,
       trim: true,
-      enum: ['Standard', 'Signature', 'Extended'],
+      enum: ['Standard'],
     },
     code: {
       type: String,
       required: true,
       trim: true,
       lowercase: true,
-      enum: ['standard', 'signature', 'extended'],
+      enum: ['standard'],
     },
     pricePerNight: {
       type: Number,

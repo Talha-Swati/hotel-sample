@@ -5,23 +5,43 @@ import { FaCalendarCheck, FaExclamationTriangle } from 'react-icons/fa';
 import { checkBookingAvailability } from '../services/bookings';
 import { getUnavailableDatesBySlug } from '../services/houses';
 
-const toDateOnly = (value) => {
+const parseYMDToLocalDate = (value) => {
   if (!value) return null;
+
+  if (value instanceof Date) {
+    if (Number.isNaN(value.getTime())) return null;
+    return new Date(value.getFullYear(), value.getMonth(), value.getDate());
+  }
+
+  if (typeof value === 'string') {
+    const ymdMatch = value.match(/^(\d{4})-(\d{2})-(\d{2})(?:T.*)?$/);
+    if (ymdMatch) {
+      const year = Number(ymdMatch[1]);
+      const month = Number(ymdMatch[2]) - 1;
+      const day = Number(ymdMatch[3]);
+      return new Date(year, month, day);
+    }
+  }
+
   const date = new Date(value);
   if (Number.isNaN(date.getTime())) return null;
-
-  return new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate()));
+  return new Date(date.getFullYear(), date.getMonth(), date.getDate());
 };
 
 const toYMD = (value) => {
-  const date = toDateOnly(value);
+  const date = parseYMDToLocalDate(value);
   if (!date) return '';
-  return date.toISOString().slice(0, 10);
+
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+
+  return `${year}-${month}-${day}`;
 };
 
 const nightsBetween = (from, to) => {
-  const start = toDateOnly(from);
-  const end = toDateOnly(to);
+  const start = parseYMDToLocalDate(from);
+  const end = parseYMDToLocalDate(to);
 
   if (!start || !end) return 0;
 
@@ -42,8 +62,8 @@ const BookingCalendar = ({
   isDarkMode,
 }) => {
   const [range, setRange] = useState({
-    from: checkIn ? new Date(checkIn) : undefined,
-    to: checkOut ? new Date(checkOut) : undefined,
+    from: checkIn ? parseYMDToLocalDate(checkIn) || undefined : undefined,
+    to: checkOut ? parseYMDToLocalDate(checkOut) || undefined : undefined,
   });
   const [blockedRanges, setBlockedRanges] = useState([]);
   const [status, setStatus] = useState({
@@ -57,8 +77,8 @@ const BookingCalendar = ({
 
   useEffect(() => {
     setRange({
-      from: checkIn ? new Date(checkIn) : undefined,
-      to: checkOut ? new Date(checkOut) : undefined,
+      from: checkIn ? parseYMDToLocalDate(checkIn) || undefined : undefined,
+      to: checkOut ? parseYMDToLocalDate(checkOut) || undefined : undefined,
     });
   }, [checkIn, checkOut]);
 

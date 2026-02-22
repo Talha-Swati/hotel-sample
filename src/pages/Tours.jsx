@@ -114,7 +114,7 @@ const Tours = () => {
                     price={`$${stay.pricing?.standard?.price || 0}`}
                     priceNote="starting / night"
                     features={[
-                      `Standard: $${stay.pricing?.standard?.price || 0} • Signature: $${stay.pricing?.signature?.price || 0} • Extended: $${stay.pricing?.extended?.price || 0}`,
+                      `Rate: $${stay.pricing?.standard?.price || 0} per night`,
                       ...(stay.highlights || []).slice(0, 3),
                       `${stay.bedrooms || 1} bed • ${stay.baths || 1} bath • ${stay.sizeSqFt || 420} sq ft`
                     ]}

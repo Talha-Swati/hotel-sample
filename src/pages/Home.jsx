@@ -11,45 +11,10 @@ import PageLayout from '../components/layout/PageLayout';
 import HeroSection from '../components/home/HeroSection';
 import FeaturedTours from '../components/home/FeaturedTours';
 
-// Common Components
-import FeatureFlipCard from '../components/common/FeatureFlipCard';
-
 // Data
-import tinyEscape3 from '../assets/tiny escape 3.jpg';
-import tinyEscape5 from '../assets/tiny escape 5.jpg';
 import tinyEscape7 from '../assets/tiny escape 7.jpeg';
-import tinyEscape11 from '../assets/tiny escape 11.jpeg';
 import horseRidingOne from '../assets/horse riding/horse riding/horse riding 1.jpg';
-import horseRidingTwo from '../assets/horse riding/horse riding/horse riding 2.jpg';
 import swimmingPoolThree from '../assets/swimming pool/swimming pool/swimming pool 3.jpg';
-import cafeTwo from '../assets/prefab house portable container cafe/prefab house portable container cafe/cafe 2.jpg';
-
-const INCLUDED_FEATURES = [
-  {
-    title: 'Modern Interiors',
-    description: 'Thoughtfully styled spaces with clean design, warm materials, and comfort-first layouts.'
-  },
-  {
-    title: 'Kitchenette Essentials',
-    description: 'Practical kitchenette setup so you can prep light meals and enjoy easy mornings.'
-  },
-  {
-    title: 'Plush Bedding',
-    description: 'Quality linens and cozy bedding designed to support deep, restful sleep.'
-  },
-  {
-    title: 'Heating + AC',
-    description: 'Reliable climate control in every season for a consistently comfortable stay.'
-  },
-  {
-    title: 'Fire Pit (Included with Stay)',
-    description: 'A dedicated fire pit setup is included with your stay for cozy evenings outdoors.'
-  },
-  {
-    title: 'Smart Self Check-In',
-    description: 'Smart locks for seamless arrival with privacy and convenience from the start.'
-  }
-];
 
 const EXPERIENCE_ADDONS = [
   {
@@ -160,45 +125,6 @@ const Home = () => {
           {/* Featured Stays Section */}
           <FeaturedTours isDarkMode={isDarkMode} />
 
-          {/* What's Included Section */}
-          <section aria-labelledby="whats-included" className={`relative py-16 md:py-24 lg:py-32 overflow-hidden transition-colors duration-500 ${
-            isDarkMode ? 'bg-[#14110E]' : 'bg-[#EAF3EA]'
-          }`}>
-        <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6">
-            <header className="text-center mb-12 md:mb-20 reveal-on-scroll" data-reveal>
-              <h2 id="whats-included" className="text-3xl sm:text-4xl md:text-5xl font-bold mb-5 sm:mb-6">
-                <span className={isDarkMode ? 'text-[#F2F6F9]' : 'text-[#1F2A1F]'}>What’s </span>
-                <span className={`bg-clip-text text-transparent ${
-                  isDarkMode ? 'bg-linear-to-r from-[#C9A36A] to-[#E7CFA2]' : 'bg-linear-to-r from-[#2F5D3A] to-[#7BAF7C]'
-                }`}>Included</span>
-              </h2>
-              <p className={`text-base sm:text-lg md:text-xl ${isDarkMode ? 'text-[#A79C8C]' : 'text-[#3E4F3E]'}`}>
-                All homes include modern comforts and thoughtful essentials for an easy, restorative stay
-              </p>
-            </header>
-            <article className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[2px] sm:gap-3 md:gap-6">
-              {INCLUDED_FEATURES.map((item, index) => (
-                <div
-                  key={item.title}
-                  className="reveal-on-scroll"
-                  data-reveal
-                  style={{ transitionDelay: `${120 + index * 80}ms` }}
-                >
-                  <FeatureFlipCard
-                    icon=""
-                    title={item.title}
-                    description={item.description}
-                    isDarkMode={isDarkMode}
-                  />
-                </div>
-              ))}
-            </article>
-          </div>
-        </section>
-
-        {/* Section Separator */}
-        <hr className={`border-t ${isDarkMode ? 'border-gray-800' : 'border-[#DDE8DD]'}`} aria-hidden="true" />
-
         {/* Experiences Grid */}
         <section aria-labelledby="destinations" className={`relative py-16 md:py-24 lg:py-32 overflow-hidden transition-colors duration-500 ${
           isDarkMode ? 'bg-linear-to-b from-[#0F0D0A] via-[#171310] to-[#0F0D0A]' : 'bg-linear-to-b from-[#F6FAF4] via-[#EAF3EA] to-[#F3F7F2]'
@@ -264,112 +190,6 @@ const Home = () => {
             </div>
           </div>
         </section>
-
-        {/* Coming Soon */}
-        <section aria-labelledby="stay-notes" className={`relative py-16 md:py-24 lg:py-32 overflow-hidden transition-colors duration-500 ${
-          isDarkMode ? 'bg-[#14110E]' : 'bg-[#F3F7F2]'
-        }`}>
-          <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6">
-            <header className="text-center mb-12 md:mb-20 reveal-on-scroll" data-reveal>
-              <h2 id="stay-notes" className="text-3xl sm:text-4xl md:text-5xl font-bold mb-5 sm:mb-6">
-                <span className={isDarkMode ? 'text-[#F2EEE7]' : 'text-[#1F2A1F]'}>Coming </span>
-                <span className={`bg-clip-text text-transparent ${
-                  isDarkMode ? 'bg-linear-to-r from-[#C9A36A] to-[#E7CFA2]' : 'bg-linear-to-r from-[#2F5D3A] to-[#7BAF7C]'
-                }`}>Soon</span>
-              </h2>
-              <p className={`text-base sm:text-lg md:text-xl ${isDarkMode ? 'text-[#A79C8C]' : 'text-[#3E4F3E]'}`}>
-                Even more reasons to escape — we’re building a destination that continues to grow
-              </p>
-            </header>
-
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-              {[
-                {
-                  title: 'Two Container Pools',
-                  image: swimmingPoolThree,
-                  body: 'Sustainable, stylish pools designed for hot Texas days and easy afternoons.'
-                },
-                {
-                  title: 'On-Site Café',
-                  image: cafeTwo,
-                  body: 'Locally roasted coffee, fresh pastries, light bites, and good vibes.'
-                },
-                {
-                  title: 'More Packages & Rentals',
-                  image: horseRidingTwo,
-                  body: 'Additional activity packages and rental options are available on request.'
-                }
-              ].map((item, index) => (
-                <div
-                  key={item.title}
-                  className={`overflow-hidden rounded-3xl border transition-all duration-500 hover:-translate-y-1 reveal-on-scroll ${
-                    isDarkMode
-                      ? 'bg-[#16120F] border-[rgba(201,163,106,0.25)] hover:border-[rgba(201,163,106,0.45)]'
-                      : 'bg-white border-[#DDE8DD] hover:border-[#CFE3CF]'
-                  }`}
-                  data-reveal
-                  style={{ transitionDelay: `${120 + index * 90}ms` }}
-                >
-                  <div className="h-48">
-                    <img
-                      src={item.image}
-                      alt={item.title}
-                      loading="lazy"
-                      decoding="async"
-                      className="h-full w-full object-cover"
-                    />
-                  </div>
-                  <div className="p-5 sm:p-6">
-                    <h3 className={`text-xl sm:text-2xl font-bold mb-3 ${isDarkMode ? 'text-[#F2EEE7]' : 'text-[#1F2A1F]'}`}>
-                      {item.title}
-                    </h3>
-                    <p className={isDarkMode ? 'text-[#A79C8C]' : 'text-[#4B5F4B]'}>{item.body}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* Section Separator */}
-        <hr className={`border-t ${isDarkMode ? 'border-gray-800' : 'border-[#DDE8DD]'}`} aria-hidden="true" />
-
-        {/* About */}
-        <section
-          aria-labelledby="testimonials"
-          className={`relative py-16 md:py-24 lg:py-32 overflow-hidden transition-colors duration-500 img-section ${
-          isDarkMode ? 'bg-[#120F0C]' : 'bg-[#EAF0E8]'
-        }`}
-          style={{ '--cta-bg-image': `url(${tinyEscape11})` }}
-        >
-
-          <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6">
-            <header className="text-center mb-12 md:mb-20 reveal-on-scroll" data-reveal>
-              <h2 id="testimonials" className="text-3xl sm:text-4xl md:text-5xl font-bold mb-5 sm:mb-6">
-                <span className="text-white">Built With </span>
-                <span className={`bg-clip-text text-transparent ${
-                  isDarkMode ? 'bg-linear-to-r from-[#C9A36A] to-[#E7CFA2]' : 'bg-linear-to-r from-[#A3D3A6] to-[#DDF2DE]'
-                }`}>Heart</span>
-              </h2>
-              <p className="text-base sm:text-lg md:text-xl text-white/90">
-                Designed to heal — a family-owned passion project inspired by nature, thoughtful design, and slow living
-              </p>
-            </header>
-
-          <div
-            className={`mx-auto max-w-6xl p-6 sm:p-10 rounded-3xl border backdrop-blur-lg reveal-on-scroll ${
-              isDarkMode
-                ? 'bg-[rgba(16,13,11,0.32)] border-[rgba(201,163,106,0.45)] shadow-[0_30px_70px_-45px_rgba(0,0,0,0.72)]'
-                : 'bg-[rgba(255,255,255,0.18)] border-[rgba(231,240,233,0.58)] shadow-[0_30px_70px_-45px_rgba(0,0,0,0.45)]'
-            }`}
-            data-reveal
-          >
-            <p className="text-base sm:text-lg leading-relaxed text-white/95">
-              The Tiny Escape is a family-owned passion project born from a love of nature, thoughtful design, and slow living. We believe tiny spaces can create big transformations through rest, creativity, and quality time. From each home interior to the layout of our land, every detail is built to help you feel peaceful, connected, and inspired.
-            </p>
-          </div>
-        </div>
-      </section>
 
       {/* Map Section */}
       <section className={`relative py-16 md:py-20 overflow-hidden transition-colors duration-500 ${
