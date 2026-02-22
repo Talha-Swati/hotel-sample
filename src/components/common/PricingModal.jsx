@@ -210,25 +210,6 @@ const PricingModal = ({ isOpen, onClose, destination, isDarkMode }) => {
               </div>
             </div>
 
-            {/* Custom Stay CTA */}
-            <div className={`mt-8 rounded-xl p-6 text-center ${
-              isDarkMode 
-                ? 'bg-linear-to-r from-[#0A3A67] to-[#22D3EE]/20' 
-                : 'bg-linear-to-r from-blue-50 to-cyan-50'
-            }`}>
-              <h3 className={`mb-2 text-xl font-bold ${isDarkMode ? 'text-[#E0E7EE]' : 'text-[#1F2937]'}`}>
-                Need a Custom Stay?
-              </h3>
-              <p className={`mb-4 ${isDarkMode ? 'text-[#C9D6DF]' : 'text-[#6B7280]'}`}>
-                Tell us your dates and preferences for a personalized stay
-              </p>
-              <Link
-                to="/custom-stay"
-                className="inline-flex rounded-lg bg-[#22D3EE] px-6 py-3 font-semibold text-white transition-all hover:bg-[#4DBBFF]"
-              >
-                Create Custom Stay
-              </Link>
-            </div>
           </div>
         </div>
       </div>

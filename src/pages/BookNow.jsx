@@ -28,7 +28,7 @@ const BookNow = () => {
 
   // Get stay data from navigation state or default
   const packageData = location.state?.packageData || {
-    title: 'Custom Stay Request',
+    title: 'Stay Request',
     price: 0,
     duration: 'Flexible dates',
     currency: 'USD'

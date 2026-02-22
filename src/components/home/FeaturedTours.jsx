@@ -126,7 +126,7 @@ const FeaturedTours = ({ isDarkMode }) => {
                           : 'bg-linear-to-r from-[#2F5D3A] to-[#7BAF7C] text-white hover:from-[#7BAF7C] hover:to-[#2F5D3A]'
                       }`}
                     >
-                      Post Details
+                      View Details
                     </Link>
                   </div>
                 </div>

@@ -121,9 +121,6 @@ const TripCategoryPage = ({ config }) => {
             <Link to="/book-now" className={`px-8 py-3 rounded-lg font-semibold transition-colors ${config.ctaPrimaryClassName}`}>
               Check Availability
             </Link>
-            <Link to="/custom-stay" className="px-8 py-3 rounded-lg font-semibold transition-colors bg-white text-[#0F172A] hover:bg-[#F1F5F9] border border-[#E2E8F0]">
-              Build a Custom Stay
-            </Link>
           </div>
         </div>
       </section>

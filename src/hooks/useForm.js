@@ -3,7 +3,7 @@ import { useState, useCallback } from 'react';
 /**
  * Reusable Form Hook
  * Handles form state, validation, and submission for all forms
- * Eliminates duplicate form handling code across Contact, BookNow, CustomTour pages
+ * Eliminates duplicate form handling code across Contact and BookNow pages
  */
 
 export const useForm = (initialValues, onSubmit, validationRules = {}) => {

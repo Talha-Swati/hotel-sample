@@ -212,21 +212,21 @@ const Tours = () => {
               <h2 className={`text-4xl font-bold mb-6 ${
               isDarkMode ? 'text-[#E0E7EE]' : 'text-[#0F172A]'
             }`}>
-              Need a Custom Stay?
+              Ready to Book Your Stay?
             </h2>
             <p className={`text-xl mb-8 ${isDarkMode ? 'text-[#C4CCD4]' : 'text-[#475569]'}`}>
-              Tell us your dates, group size, and preferences. We will match you with the right tiny home.
+              Pick your dates and submit your request. We will confirm availability and details quickly.
             </p>
             <div className="flex flex-wrap gap-4 justify-center">
               <Link
-                to="/custom-stay"
+                to="/book-now"
                 className={`px-8 py-4 rounded-xl font-bold text-lg transition-all duration-300 ${
                   isDarkMode
                     ? 'bg-linear-to-r from-[#22D3EE] to-[#4DBBFF] text-[#0B0C0E] hover:shadow-lg hover:shadow-[#22D3EE]/50'
                     : 'bg-[#1F3A2A] text-[#F7FBF7] hover:bg-[#2F5D3A] hover:shadow-lg hover:shadow-[#2F5D3A]/35'
                 } transform hover:scale-105`}
               >
-                Request Custom Stay
+                Request Availability
               </Link>
               <Link
                 to="/contact"

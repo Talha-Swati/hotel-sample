@@ -24,12 +24,16 @@ const DestinationDetail = memo(() => {
   const navigate = useNavigate();
   const { isDarkMode } = useTheme();
 
+  const localStay = useMemo(() => getStayBySlug(slug), [slug]);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const [stay, setStay] = useState(null);
-  const [isLoadingStay, setIsLoadingStay] = useState(true);
+  const [stay, setStay] = useState(localStay || null);
+  const [isLoadingStay, setIsLoadingStay] = useState(!localStay);
   const [fallbackToast, setFallbackToast] = useState('');
 
-  const localStay = useMemo(() => getStayBySlug(slug), [slug]);
+  useEffect(() => {
+    setStay(localStay || null);
+    setIsLoadingStay(!localStay);
+  }, [localStay]);
 
   useEffect(() => {
     if (!fallbackToast) return undefined;
@@ -42,16 +46,18 @@ const DestinationDetail = memo(() => {
     let mounted = true;
 
     const hydrateStayFromApi = async () => {
-      setIsLoadingStay(true);
+      if (!localStay) {
+        setIsLoadingStay(true);
+      }
 
       try {
-        const [houseResponse, packagesResponse] = await Promise.all([
+        const [houseResponse, packagesResponse] = await Promise.allSettled([
           getHouseBySlug(slug),
           getHousePackagesBySlug(slug),
         ]);
 
-        const house = houseResponse?.data;
-        const packages = packagesResponse?.data || [];
+        const house = houseResponse.status === 'fulfilled' ? houseResponse.value?.data : null;
+        const packages = packagesResponse.status === 'fulfilled' ? packagesResponse.value?.data || [] : [];
 
         if (!house) {
           throw new Error('House data missing from API response');
@@ -106,7 +112,7 @@ const DestinationDetail = memo(() => {
         isDarkMode ? 'bg-[#0B0C0E] text-[#E0E7EE]' : 'bg-white text-[#0F172A]'
       }`}>
         <div className="text-center">
-          <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-[#22D3EE] mx-auto mb-4"></div>
+          <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-[#2F5D3A] mx-auto mb-4"></div>
           <p className="text-lg">Loading stay details...</p>
         </div>
       </div>
@@ -245,10 +251,10 @@ const DestinationDetail = memo(() => {
 
               <div className="flex flex-wrap gap-4">
                 <a
-                  href="#rates"
+                  href="#pricing-card"
                   className="px-6 py-3 bg-[#22D3EE] hover:bg-[#4DBBFF] text-white font-semibold rounded-lg transition-all transform hover:scale-105"
                 >
-                  View Rates
+                  View Pricing
                 </a>
                 <a
                   href="#amenities"
@@ -354,31 +360,6 @@ const DestinationDetail = memo(() => {
               </div>
             </section>
 
-            <section id="rates">
-              <h2 className={`text-3xl font-bold mb-6 ${isDarkMode ? 'text-[#E0E7EE]' : 'text-[#0F172A]'}`}>
-                Rates
-              </h2>
-              <p className={`mb-5 text-sm ${isDarkMode ? 'text-[#8B949E]' : 'text-[#64748B]'}`}>
-                From ${standardRate?.price || 0} per night
-              </p>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {standardRate && (
-                  <ThemedPricingCard
-                    title={standardRate.title}
-                    price={`$${standardRate.price}`}
-                    priceNote="per night"
-                    features={standardRate.features}
-                    isDarkMode={isDarkMode}
-                    themeKey="destinationPricing"
-                    themeIndex={0}
-                    ctaLabel="Request Availability"
-                    onCtaClick={() => handleBookNow(standardRate, 'standard')}
-                    footerLabel="Check-in"
-                    footerText={`${stay.checkIn} • Check-out ${stay.checkOut}`}
-                  />
-                )}
-              </div>
-            </section>
           </div>
 
           <div className="lg:col-span-1">
@@ -407,28 +388,24 @@ const DestinationDetail = memo(() => {
                 </div>
               </div>
 
-              <div className="p-6 rounded-xl bg-linear-to-br from-[#22D3EE] to-[#4DBBFF] text-white">
-                <h3 className="text-xl font-bold mb-4">Need help choosing?</h3>
-                <p className="text-sm mb-4 text-white/90">
-                  Share your dates and preferences and we will match you with the best stay.
-                </p>
-                <button
-                  onClick={() =>
-                    navigate('/book-now', {
-                      state: {
-                        packageData: {
-                          title: stay.name,
-                          source: `stay-${stay.slug}`,
-                          packageCode: 'standard',
-                        },
-                      },
-                    })
-                  }
-                  className="w-full py-3 bg-white text-[#22D3EE] rounded-lg font-semibold hover:bg-gray-100 transition-all"
-                >
-                  Request Availability
-                </button>
-              </div>
+              {standardRate && (
+                <div id="pricing-card" className="max-w-md mx-auto lg:max-w-none">
+                  <ThemedPricingCard
+                    title={standardRate.title}
+                    price={`$${standardRate.price}`}
+                    priceNote="per night"
+                    features={standardRate.features}
+                    isDarkMode={isDarkMode}
+                    themeKey="destinationPricing"
+                    themeIndex={0}
+                    ctaLabel="Request Availability"
+                    onCtaClick={() => handleBookNow(standardRate, 'standard')}
+                    footerLabel="Check-in"
+                    footerText={`${stay.checkIn} • Check-out ${stay.checkOut}`}
+                    className="min-h-[560px]"
+                  />
+                </div>
+              )}
             </div>
           </div>
         </div>

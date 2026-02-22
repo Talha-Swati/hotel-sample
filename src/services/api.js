@@ -134,36 +134,6 @@ export const contactAPI = {
   },
 };
 
-// Custom Stay Request API
-export const customTourAPI = {
-  // Submit custom stay request
-  submit: async (tourData) => {
-    // TODO: Replace with actual API call
-    // return apiRequest('/custom-stays', { method: 'POST', body: JSON.stringify(tourData) });
-    console.log('Custom stay request:', tourData);
-    return Promise.resolve({ 
-      success: true, 
-      requestId: `CT-${Date.now()}`,
-      estimatedPrice: calculateEstimatedPrice(tourData),
-      message: 'Request received! Our team will create a custom itinerary for you.' 
-    });
-  },
-};
-
-// Helper function for price calculation (will be moved to backend)
-const calculateEstimatedPrice = (tourData) => {
-  let basePrice = 500;
-  
-  if (tourData.duration) basePrice += parseInt(tourData.duration) * 100;
-  if (tourData.groupSize) basePrice += parseInt(tourData.groupSize) * 50;
-  if (tourData.accommodation === 'luxury') basePrice += 300;
-  if (tourData.accommodation === 'premium') basePrice += 150;
-  if (tourData.transportation === 'private') basePrice += 200;
-  if (tourData.meals === 'all-inclusive') basePrice += 100;
-  
-  return basePrice;
-};
-
 export default {
   tours: toursAPI,
   stays: staysAPI,
@@ -172,5 +142,4 @@ export default {
   reviews: reviewsAPI,
   bookings: bookingsAPI,
   contact: contactAPI,
-  customTour: customTourAPI,
 };

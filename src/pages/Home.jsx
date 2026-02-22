@@ -54,16 +54,6 @@ const EXPERIENCE_ADDONS = [
   }
 ];
 
-const LOCATION_HIGHLIGHTS = [
-  'Brazos kayaking (30 min)',
-  'Magnolia Market (20 min)',
-  'Belton Lake (30 min)',
-  'Small-town antique shops',
-  'Mother Neff trails + picnic spots',
-  'Kissing Tree Vineyards + live music',
-  'Eagles Landing homestyle dining'
-];
-
 const Home = () => {
   const { isDarkMode } = useTheme();
 
@@ -219,20 +209,6 @@ const Home = () => {
             />
           </div>
 
-          <div className="mt-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5">
-            {LOCATION_HIGHLIGHTS.map((item) => (
-              <div
-                key={item}
-                className={`rounded-lg border px-3 py-2 text-[13px] leading-tight ${
-                  isDarkMode
-                    ? 'border-[rgba(201,163,106,0.2)] bg-[rgba(22,18,15,0.75)] text-[#CDBEAC]'
-                    : 'border-[#DDE8DD] bg-white text-[#3E4F3E]'
-                }`}
-              >
-                {item}
-              </div>
-            ))}
-          </div>
         </div>
       </section>
 

@@ -35,9 +35,11 @@ export const useHousesData = ({ fallbackData = [] } = {}) => {
           })
         );
 
+        const packagesBySlug = new Map(packageResponses);
+
         const mapped = houseItems.map((house) => {
           const fallbackStay = fallbackBySlug.get(house.slug);
-          const packages = packageResponses.find(([packageSlug]) => packageSlug === house.slug)?.[1] || [];
+          const packages = packagesBySlug.get(house.slug) || [];
 
           return normalizeHouseToStay({
             house,

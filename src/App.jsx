@@ -15,7 +15,6 @@ const CreeksCafe = lazy(() => import('./pages/CreeksCafe'));
 const About = lazy(() => import('./pages/About'));
 const Contact = lazy(() => import('./pages/Contact'));
 const BookNow = lazy(() => import('./pages/BookNow'));
-const CustomStayRequest = lazy(() => import('./pages/CustomStayRequest'));
 const PrivacyPolicy = lazy(() => import('./pages/PrivacyPolicy'));
 const TermsConditions = lazy(() => import('./pages/TermsConditions'));
 
@@ -43,7 +42,6 @@ const App = () => {
               <Route path="/about" element={<About />} />
               <Route path="/contact" element={<Contact />} />
               <Route path="/book-now" element={<BookNow />} />
-              <Route path="/custom-stay" element={<CustomStayRequest />} />
               <Route path="/privacy-policy" element={<PrivacyPolicy />} />
               <Route path="/terms-conditions" element={<TermsConditions />} />
               <Route path="/under-development" element={<UnderDevelopment />} />
