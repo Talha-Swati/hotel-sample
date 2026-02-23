@@ -270,19 +270,84 @@ const Home = () => {
           <div className={`rounded-2xl border p-6 md:p-8 ${
             isDarkMode ? 'border-[#2A2119] bg-[#16120F]' : 'border-[#DDE8DD] bg-white'
           }`}>
-            <div className="flex flex-col md:flex-row md:items-end gap-4 md:gap-6">
-              <div className="flex-1">
-                <p className={`text-xs uppercase tracking-widest font-semibold mb-2 ${isDarkMode ? 'text-[#C9A36A]' : 'text-[#2F5D3A]'}`}>
-                  Quick Stay Search
-                </p>
-                <h2 className={`text-2xl md:text-3xl font-bold ${isDarkMode ? 'text-[#F2EEE7]' : 'text-[#1F2A1F]'}`}>
-                  Select dates and see available stays instantly
-                </h2>
-                <p className={`mt-3 text-sm ${isDarkMode ? 'text-[#CDBEAC]' : 'text-[#4B5F4B]'}`}>
-                  {selectedDates.checkIn && selectedDates.checkOut
-                    ? `Selected: ${selectedDates.checkIn} to ${selectedDates.checkOut}`
-                    : 'Pick check-in and check-out dates from one calendar below.'}
-                </p>
+            <div className="mb-6">
+              <p className={`text-xs uppercase tracking-widest font-semibold mb-2 ${isDarkMode ? 'text-[#C9A36A]' : 'text-[#2F5D3A]'}`}>
+                Quick Stay Search
+              </p>
+              <h2 className={`text-3xl sm:text-4xl md:text-5xl font-bold ${isDarkMode ? 'text-[#F2EEE7]' : 'text-[#1F2A1F]'}`}>
+                Select dates and see available stays instantly
+              </h2>
+              <p className={`mt-3 text-sm ${isDarkMode ? 'text-[#CDBEAC]' : 'text-[#4B5F4B]'}`}>
+                {selectedDates.checkIn && selectedDates.checkOut
+                  ? `Selected: ${selectedDates.checkIn} to ${selectedDates.checkOut}`
+                  : 'Pick check-in and check-out dates from the calendar on the right.'}
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
+              <div className="md:col-span-2">
+                <div className="mt-3">
+                  {availabilityState.loading && (
+                    <p className={isDarkMode ? 'text-[#CDBEAC]' : 'text-[#4B5F4B]'}>
+                      Checking availability across all stays...
+                    </p>
+                  )}
+
+                  {!availabilityState.loading && availabilityState.error && (
+                    <p className={isDarkMode ? 'text-red-300' : 'text-red-600'}>{availabilityState.error}</p>
+                  )}
+
+                  {!availabilityState.loading && !availabilityState.error && availabilityState.checked && (
+                    <p className={isDarkMode ? 'text-[#CDBEAC]' : 'text-[#4B5F4B]'}>
+                      {visibleStays.length} of {topStays.length} stays available for your selected dates.
+                    </p>
+                  )}
+                </div>
+
+                <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                  {visibleStays.map((stay) => (
+                    <article
+                      key={stay.slug}
+                      className={`rounded-2xl overflow-hidden shadow-sm transition-transform hover:-translate-y-1 border ${
+                        isDarkMode ? 'border-[#2A2119] bg-[#120F0C]' : 'border-[#E6EDE6] bg-white'
+                      }`}
+                      style={{ minHeight: 260 }}
+                    >
+                      <img
+                        src={stay.heroImage}
+                        alt={stay.name}
+                        className="w-full h-44 sm:h-48 md:h-52 lg:h-56 object-cover"
+                        loading="lazy"
+                        decoding="async"
+                      />
+                      <div className="p-5">
+                        <h3 className={`font-bold text-lg sm:text-xl ${isDarkMode ? 'text-[#F2EEE7]' : 'text-[#1F2A1F]'}`}>{stay.name}</h3>
+                        <p className={`text-sm mt-1 ${isDarkMode ? 'text-[#A79C8C]' : 'text-[#4B5F4B]'}`}>{stay.location}</p>
+                        <button
+                          onClick={() => handleOpenStay(stay)}
+                          disabled={!selectedDates.checkIn || !selectedDates.checkOut || !hasValidDateRange}
+                          className={`mt-5 w-full rounded-full px-6 py-3 text-base font-semibold transition-all ${
+                            !selectedDates.checkIn || !selectedDates.checkOut || !hasValidDateRange
+                              ? isDarkMode
+                                ? 'bg-[#2A2119] text-[#8E7D68] cursor-not-allowed'
+                                : 'bg-[#E7EFE6] text-[#8AA08A] cursor-not-allowed'
+                              : isDarkMode
+                                ? 'bg-[#2F5D3A] text-[#F7FBF7] hover:bg-[#3C7449]'
+                                : 'bg-[#2F5D3A] text-white hover:bg-[#3A6E47]'
+                          }`}
+                        >
+                          View Available Stay
+                        </button>
+                      </div>
+                    </article>
+                  ))}
+                </div>
+
+                {!availabilityState.loading && availabilityState.checked && visibleStays.length === 0 && (
+                  <div className={`mt-4 rounded-lg p-4 ${isDarkMode ? 'bg-[#1A1410] text-[#CDBEAC]' : 'bg-[#F0F6EF] text-[#3E4F3E]'}`}>
+                    No stays are available for these dates. Please try different dates.
+                  </div>
+                )}
               </div>
 
               <div className={`w-full md:w-auto rounded-xl border p-3 ${
@@ -297,68 +362,6 @@ const Home = () => {
                 />
               </div>
             </div>
-
-            <div className="mt-5">
-              {availabilityState.loading && (
-                <p className={isDarkMode ? 'text-[#CDBEAC]' : 'text-[#4B5F4B]'}>
-                  Checking availability across all stays...
-                </p>
-              )}
-
-              {!availabilityState.loading && availabilityState.error && (
-                <p className={isDarkMode ? 'text-red-300' : 'text-red-600'}>{availabilityState.error}</p>
-              )}
-
-              {!availabilityState.loading && !availabilityState.error && availabilityState.checked && (
-                <p className={isDarkMode ? 'text-[#CDBEAC]' : 'text-[#4B5F4B]'}>
-                  {visibleStays.length} of {topStays.length} stays available for your selected dates.
-                </p>
-              )}
-            </div>
-
-            <div className="mt-6 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
-              {visibleStays.map((stay) => (
-                <article
-                  key={stay.slug}
-                  className={`rounded-xl border overflow-hidden ${
-                    isDarkMode ? 'border-[#2A2119] bg-[#120F0C]' : 'border-[#DDE8DD] bg-white'
-                  }`}
-                >
-                  <img
-                    src={stay.heroImage}
-                    alt={stay.name}
-                    className="w-full h-36 object-cover"
-                    loading="lazy"
-                    decoding="async"
-                  />
-                  <div className="p-4">
-                    <h3 className={`font-bold text-lg ${isDarkMode ? 'text-[#F2EEE7]' : 'text-[#1F2A1F]'}`}>{stay.name}</h3>
-                    <p className={`text-sm mt-1 ${isDarkMode ? 'text-[#A79C8C]' : 'text-[#4B5F4B]'}`}>{stay.location}</p>
-                    <button
-                      onClick={() => handleOpenStay(stay)}
-                      disabled={!selectedDates.checkIn || !selectedDates.checkOut || !hasValidDateRange}
-                      className={`mt-4 w-full rounded-lg px-4 py-2.5 font-semibold transition-all ${
-                        !selectedDates.checkIn || !selectedDates.checkOut || !hasValidDateRange
-                          ? isDarkMode
-                            ? 'bg-[#2A2119] text-[#8E7D68] cursor-not-allowed'
-                            : 'bg-[#E7EFE6] text-[#8AA08A] cursor-not-allowed'
-                          : isDarkMode
-                            ? 'bg-[#2F5D3A] text-[#F7FBF7] hover:bg-[#3C7449]'
-                            : 'bg-[#2F5D3A] text-white hover:bg-[#3A6E47]'
-                      }`}
-                    >
-                      View Available Stay
-                    </button>
-                  </div>
-                </article>
-              ))}
-            </div>
-
-            {!availabilityState.loading && availabilityState.checked && visibleStays.length === 0 && (
-              <div className={`mt-4 rounded-lg p-4 ${isDarkMode ? 'bg-[#1A1410] text-[#CDBEAC]' : 'bg-[#F0F6EF] text-[#3E4F3E]'}`}>
-                No stays are available for these dates. Please try different dates.
-              </div>
-            )}
           </div>
         </div>
       </section>
