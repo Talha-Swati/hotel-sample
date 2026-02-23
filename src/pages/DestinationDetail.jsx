@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState, memo } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { useTheme } from '../context/ThemeContext';
 import PageLayout from '../components/layout/PageLayout';
 import ThemedPricingCard from '../components/common/ThemedPricingCard';
@@ -22,9 +22,21 @@ import {
 const DestinationDetail = memo(() => {
   const { slug } = useParams();
   const navigate = useNavigate();
+  const location = useLocation();
   const { isDarkMode } = useTheme();
 
   const localStay = useMemo(() => getStayBySlug(slug), [slug]);
+  const prefilledDates = useMemo(() => {
+    const checkIn = location.state?.prefillDates?.checkIn;
+    const checkOut = location.state?.prefillDates?.checkOut;
+
+    if (!checkIn || !checkOut) return null;
+
+    const ymdRegex = /^\d{4}-\d{2}-\d{2}$/;
+    if (!ymdRegex.test(checkIn) || !ymdRegex.test(checkOut)) return null;
+
+    return { checkIn, checkOut };
+  }, [location.state?.prefillDates?.checkIn, location.state?.prefillDates?.checkOut]);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [stay, setStay] = useState(localStay || null);
   const [isLoadingStay, setIsLoadingStay] = useState(!localStay);
@@ -130,6 +142,7 @@ const DestinationDetail = memo(() => {
           stayType: rate.title,
           source: `stay-${slug}`,
           packageCode,
+          ...(prefilledDates ? { prefillDates: prefilledDates } : {}),
         }
       }
     });
@@ -270,6 +283,7 @@ const DestinationDetail = memo(() => {
                           title: stay.name,
                           source: `stay-${stay.slug}`,
                           packageCode: 'standard',
+                          ...(prefilledDates ? { prefillDates: prefilledDates } : {}),
                         },
                       },
                     })

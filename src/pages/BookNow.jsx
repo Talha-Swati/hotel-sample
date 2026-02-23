@@ -34,6 +34,23 @@ const BookNow = () => {
     currency: 'USD'
   };
 
+  const prefilledDates = useMemo(() => {
+    const checkIn = packageData?.prefillDates?.checkIn || location.state?.prefillDates?.checkIn;
+    const checkOut = packageData?.prefillDates?.checkOut || location.state?.prefillDates?.checkOut;
+
+    if (!checkIn || !checkOut) return null;
+
+    const ymdRegex = /^\d{4}-\d{2}-\d{2}$/;
+    if (!ymdRegex.test(checkIn) || !ymdRegex.test(checkOut)) return null;
+
+    return { checkIn, checkOut };
+  }, [
+    packageData?.prefillDates?.checkIn,
+    packageData?.prefillDates?.checkOut,
+    location.state?.prefillDates?.checkIn,
+    location.state?.prefillDates?.checkOut,
+  ]);
+
   const [step, setStep] = useState(1);
   const [bookingData, setBookingData] = useState({
     // Guest Information
@@ -47,8 +64,8 @@ const BookNow = () => {
     // Stay Details
     adults: '1',
     children: '0',
-    checkIn: '',
-    checkOut: '',
+    checkIn: prefilledDates?.checkIn || '',
+    checkOut: prefilledDates?.checkOut || '',
     pets: 'no',
     specialRequests: '',
 
@@ -109,6 +126,16 @@ const BookNow = () => {
 
     return () => clearTimeout(timeout);
   }, [toast.visible]);
+
+  useEffect(() => {
+    if (!prefilledDates) return;
+
+    setBookingData((prev) => ({
+      ...prev,
+      checkIn: prefilledDates.checkIn,
+      checkOut: prefilledDates.checkOut,
+    }));
+  }, [prefilledDates]);
 
   const stayFromTitle = useMemo(() => {
     if (!packageData?.title) return null;

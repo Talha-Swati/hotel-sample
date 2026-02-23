@@ -1,5 +1,7 @@
-import { useEffect, useMemo } from 'react';
-import { Link } from 'react-router-dom';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { DayPicker } from 'react-day-picker';
+import 'react-day-picker/dist/style.css';
 import { useTheme } from '../context/ThemeContext';
 import { getOrganizationSchema, getReviewSchema } from '../utils/structuredData';
 import heroVideo from '../assets/videos/hero.mp4';
@@ -10,6 +12,9 @@ import PageLayout from '../components/layout/PageLayout';
 // Home Components
 import HeroSection from '../components/home/HeroSection';
 import FeaturedTours from '../components/home/FeaturedTours';
+import { getAllStays } from '../data/staysData';
+import { useHousesData } from '../hooks/useHousesData';
+import { checkBookingAvailability } from '../services/bookings';
 
 // Data
 import tinyEscape7 from '../assets/tiny escape 7.jpeg';
@@ -55,7 +60,156 @@ const EXPERIENCE_ADDONS = [
 ];
 
 const Home = () => {
+  const navigate = useNavigate();
   const { isDarkMode } = useTheme();
+  const { houses } = useHousesData({ fallbackData: getAllStays() });
+  const [homeDateRange, setHomeDateRange] = useState({ from: undefined, to: undefined });
+  const [selectedDates, setSelectedDates] = useState({
+    checkIn: '',
+    checkOut: '',
+  });
+  const [availabilityState, setAvailabilityState] = useState({
+    loading: false,
+    error: '',
+    checked: false,
+    availableBySlug: {},
+  });
+
+  const parseYMDToLocalDate = useCallback((value) => {
+    if (!value || typeof value !== 'string') return null;
+    const match = value.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+    if (!match) return null;
+    return new Date(Number(match[1]), Number(match[2]) - 1, Number(match[3]));
+  }, []);
+
+  const formatDateToYMD = useCallback((date) => {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  }, []);
+
+  const todayYMD = useMemo(() => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    return formatDateToYMD(today);
+  }, [formatDateToYMD]);
+
+  const topStays = useMemo(() => houses.slice(0, 4), [houses]);
+
+  const hasValidDateRange = useMemo(() => {
+    const checkInDate = parseYMDToLocalDate(selectedDates.checkIn);
+    const checkOutDate = parseYMDToLocalDate(selectedDates.checkOut);
+    if (!checkInDate || !checkOutDate) return false;
+    return checkOutDate > checkInDate;
+  }, [parseYMDToLocalDate, selectedDates.checkIn, selectedDates.checkOut]);
+
+  useEffect(() => {
+    let mounted = true;
+
+    const checkAllStaysAvailability = async () => {
+      if (!selectedDates.checkIn || !selectedDates.checkOut) {
+        setAvailabilityState({
+          loading: false,
+          error: '',
+          checked: false,
+          availableBySlug: {},
+        });
+        return;
+      }
+
+      if (!hasValidDateRange) {
+        setAvailabilityState({
+          loading: false,
+          error: 'Check-out date must be after check-in date.',
+          checked: false,
+          availableBySlug: {},
+        });
+        return;
+      }
+
+      setAvailabilityState((prev) => ({ ...prev, loading: true, error: '', checked: false }));
+
+      const checks = await Promise.all(
+        topStays.map(async (stay) => {
+          try {
+            const response = await checkBookingAvailability({
+              houseSlug: stay.slug,
+              checkIn: selectedDates.checkIn,
+              checkOut: selectedDates.checkOut,
+            });
+
+            return [
+              stay.slug,
+              {
+                status: response?.available === true ? 'available' : 'unavailable',
+                available: Boolean(response?.available),
+                reason: response?.reason || '',
+              },
+            ];
+          } catch (error) {
+            return [
+              stay.slug,
+              {
+                status: 'unknown',
+                available: null,
+                reason: error?.message || 'Unable to check availability.',
+              },
+            ];
+          }
+        })
+      );
+
+      if (!mounted) return;
+
+      setAvailabilityState({
+        loading: false,
+        error: '',
+        checked: true,
+        availableBySlug: Object.fromEntries(checks),
+      });
+    };
+
+    checkAllStaysAvailability();
+
+    return () => {
+      mounted = false;
+    };
+  }, [hasValidDateRange, selectedDates.checkIn, selectedDates.checkOut, topStays]);
+
+  const visibleStays = useMemo(() => {
+    if (!availabilityState.checked) {
+      return topStays;
+    }
+
+    return topStays.filter((stay) => {
+      const status = availabilityState.availableBySlug[stay.slug];
+      if (!status) return true;
+      return status.available !== false;
+    });
+  }, [availabilityState.availableBySlug, availabilityState.checked, topStays]);
+
+  const handleRangeSelect = (nextRange) => {
+    const from = nextRange?.from;
+    const to = nextRange?.to;
+
+    setHomeDateRange(nextRange || { from: undefined, to: undefined });
+    setSelectedDates({
+      checkIn: from ? formatDateToYMD(from) : '',
+      checkOut: to ? formatDateToYMD(to) : '',
+    });
+  };
+
+  const handleOpenStay = (stay) => {
+    navigate(`/stay/${stay.slug}`, {
+      state: {
+        prefillDates: {
+          checkIn: selectedDates.checkIn,
+          checkOut: selectedDates.checkOut,
+        },
+      },
+    });
+  };
 
   useEffect(() => {
     const elements = Array.from(document.querySelectorAll('[data-reveal]'));
@@ -110,6 +264,104 @@ const Home = () => {
     >
       {/* Hero Section */}
       <HeroSection isDarkMode={isDarkMode} videoSrc={heroVideo} />
+
+      <section className={`py-12 border-b ${isDarkMode ? 'bg-[#120F0C] border-[#2A2119]' : 'bg-[#F5F9F3] border-[#DDE8DD]'}`}>
+        <div className="mx-auto max-w-7xl px-4 sm:px-6">
+          <div className={`rounded-2xl border p-6 md:p-8 ${
+            isDarkMode ? 'border-[#2A2119] bg-[#16120F]' : 'border-[#DDE8DD] bg-white'
+          }`}>
+            <div className="flex flex-col md:flex-row md:items-end gap-4 md:gap-6">
+              <div className="flex-1">
+                <p className={`text-xs uppercase tracking-widest font-semibold mb-2 ${isDarkMode ? 'text-[#C9A36A]' : 'text-[#2F5D3A]'}`}>
+                  Quick Stay Search
+                </p>
+                <h2 className={`text-2xl md:text-3xl font-bold ${isDarkMode ? 'text-[#F2EEE7]' : 'text-[#1F2A1F]'}`}>
+                  Select dates and see available stays instantly
+                </h2>
+                <p className={`mt-3 text-sm ${isDarkMode ? 'text-[#CDBEAC]' : 'text-[#4B5F4B]'}`}>
+                  {selectedDates.checkIn && selectedDates.checkOut
+                    ? `Selected: ${selectedDates.checkIn} to ${selectedDates.checkOut}`
+                    : 'Pick check-in and check-out dates from one calendar below.'}
+                </p>
+              </div>
+
+              <div className={`w-full md:w-auto rounded-xl border p-3 ${
+                isDarkMode ? 'border-[#2A2119] bg-[#0F0D0A]' : 'border-[#DDE8DD] bg-white'
+              }`}>
+                <DayPicker
+                  mode="range"
+                  selected={homeDateRange}
+                  onSelect={handleRangeSelect}
+                  numberOfMonths={1}
+                  disabled={{ before: parseYMDToLocalDate(todayYMD) || undefined }}
+                />
+              </div>
+            </div>
+
+            <div className="mt-5">
+              {availabilityState.loading && (
+                <p className={isDarkMode ? 'text-[#CDBEAC]' : 'text-[#4B5F4B]'}>
+                  Checking availability across all stays...
+                </p>
+              )}
+
+              {!availabilityState.loading && availabilityState.error && (
+                <p className={isDarkMode ? 'text-red-300' : 'text-red-600'}>{availabilityState.error}</p>
+              )}
+
+              {!availabilityState.loading && !availabilityState.error && availabilityState.checked && (
+                <p className={isDarkMode ? 'text-[#CDBEAC]' : 'text-[#4B5F4B]'}>
+                  {visibleStays.length} of {topStays.length} stays available for your selected dates.
+                </p>
+              )}
+            </div>
+
+            <div className="mt-6 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
+              {visibleStays.map((stay) => (
+                <article
+                  key={stay.slug}
+                  className={`rounded-xl border overflow-hidden ${
+                    isDarkMode ? 'border-[#2A2119] bg-[#120F0C]' : 'border-[#DDE8DD] bg-white'
+                  }`}
+                >
+                  <img
+                    src={stay.heroImage}
+                    alt={stay.name}
+                    className="w-full h-36 object-cover"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                  <div className="p-4">
+                    <h3 className={`font-bold text-lg ${isDarkMode ? 'text-[#F2EEE7]' : 'text-[#1F2A1F]'}`}>{stay.name}</h3>
+                    <p className={`text-sm mt-1 ${isDarkMode ? 'text-[#A79C8C]' : 'text-[#4B5F4B]'}`}>{stay.location}</p>
+                    <button
+                      onClick={() => handleOpenStay(stay)}
+                      disabled={!selectedDates.checkIn || !selectedDates.checkOut || !hasValidDateRange}
+                      className={`mt-4 w-full rounded-lg px-4 py-2.5 font-semibold transition-all ${
+                        !selectedDates.checkIn || !selectedDates.checkOut || !hasValidDateRange
+                          ? isDarkMode
+                            ? 'bg-[#2A2119] text-[#8E7D68] cursor-not-allowed'
+                            : 'bg-[#E7EFE6] text-[#8AA08A] cursor-not-allowed'
+                          : isDarkMode
+                            ? 'bg-[#2F5D3A] text-[#F7FBF7] hover:bg-[#3C7449]'
+                            : 'bg-[#2F5D3A] text-white hover:bg-[#3A6E47]'
+                      }`}
+                    >
+                      View Available Stay
+                    </button>
+                  </div>
+                </article>
+              ))}
+            </div>
+
+            {!availabilityState.loading && availabilityState.checked && visibleStays.length === 0 && (
+              <div className={`mt-4 rounded-lg p-4 ${isDarkMode ? 'bg-[#1A1410] text-[#CDBEAC]' : 'bg-[#F0F6EF] text-[#3E4F3E]'}`}>
+                No stays are available for these dates. Please try different dates.
+              </div>
+            )}
+          </div>
+        </div>
+      </section>
 
 
           {/* Featured Stays Section */}
