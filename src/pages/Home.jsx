@@ -266,7 +266,7 @@ const Home = () => {
       <HeroSection isDarkMode={isDarkMode} videoSrc={heroVideo} />
 
       <section className={`py-12 border-b ${isDarkMode ? 'bg-[#120F0C] border-[#2A2119]' : 'bg-[#F5F9F3] border-[#DDE8DD]'}`}>
-        <div className="mx-auto max-w-7xl px-4 sm:px-6">
+        <div className="mx-auto max-w-screen-2xl px-4 sm:px-6">
           <div className={`rounded-2xl border p-6 md:p-8 ${
             isDarkMode ? 'border-[#2A2119] bg-[#16120F]' : 'border-[#DDE8DD] bg-white'
           }`}>
@@ -284,8 +284,8 @@ const Home = () => {
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
-              <div className="md:col-span-2">
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-6 items-start">
+              <div className="md:col-span-3">
                 <div className="mt-3">
                   {availabilityState.loading && (
                     <p className={isDarkMode ? 'text-[#CDBEAC]' : 'text-[#4B5F4B]'}>
@@ -304,19 +304,19 @@ const Home = () => {
                   )}
                 </div>
 
-                <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                   {visibleStays.map((stay) => (
                     <article
                       key={stay.slug}
                       className={`rounded-2xl overflow-hidden shadow-sm transition-transform hover:-translate-y-1 border ${
                         isDarkMode ? 'border-[#2A2119] bg-[#120F0C]' : 'border-[#E6EDE6] bg-white'
                       }`}
-                      style={{ minHeight: 260 }}
+                      style={{ minHeight: 320 }}
                     >
                       <img
                         src={stay.heroImage}
                         alt={stay.name}
-                        className="w-full h-44 sm:h-48 md:h-52 lg:h-56 object-cover"
+                        className="w-full h-56 sm:h-64 md:h-72 lg:h-72 object-cover"
                         loading="lazy"
                         decoding="async"
                       />
@@ -326,7 +326,7 @@ const Home = () => {
                         <button
                           onClick={() => handleOpenStay(stay)}
                           disabled={!selectedDates.checkIn || !selectedDates.checkOut || !hasValidDateRange}
-                          className={`mt-5 w-full rounded-full px-6 py-3 text-base font-semibold transition-all ${
+                          className={`mt-6 w-full rounded-full px-6 py-3 text-base font-semibold transition-all ${
                             !selectedDates.checkIn || !selectedDates.checkOut || !hasValidDateRange
                               ? isDarkMode
                                 ? 'bg-[#2A2119] text-[#8E7D68] cursor-not-allowed'
@@ -352,7 +352,7 @@ const Home = () => {
 
               <div className={`w-full md:w-auto rounded-xl border p-3 ${
                 isDarkMode ? 'border-[#2A2119] bg-[#0F0D0A]' : 'border-[#DDE8DD] bg-white'
-              }`}>
+              } sticky top-24`}> 
                 <DayPicker
                   mode="range"
                   selected={homeDateRange}
