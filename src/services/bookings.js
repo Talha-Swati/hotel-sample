@@ -14,6 +14,12 @@ export const createBookingRequest = async (payload) =>
 
 export const getBookingById = async (bookingId) => apiClient(`/bookings/${bookingId}`);
 
+export const pricePreview = async (payload) =>
+  apiClient('/bookings/price-preview', {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  });
+
 export default {
   checkBookingAvailability,
   createBookingRequest,

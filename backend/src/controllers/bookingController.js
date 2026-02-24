@@ -9,12 +9,12 @@ const {
 } = require('../utils/bookingHelpers');
 
 const ADD_ON_PRICE_MAP = {
-  'horse-riding': 15,
-  atv: 20,
+  'horse-riding': 150, // flat fee for two guests (per request)
+  atv: 50,
 };
 
 const STATE_TAX_RATE = 0.06;
-const FIXED_CLEANING_FEE = 40;
+const FIXED_CLEANING_FEE = 50;
 const CANCELLATION_POLICY =
   '100% refund up to 30 days before arrival, 50% refund up to 14 days before arrival.';
 
@@ -105,6 +105,80 @@ const checkAvailability = asyncHandler(async (req, res) => {
   });
 });
 
+const computePricingForStay = ({ house, checkInDate, checkOutDate, addOns = [] }) => {
+  // Determine per-night price depending on house slug/category and weekday vs weekend
+  const nights = calculateNights(checkInDate, checkOutDate);
+
+  const isWeekendNight = (date) => {
+    const dow = date.getDay(); // 0 Sun .. 6 Sat
+    return dow === 5 || dow === 6; // Fri(5) or Sat(6) treated as weekend nights
+  };
+
+  // Default rates (fallback to package pricePerNight when available)
+  const appleWeekday = 205;
+  const appleWeekend = 255;
+  const aFrameWeekday = 215;
+  const aFrameWeekend = 285;
+
+  let subtotal = 0;
+
+  for (let i = 0; i < nights; i += 1) {
+    const nightDate = new Date(checkInDate);
+    nightDate.setDate(nightDate.getDate() + i);
+    const weekend = isWeekendNight(nightDate);
+
+    if (house.slug && house.slug.startsWith('apple-')) {
+      subtotal += weekend ? appleWeekend : appleWeekday;
+    } else if (house.slug && house.slug.startsWith('triangle-')) {
+      subtotal += weekend ? aFrameWeekend : aFrameWeekday;
+    } else {
+      // fallback: use first package pricePerNight if present on house.packages
+      // house.packages might not be present on lean house; fallback to 0
+      const base = (house.packages && house.packages.standard && house.packages.standard.pricePerNight) || 0;
+      subtotal += base;
+    }
+  }
+
+  const normalizedAddOns = Array.isArray(addOns) ? addOns.filter((item) => Object.prototype.hasOwnProperty.call(ADD_ON_PRICE_MAP, item)) : [];
+  const addOnsFee = normalizedAddOns.reduce((sum, item) => sum + (ADD_ON_PRICE_MAP[item] || 0), 0);
+  const cleaningFee = FIXED_CLEANING_FEE;
+  const tax = Number(((subtotal + addOnsFee + cleaningFee) * STATE_TAX_RATE).toFixed(2));
+  const total = Number((subtotal + addOnsFee + cleaningFee + tax).toFixed(2));
+
+  return {
+    nights,
+    subtotal: Number(subtotal.toFixed(2)),
+    addOnsFee: Number(addOnsFee.toFixed(2)),
+    cleaningFee: Number(cleaningFee.toFixed(2)),
+    tax,
+    taxRate: STATE_TAX_RATE,
+    total,
+  };
+};
+
+const pricePreview = asyncHandler(async (req, res) => {
+  const { houseId, houseSlug, checkIn, checkOut, addOns = [] } = req.body;
+
+  const normalizedSlug = houseSlug || req.body.slug;
+  const house = await resolveHouse({ houseId, slug: normalizedSlug });
+
+  if (!house) {
+    throw new ApiError(404, 'House not found or inactive');
+  }
+
+  const checkInDate = new Date(checkIn);
+  const checkOutDate = new Date(checkOut);
+  const nights = calculateNights(checkInDate, checkOutDate);
+
+  if (nights <= 0) {
+    return res.status(200).json({ success: true, nights, available: false, reason: 'checkOut must be after checkIn' });
+  }
+
+  const pricing = computePricingForStay({ house, checkInDate, checkOutDate, addOns });
+
+  return res.status(200).json({ success: true, pricing });
+});
+
 const createBookingRequest = asyncHandler(async (req, res) => {
   const {
     houseId,
@@ -160,15 +234,20 @@ const createBookingRequest = asyncHandler(async (req, res) => {
   const normalizedAddOns = Array.isArray(preferences.addOns)
     ? preferences.addOns.filter((item) => Object.prototype.hasOwnProperty.call(ADD_ON_PRICE_MAP, item))
     : [];
-  const computedSubtotal = Number((Number(selectedPackage.pricePerNight || 0) * nights).toFixed(2));
-  const computedAddOnsFee = Number(
-    normalizedAddOns.reduce((sum, item) => sum + (ADD_ON_PRICE_MAP[item] || 0), 0).toFixed(2)
-  );
-  const normalizedCleaningFee = Number(FIXED_CLEANING_FEE.toFixed(2));
-  const computedTax = Number(((computedSubtotal + computedAddOnsFee + normalizedCleaningFee) * STATE_TAX_RATE).toFixed(2));
-  const computedTotal = Number(
-    (computedSubtotal + computedAddOnsFee + normalizedCleaningFee + computedTax).toFixed(2)
-  );
+
+  // Use computePricingForStay to derive official pricing (handles weekday/weekend rates)
+  const pricingCalc = computePricingForStay({
+    house,
+    checkInDate,
+    checkOutDate,
+    addOns: normalizedAddOns,
+  });
+
+  const computedSubtotal = pricingCalc.subtotal;
+  const computedAddOnsFee = pricingCalc.addOnsFee;
+  const normalizedCleaningFee = pricingCalc.cleaningFee;
+  const computedTax = pricingCalc.tax;
+  const computedTotal = pricingCalc.total;
 
   const booking = await BookingRequest.create({
     bookingId,
@@ -239,4 +318,5 @@ module.exports = {
   checkAvailability,
   createBookingRequest,
   getBookingByBookingId,
+  pricePreview,
 };

@@ -77,10 +77,10 @@ const BookNow = () => {
   });
 
   const ADD_ON_OPTIONS = [
-    { value: 'horse-riding', label: 'Horse Riding', price: 15 },
-    { value: 'atv', label: 'ATV Adventure', price: 20 },
+    { value: 'horse-riding', label: 'Horse Riding', price: 150 },
+    { value: 'atv', label: 'ATV Adventure', price: 50 },
   ];
-  const CLEANING_FEE = 40;
+  const CLEANING_FEE = 50;
   const TAX_RATE = 0.06;
   const CANCELLATION_POLICY = '100% refund up to 30 days before arrival, 50% refund up to 14 days before arrival';
 
@@ -88,6 +88,8 @@ const BookNow = () => {
     acc[option.value] = option.price;
     return acc;
   }, {});
+
+  const [livePricing, setLivePricing] = useState(null);
 
   const [bookingConfirmed, setBookingConfirmed] = useState(false);
   const [confirmedBookingId, setConfirmedBookingId] = useState('');
@@ -219,6 +221,39 @@ const BookNow = () => {
     };
   }, [houseSlug, packageData?.price, resolvedPackageCode, showToast]);
 
+  useEffect(() => {
+    let mounted = true;
+
+    const fetchPreview = async () => {
+      if (!houseSlug || !bookingData.checkIn || !bookingData.checkOut) {
+        setLivePricing(null);
+        return;
+      }
+
+      try {
+        const { pricePreview } = await import('../services/bookings');
+        const payload = {
+          houseSlug: houseSlug,
+          checkIn: bookingData.checkIn,
+          checkOut: bookingData.checkOut,
+          addOns: bookingData.addOns,
+        };
+
+        const res = await pricePreview(payload);
+        if (!mounted) return;
+        if (res && res.pricing) setLivePricing(res.pricing);
+      } catch (err) {
+        setLivePricing(null);
+      }
+    };
+
+    fetchPreview();
+
+    return () => {
+      mounted = false;
+    };
+  }, [houseSlug, bookingData.checkIn, bookingData.checkOut, bookingData.addOns]);
+
 
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -264,13 +299,20 @@ const BookNow = () => {
 
   const selectedNights = calendarStatus.nights || getNights();
   const totalGuests = Number(bookingData.adults) + Number(bookingData.children);
-  const estimatedSubtotal = Number((calendarMeta.pricePerNight * selectedNights).toFixed(2));
-  const selectedAddOnTotal = Number(
-    bookingData.addOns.reduce((sum, option) => sum + (ADD_ON_PRICE_MAP[option] || 0), 0).toFixed(2)
-  );
-  const estimatedCleaningFee = CLEANING_FEE;
-  const estimatedTax = Number(((estimatedSubtotal + selectedAddOnTotal + estimatedCleaningFee) * TAX_RATE).toFixed(2));
-  const estimatedTotal = Number((estimatedSubtotal + selectedAddOnTotal + estimatedCleaningFee + estimatedTax).toFixed(2));
+  // Prefer live pricing preview from server when available
+  const estimatedSubtotal = livePricing ? livePricing.subtotal : Number((calendarMeta.pricePerNight * selectedNights).toFixed(2));
+  const selectedAddOnTotal = livePricing
+    ? livePricing.addOnsFee
+    : Number(
+        bookingData.addOns.reduce((sum, option) => sum + (ADD_ON_PRICE_MAP[option] || 0), 0).toFixed(2)
+      );
+  const estimatedCleaningFee = livePricing ? livePricing.cleaningFee : CLEANING_FEE;
+  const estimatedTax = livePricing
+    ? livePricing.tax
+    : Number(((estimatedSubtotal + selectedAddOnTotal + estimatedCleaningFee) * TAX_RATE).toFixed(2));
+  const estimatedTotal = livePricing
+    ? livePricing.total
+    : Number((estimatedSubtotal + selectedAddOnTotal + estimatedCleaningFee + estimatedTax).toFixed(2));
 
   const canContinueStep1 =
     Boolean(bookingData.checkIn && bookingData.checkOut) &&

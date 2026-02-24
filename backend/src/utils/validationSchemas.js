@@ -133,9 +133,42 @@ const createBookingSchema = z
     }
   });
 
+const pricePreviewSchema = z.object({
+  body: z
+    .object({
+      houseId: objectIdSchema.optional(),
+      houseSlug: slugSchema.optional(),
+      slug: slugSchema.optional(),
+      checkIn: dateStringSchema,
+      checkOut: dateStringSchema,
+      addOns: z.array(z.enum(['horse-riding', 'atv'])).max(10).optional(),
+    })
+    .superRefine((value, ctx) => {
+      if (!value.houseId && !value.slug && !value.houseSlug) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          path: ['houseId'],
+          message: 'Either houseId or houseSlug is required',
+        });
+      }
+    }),
+}).superRefine((value, ctx) => {
+  const checkIn = new Date(value.body.checkIn);
+  const checkOut = new Date(value.body.checkOut);
+  if (Number.isNaN(checkIn.getTime()) || Number.isNaN(checkOut.getTime())) return;
+  if (checkIn >= checkOut) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      path: ['body', 'checkOut'],
+      message: 'checkOut must be after checkIn',
+    });
+  }
+});
+
 module.exports = {
   houseSlugParamsSchema,
   bookingIdParamsSchema,
   checkAvailabilitySchema,
+  pricePreviewSchema,
   createBookingSchema,
 };
