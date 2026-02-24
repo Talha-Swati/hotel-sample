@@ -109,8 +109,8 @@ const computePricingForStay = ({ house, checkInDate, checkOutDate, addOns = [] }
   // Determine per-night price depending on house slug/category and weekday vs weekend
   const nights = calculateNights(checkInDate, checkOutDate);
 
-  const isWeekendNight = (date) => {
-    const dow = date.getDay(); // 0 Sun .. 6 Sat
+  const isWeekendNightUtc = (date) => {
+    const dow = date.getUTCDay(); // 0 Sun .. 6 Sat
     return dow === 0 || dow === 6; // Sat(6) or Sun(0) treated as weekend nights
   };
 
@@ -125,10 +125,14 @@ const computePricingForStay = ({ house, checkInDate, checkOutDate, addOns = [] }
   let weekendNights = 0;
   let category = 'default';
 
+  const cursor = new Date(Date.UTC(
+    checkInDate.getUTCFullYear(),
+    checkInDate.getUTCMonth(),
+    checkInDate.getUTCDate()
+  ));
+
   for (let i = 0; i < nights; i += 1) {
-    const nightDate = new Date(checkInDate);
-    nightDate.setDate(nightDate.getDate() + i);
-    const weekend = isWeekendNight(nightDate);
+    const weekend = isWeekendNightUtc(cursor);
 
     if (house.slug && house.slug.startsWith('apple-')) {
       category = 'apple';
@@ -148,6 +152,8 @@ const computePricingForStay = ({ house, checkInDate, checkOutDate, addOns = [] }
     } else {
       weekdayNights += 1;
     }
+
+    cursor.setUTCDate(cursor.getUTCDate() + 1);
   }
 
   const normalizedAddOns = Array.isArray(addOns) ? addOns.filter((item) => Object.prototype.hasOwnProperty.call(ADD_ON_PRICE_MAP, item)) : [];

@@ -20,9 +20,16 @@ export const getRatePlanBySlug = (slug = '') => {
 export const countWeekdayWeekendNights = (checkIn, checkOut) => {
   if (!checkIn || !checkOut) return { weekdayNights: 0, weekendNights: 0, nights: 0 };
 
-  const start = new Date(checkIn);
-  const end = new Date(checkOut);
-  if (Number.isNaN(start.getTime()) || Number.isNaN(end.getTime()) || end <= start) {
+  const parseYMDToUTC = (value) => {
+    const match = /^\d{4}-\d{2}-\d{2}$/.exec(value || '');
+    if (!match) return null;
+    const [year, month, day] = value.split('-').map(Number);
+    return new Date(Date.UTC(year, month - 1, day));
+  };
+
+  const start = parseYMDToUTC(checkIn);
+  const end = parseYMDToUTC(checkOut);
+  if (!start || !end || Number.isNaN(start.getTime()) || Number.isNaN(end.getTime()) || end <= start) {
     return { weekdayNights: 0, weekendNights: 0, nights: 0 };
   }
 
@@ -31,14 +38,14 @@ export const countWeekdayWeekendNights = (checkIn, checkOut) => {
   let cursor = new Date(start);
 
   while (cursor < end) {
-    const day = cursor.getDay();
+    const day = cursor.getUTCDay();
     if (day === 0 || day === 6) {
       weekendNights += 1;
     } else {
       weekdayNights += 1;
     }
 
-    cursor.setDate(cursor.getDate() + 1);
+    cursor.setUTCDate(cursor.getUTCDate() + 1);
   }
 
   return {
