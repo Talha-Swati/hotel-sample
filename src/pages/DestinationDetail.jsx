@@ -391,50 +391,50 @@ const DestinationDetail = memo(() => {
 
           </div>
 
-          <div className="lg:col-span-1">
+              <div className="lg:col-span-1">
             <div className="space-y-6">
-              <div className={`p-6 rounded-xl ${isDarkMode ? 'bg-[#0F1419]' : 'bg-[#F8FAFC] border border-[#E2E8F0]'}`}>
-                <h3 className={`text-xl font-bold mb-4 ${isDarkMode ? 'text-[#E0E7EE]' : 'text-[#0F172A]'}`}>
-                  Quick Info
-                </h3>
-                <div className="space-y-4">
-                  <div>
-                    <p className={`text-sm font-semibold ${isDarkMode ? 'text-[#E0E7EE]' : 'text-[#0F172A]'}`}>
-                      Check-in / Check-out
-                    </p>
-                    <p className={`text-sm ${isDarkMode ? 'text-[#C9D6DF]' : 'text-[#64748B]'}`}>
-                      {stay.checkIn} / {stay.checkOut}
-                    </p>
+                {displayRate && (
+                  <div id="pricing-card" className="max-w-md mx-auto lg:max-w-none">
+                    <ThemedPricingCard
+                      title={displayRate.title}
+                      price={ratePlan ? `$${ratePlan.weekday} / $${ratePlan.weekend}` : `$${displayRate.price}`}
+                      priceNote={ratePlan ? 'weekday / weekend' : 'per night'}
+                      features={displayRate.features}
+                      isDarkMode={isDarkMode}
+                      themeKey="destinationPricing"
+                      themeIndex={0}
+                      ctaLabel="Request Availability"
+                      onCtaClick={() => handleBookNow(displayRate, 'standard')}
+                      footerLabel="Check-in"
+                      footerText={`${stay.checkIn} • Check-out ${stay.checkOut}`}
+                      className="min-h-[560px]"
+                    />
                   </div>
-                  <div>
-                    <p className={`text-sm font-semibold ${isDarkMode ? 'text-[#E0E7EE]' : 'text-[#0F172A]'}`}>
-                      Pet Friendly
-                    </p>
-                    <p className={`text-sm ${isDarkMode ? 'text-[#C9D6DF]' : 'text-[#64748B]'}`}>
-                      {stay.petFriendly ? 'Yes' : 'No'}
-                    </p>
-                  </div>
-                </div>
-              </div>
+                )}
 
-              {displayRate && (
-                <div id="pricing-card" className="max-w-md mx-auto lg:max-w-none">
-                  <ThemedPricingCard
-                    title={displayRate.title}
-                    price={ratePlan ? `$${ratePlan.weekday} / $${ratePlan.weekend}` : `$${displayRate.price}`}
-                    priceNote={ratePlan ? 'weekday / weekend' : 'per night'}
-                    features={displayRate.features}
-                    isDarkMode={isDarkMode}
-                    themeKey="destinationPricing"
-                    themeIndex={0}
-                    ctaLabel="Request Availability"
-                    onCtaClick={() => handleBookNow(displayRate, 'standard')}
-                    footerLabel="Check-in"
-                    footerText={`${stay.checkIn} • Check-out ${stay.checkOut}`}
-                    className="min-h-[560px]"
-                  />
+                <div className={`p-6 rounded-xl ${isDarkMode ? 'bg-[#0F1419]' : 'bg-[#F8FAFC] border border-[#E2E8F0]'}`}>
+                  <h3 className={`text-xl font-bold mb-4 ${isDarkMode ? 'text-[#E0E7EE]' : 'text-[#0F172A]'}`}>
+                    Quick Info
+                  </h3>
+                  <div className="space-y-4">
+                    <div>
+                      <p className={`text-sm font-semibold ${isDarkMode ? 'text-[#E0E7EE]' : 'text-[#0F172A]'}`}>
+                        Check-in / Check-out
+                      </p>
+                      <p className={`text-sm ${isDarkMode ? 'text-[#C9D6DF]' : 'text-[#64748B]'}`}>
+                        {stay.checkIn} / {stay.checkOut}
+                      </p>
+                    </div>
+                    <div>
+                      <p className={`text-sm font-semibold ${isDarkMode ? 'text-[#E0E7EE]' : 'text-[#0F172A]'}`}>
+                        Pet Friendly
+                      </p>
+                      <p className={`text-sm ${isDarkMode ? 'text-[#C9D6DF]' : 'text-[#64748B]'}`}>
+                        {stay.petFriendly ? 'Yes' : 'No'}
+                      </p>
+                    </div>
+                  </div>
                 </div>
-              )}
             </div>
           </div>
         </div>

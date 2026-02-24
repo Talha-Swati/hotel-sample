@@ -4,6 +4,7 @@ import { HelmetProvider } from 'react-helmet-async';
 import { ThemeProvider } from './context/ThemeContext';
 import UnderDevelopment from './pages/UnderDevelopment';
 import TrackingScripts from './components/common/TrackingScripts';
+import ScrollToTop from './components/common/ScrollToTop';
 
 const Home = lazy(() => import('./pages/Home'));
 const Tours = lazy(() => import('./pages/Tours'));
@@ -29,6 +30,7 @@ const App = () => {
       <HelmetProvider>
         <TrackingScripts />
         <BrowserRouter>
+          <ScrollToTop />
           <Suspense fallback={null}>
             <Routes>
               <Route path="/" element={<Home />} />
