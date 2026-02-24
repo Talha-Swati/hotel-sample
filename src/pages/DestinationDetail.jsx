@@ -167,7 +167,7 @@ const DestinationDetail = memo(() => {
         title: 'Stay Rate',
         features: [
           `Weekday: $${ratePlan.weekday}`,
-          `Weekend (Sat-Sun): $${ratePlan.weekend}`,
+          `Weekend (Fri-Sat): $${ratePlan.weekend}`,
           'Horseback add-on (for 2): $150',
           'Cleaning fee: $50',
         ],

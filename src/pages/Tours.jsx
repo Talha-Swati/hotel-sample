@@ -112,7 +112,7 @@ const Tours = () => {
                     const ratePlan = getRatePlanBySlug(stay.slug || '');
                     const cardPrice = ratePlan ? `$${ratePlan.weekday} / $${ratePlan.weekend}` : `$${stay.pricing?.standard?.price || 0}`;
                     const rateFeature = ratePlan
-                      ? `Weekday $${ratePlan.weekday} • Weekend (Sat-Sun) $${ratePlan.weekend}`
+                      ? `Weekday $${ratePlan.weekday} • Weekend (Fri-Sat) $${ratePlan.weekend}`
                       : `Rate: $${stay.pricing?.standard?.price || 0} per night`;
 
                     return (

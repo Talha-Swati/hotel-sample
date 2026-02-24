@@ -111,7 +111,7 @@ const computePricingForStay = ({ house, checkInDate, checkOutDate, addOns = [] }
 
   const isWeekendNightUtc = (date) => {
     const dow = date.getUTCDay(); // 0 Sun .. 6 Sat
-    return dow === 0 || dow === 6; // Sat(6) or Sun(0) treated as weekend nights
+    return dow === 5 || dow === 6; // Fri(5) or Sat(6) treated as weekend nights
   };
 
   // Default rates (fallback to package pricePerNight when available)

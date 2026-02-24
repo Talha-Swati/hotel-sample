@@ -39,7 +39,7 @@ export const countWeekdayWeekendNights = (checkIn, checkOut) => {
 
   while (cursor < end) {
     const day = cursor.getUTCDay();
-    if (day === 0 || day === 6) {
+    if (day === 5 || day === 6) {
       weekendNights += 1;
     } else {
       weekdayNights += 1;

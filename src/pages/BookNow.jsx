@@ -1044,7 +1044,7 @@ const BookNow = () => {
                             Pricing Notes
                           </div>
                           <div className={`text-sm space-y-1 ${isDarkMode ? 'text-[#C4CCD4]' : 'text-[#475569]'}`}>
-                            {ratePlan && <p>{ratePlan.label}: Weekday ${ratePlan.weekday}, Weekend (Sat-Sun) ${ratePlan.weekend}</p>}
+                            {ratePlan && <p>{ratePlan.label}: Weekday ${ratePlan.weekday}, Weekend (Fri-Sat) ${ratePlan.weekend}</p>}
                             <p>Horseback add-on (for 2): $150</p>
                             <p>Cleaning fee: $50</p>
                             <p>State Tax: 6%</p>
