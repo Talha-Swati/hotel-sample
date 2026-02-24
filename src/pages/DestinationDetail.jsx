@@ -7,6 +7,7 @@ import { getStayBySlug } from '../data/staysData';
 import { getHouseBySlug, getHousePackagesBySlug } from '../services/houses';
 import { getDestinationSchema } from '../utils/structuredData';
 import { normalizeHouseToStay } from '../utils/houseDataNormalizer';
+import { getRatePlanBySlug } from '../utils/stayPricing';
 import {
   FaMapMarkerAlt,
   FaStar,
@@ -158,6 +159,20 @@ const DestinationDetail = memo(() => {
   };
 
   const standardRate = stay.pricing?.standard;
+  const ratePlan = getRatePlanBySlug(stay.slug);
+  const displayRate = ratePlan
+    ? {
+        ...standardRate,
+        price: ratePlan.weekday,
+        title: 'Stay Rate',
+        features: [
+          `Weekday: $${ratePlan.weekday}`,
+          `Weekend (Sat-Sun): $${ratePlan.weekend}`,
+          'Horseback add-on (for 2): $150',
+          'Cleaning fee: $50',
+        ],
+      }
+    : standardRate;
 
   return (
     <PageLayout
@@ -402,18 +417,18 @@ const DestinationDetail = memo(() => {
                 </div>
               </div>
 
-              {standardRate && (
+              {displayRate && (
                 <div id="pricing-card" className="max-w-md mx-auto lg:max-w-none">
                   <ThemedPricingCard
-                    title={standardRate.title}
-                    price={`$${standardRate.price}`}
-                    priceNote="per night"
-                    features={standardRate.features}
+                    title={displayRate.title}
+                    price={ratePlan ? `$${ratePlan.weekday} / $${ratePlan.weekend}` : `$${displayRate.price}`}
+                    priceNote={ratePlan ? 'weekday / weekend' : 'per night'}
+                    features={displayRate.features}
                     isDarkMode={isDarkMode}
                     themeKey="destinationPricing"
                     themeIndex={0}
                     ctaLabel="Request Availability"
-                    onCtaClick={() => handleBookNow(standardRate, 'standard')}
+                    onCtaClick={() => handleBookNow(displayRate, 'standard')}
                     footerLabel="Check-in"
                     footerText={`${stay.checkIn} • Check-out ${stay.checkOut}`}
                     className="min-h-[560px]"

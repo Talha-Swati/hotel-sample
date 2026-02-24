@@ -5,6 +5,7 @@ import ThemedPricingCard from '../components/common/ThemedPricingCard';
 import PricingCardMedia from '../components/common/PricingCardMedia';
 import { getAllStays } from '../data/staysData';
 import { useHousesData } from '../hooks/useHousesData';
+import { getRatePlanBySlug } from '../utils/stayPricing';
 import { 
   FaUsers, 
   FaMountain, 
@@ -107,14 +108,22 @@ const Tours = () => {
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {featuredHouses.map((stay, index) => (
+                  (() => {
+                    const ratePlan = getRatePlanBySlug(stay.slug || '');
+                    const cardPrice = ratePlan ? `$${ratePlan.weekday} / $${ratePlan.weekend}` : `$${stay.pricing?.standard?.price || 0}`;
+                    const rateFeature = ratePlan
+                      ? `Weekday $${ratePlan.weekday} • Weekend (Sat-Sun) $${ratePlan.weekend}`
+                      : `Rate: $${stay.pricing?.standard?.price || 0} per night`;
+
+                    return (
                   <ThemedPricingCard
                     key={stay.id || stay.slug}
                     title={stay.name}
                     subtitle={`${stay.location} • Sleeps ${stay.sleeps}`}
-                    price={`$${stay.pricing?.standard?.price || 0}`}
-                    priceNote="starting / night"
+                    price={cardPrice}
+                    priceNote={ratePlan ? 'weekday / weekend' : 'starting / night'}
                     features={[
-                      `Rate: $${stay.pricing?.standard?.price || 0} per night`,
+                      rateFeature,
                       ...(stay.highlights || []).slice(0, 3),
                       `${stay.bedrooms || 1} bed • ${stay.baths || 1} bath • ${stay.sizeSqFt || 420} sq ft`
                     ]}
@@ -150,6 +159,8 @@ const Tours = () => {
                       />
                     }
                   />
+                    );
+                  })()
                 ))}
               </div>
             )}

@@ -6,10 +6,11 @@ import BookingCalendar from '../components/BookingCalendar';
 import { contactInfo } from '../data/contactData';
 import { getAllStays } from '../data/staysData';
 import { useHousesData } from '../hooks/useHousesData';
-import { createBookingRequest } from '../services/bookings';
+import { createBookingRequest, pricePreview } from '../services/bookings';
 import { getHousePackagesBySlug } from '../services/houses';
 import { getWhatsAppLink } from '../utils/helpers';
 import { getFAQSchema } from '../utils/structuredData';
+import { countWeekdayWeekendNights, getRatePlanBySlug } from '../utils/stayPricing';
 import { 
   FaCheckCircle,
   FaLock,
@@ -231,7 +232,6 @@ const BookNow = () => {
       }
 
       try {
-        const { pricePreview } = await import('../services/bookings');
         const payload = {
           houseSlug: houseSlug,
           checkIn: bookingData.checkIn,
@@ -299,6 +299,8 @@ const BookNow = () => {
 
   const selectedNights = calendarStatus.nights || getNights();
   const totalGuests = Number(bookingData.adults) + Number(bookingData.children);
+  const ratePlan = getRatePlanBySlug(houseSlug || '');
+  const nightSplit = countWeekdayWeekendNights(bookingData.checkIn, bookingData.checkOut);
   // Prefer live pricing preview from server when available
   const estimatedSubtotal = livePricing ? livePricing.subtotal : Number((calendarMeta.pricePerNight * selectedNights).toFixed(2));
   const selectedAddOnTotal = livePricing
@@ -313,6 +315,21 @@ const BookNow = () => {
   const estimatedTotal = livePricing
     ? livePricing.total
     : Number((estimatedSubtotal + selectedAddOnTotal + estimatedCleaningFee + estimatedTax).toFixed(2));
+
+  const nightlyBreakdownLabel = useMemo(() => {
+    const weekdayNights = livePricing?.weekdayNights ?? nightSplit.weekdayNights;
+    const weekendNights = livePricing?.weekendNights ?? nightSplit.weekendNights;
+
+    if (!ratePlan) {
+      return `$${Number(calendarMeta.pricePerNight || 0).toFixed(2)} × ${selectedNights || 0} night(s)`;
+    }
+
+    const parts = [];
+    if (weekdayNights > 0) parts.push(`${weekdayNights} weekday × $${ratePlan.weekday}`);
+    if (weekendNights > 0) parts.push(`${weekendNights} weekend × $${ratePlan.weekend}`);
+
+    return parts.length ? parts.join(' + ') : `0 night(s)`;
+  }, [livePricing?.weekdayNights, livePricing?.weekendNights, nightSplit.weekdayNights, nightSplit.weekendNights, ratePlan, calendarMeta.pricePerNight, selectedNights]);
 
   const canContinueStep1 =
     Boolean(bookingData.checkIn && bookingData.checkOut) &&
@@ -993,7 +1010,7 @@ const BookNow = () => {
                           <div className="space-y-2 text-sm">
                             <div className="flex items-center justify-between">
                               <span className={isDarkMode ? 'text-[#C4CCD4]' : 'text-[#475569]'}>
-                                ${Number(calendarMeta.pricePerNight || 0).toFixed(2)} × {selectedNights || 0} night(s)
+                                {nightlyBreakdownLabel}
                               </span>
                               <span className={isDarkMode ? 'text-[#E0E7EE]' : 'text-[#0F172A]'}>${estimatedSubtotal.toFixed(2)}</span>
                             </div>
@@ -1027,6 +1044,9 @@ const BookNow = () => {
                             Pricing Notes
                           </div>
                           <div className={`text-sm space-y-1 ${isDarkMode ? 'text-[#C4CCD4]' : 'text-[#475569]'}`}>
+                            {ratePlan && <p>{ratePlan.label}: Weekday ${ratePlan.weekday}, Weekend (Sat-Sun) ${ratePlan.weekend}</p>}
+                            <p>Horseback add-on (for 2): $150</p>
+                            <p>Cleaning fee: $50</p>
                             <p>State Tax: 6%</p>
                             <p>Cancellation: {CANCELLATION_POLICY}</p>
                           </div>
@@ -1160,7 +1180,7 @@ const BookNow = () => {
                     <div className="space-y-2 text-sm">
                       <div className="flex justify-between">
                         <span className={isDarkMode ? 'text-[#C4CCD4]' : 'text-[#475569]'}>
-                          ${Number(calendarMeta.pricePerNight || 0).toFixed(2)} × {selectedNights || 0} night(s)
+                          {nightlyBreakdownLabel}
                         </span>
                         <span className={isDarkMode ? 'text-[#E0E7EE]' : 'text-[#0F172A]'}>${estimatedSubtotal.toFixed(2)}</span>
                       </div>

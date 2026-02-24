@@ -111,7 +111,7 @@ const computePricingForStay = ({ house, checkInDate, checkOutDate, addOns = [] }
 
   const isWeekendNight = (date) => {
     const dow = date.getDay(); // 0 Sun .. 6 Sat
-    return dow === 5 || dow === 6; // Fri(5) or Sat(6) treated as weekend nights
+    return dow === 0 || dow === 6; // Sat(6) or Sun(0) treated as weekend nights
   };
 
   // Default rates (fallback to package pricePerNight when available)
@@ -121,6 +121,9 @@ const computePricingForStay = ({ house, checkInDate, checkOutDate, addOns = [] }
   const aFrameWeekend = 285;
 
   let subtotal = 0;
+  let weekdayNights = 0;
+  let weekendNights = 0;
+  let category = 'default';
 
   for (let i = 0; i < nights; i += 1) {
     const nightDate = new Date(checkInDate);
@@ -128,14 +131,22 @@ const computePricingForStay = ({ house, checkInDate, checkOutDate, addOns = [] }
     const weekend = isWeekendNight(nightDate);
 
     if (house.slug && house.slug.startsWith('apple-')) {
+      category = 'apple';
       subtotal += weekend ? appleWeekend : appleWeekday;
     } else if (house.slug && house.slug.startsWith('triangle-')) {
+      category = 'a-frame';
       subtotal += weekend ? aFrameWeekend : aFrameWeekday;
     } else {
       // fallback: use first package pricePerNight if present on house.packages
       // house.packages might not be present on lean house; fallback to 0
       const base = (house.packages && house.packages.standard && house.packages.standard.pricePerNight) || 0;
       subtotal += base;
+    }
+
+    if (weekend) {
+      weekendNights += 1;
+    } else {
+      weekdayNights += 1;
     }
   }
 
@@ -153,6 +164,13 @@ const computePricingForStay = ({ house, checkInDate, checkOutDate, addOns = [] }
     tax,
     taxRate: STATE_TAX_RATE,
     total,
+    category,
+    weekdayNights,
+    weekendNights,
+    rateCard: {
+      apple: { weekday: appleWeekday, weekend: appleWeekend },
+      aFrame: { weekday: aFrameWeekday, weekend: aFrameWeekend },
+    },
   };
 };
 
