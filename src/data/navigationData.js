@@ -32,7 +32,9 @@ export const getNavItems = () =>
       item.name === 'Stays' ||
       item.name === 'Pavillion' ||
       item.name === 'Creeks cafe' ||
-      item.name === 'Experiences';
+      item.name === 'Experiences' ||
+      item.name === 'About' ||
+      item.name === 'Contact';
 
     if (isAllowedLiveRoute) {
       return item;

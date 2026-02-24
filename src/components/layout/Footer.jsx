@@ -5,7 +5,7 @@ import logo from '../../assets/logo.png';
 
 const Footer = ({ isDarkMode }) => {
   const underDevelopmentPath = '/under-development';
-  const staticPageExceptions = new Set(['Gallery', 'About', 'Contact']);
+  const staticPageExceptions = new Set(['Gallery']);
 
   return (
     <footer className={`border-t pt-10 sm:pt-16 pb-8 transition-colors ${
