@@ -4,8 +4,7 @@ import { QUICK_LINKS, POPULAR_DESTINATIONS, CONTACT_INFO, COMPANY_INFO, LEGAL_LI
 import logo from '../../assets/logo.png';
 
 const Footer = ({ isDarkMode }) => {
-  const underDevelopmentPath = '/under-development';
-  const staticPageExceptions = new Set(['Gallery']);
+  // All pages are now live — no under-development redirects
 
   return (
     <footer className={`border-t pt-10 sm:pt-16 pb-8 transition-colors ${
@@ -39,7 +38,7 @@ const Footer = ({ isDarkMode }) => {
               {QUICK_LINKS.map((link) => (
                 <li key={link.name}>
                   <Link 
-                    to={staticPageExceptions.has(link.name) ? underDevelopmentPath : link.path}
+                    to={link.path}
                     className={`text-sm sm:text-base hover:text-white transition hover:underline ${
                       isDarkMode ? 'text-[#BFAE95]' : 'text-[#DCE8DC]'
                     }`}

@@ -1,4 +1,7 @@
-import tinyHouse1 from '../assets/tiny house1.webp';
+import razzoCreek1 from '../assets/homes/razzo-creek/razzo-creek-1.jpg';
+import konaMeadow2 from '../assets/homes/kona-meadow/kona-meadow-2.jpg';
+import catalinaRidge1 from '../assets/homes/catalina-ridge/catalina-ridge-1.jpg';
+import raniRidge1 from '../assets/homes/rani-ridge/rani-ridge-1.jpg';
 
 export const specialOfferPackages = [
   {
@@ -12,7 +15,7 @@ export const specialOfferPackages = [
     groupSize: '2 guests',
     rating: 4.9,
     reviews: 128,
-    image: tinyHouse1,
+    image: razzoCreek1,
     validUntil: '2026-03-15',
     badge: 'Midweek',
     description: 'Quiet midweek nights with sunset views and a private firepit.',
@@ -29,7 +32,7 @@ export const specialOfferPackages = [
     groupSize: '4 guests',
     rating: 4.8,
     reviews: 96,
-    image: tinyHouse1,
+    image: konaMeadow2,
     validUntil: '2026-04-01',
     badge: 'Family',
     description: 'Creekside stays with space to gather and unwind.',
@@ -46,7 +49,7 @@ export const specialOfferPackages = [
     groupSize: '2-3 guests',
     rating: 4.7,
     reviews: 74,
-    image: tinyHouse1,
+    image: catalinaRidge1,
     validUntil: '2026-05-10',
     badge: 'Extended',
     description: 'Save on longer stays with a weekly refresh included.',
@@ -63,7 +66,7 @@ export const specialOfferPackages = [
     groupSize: '5 guests',
     rating: 4.8,
     reviews: 88,
-    image: tinyHouse1,
+    image: raniRidge1,
     validUntil: '2026-04-20',
     badge: 'Weekend',
     description: 'Open skies, shared meals, and a large outdoor deck.',

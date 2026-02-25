@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 const HeroSection = ({ isDarkMode, videoSrc }) => {
   const staysPath = '/tours';
-  const requestPath = '/under-development';
+  const requestPath = '/book-now';
   const [videoReady, setVideoReady] = useState(false);
 
   const handleLoadedMetadata = (event) => {

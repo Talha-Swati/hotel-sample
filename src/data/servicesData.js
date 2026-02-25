@@ -1,4 +1,8 @@
-import tinyHouse1 from '../assets/tiny house1.webp';
+import allHomes1 from '../assets/homes/all-homes/all-homes-1.jpg';
+import razzoCreek1 from '../assets/homes/razzo-creek/razzo-creek-1.jpg';
+import konaMeadow2 from '../assets/homes/kona-meadow/kona-meadow-2.jpg';
+import catalinaRidge1 from '../assets/homes/catalina-ridge/catalina-ridge-1.jpg';
+import raniRidge1 from '../assets/homes/rani-ridge/rani-ridge-1.jpg';
 
 export const servicesData = {
   hotels: {
@@ -8,7 +12,7 @@ export const servicesData = {
     icon: 'STAY',
     tagline: 'Curated tiny stays in the Hill Country',
     description: 'Design-forward cabins, tiny homes, and cabins with calm details and clear pricing.',
-    heroImage: tinyHouse1,
+    heroImage: allHomes1,
     categories: [
       {
         id: 'budget',
@@ -43,7 +47,7 @@ export const servicesData = {
         reviews: 128,
         amenities: ['Firepit', 'Private deck', 'Full kitchen', 'Wi-Fi'],
         description: 'A quiet couples cabin with panoramic views and warm interiors.',
-        image: tinyHouse1
+        image: razzoCreek1
       },
       {
         id: 'apple-2-limestone-ridge',
@@ -55,7 +59,7 @@ export const servicesData = {
         reviews: 96,
         amenities: ['Outdoor shower', 'Coffee bar', 'King bed', 'Smart lock'],
         description: 'A mellow hideaway designed for slow mornings and golden hours.',
-        image: tinyHouse1
+        image: konaMeadow2
       },
       {
         id: 'triangle-1-cedar-glen',
@@ -67,7 +71,7 @@ export const servicesData = {
         reviews: 84,
         amenities: ['Soaking tub', 'Private deck', 'Designer finish', 'Outdoor lounge'],
         description: 'Signature stay with elevated finishes and wide-open views.',
-        image: tinyHouse1
+        image: catalinaRidge1
       },
       {
         id: 'triangle-2-prairie-lake',
@@ -79,7 +83,7 @@ export const servicesData = {
         reviews: 72,
         amenities: ['Firepit', 'Kitchenette', 'Parking', 'Wi-Fi'],
         description: 'Simple and quiet with a relaxed, nature-first layout.',
-        image: tinyHouse1
+        image: raniRidge1
       }
     ],
     bookingProcess: [
