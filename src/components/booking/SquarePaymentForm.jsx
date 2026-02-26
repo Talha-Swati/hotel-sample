@@ -34,6 +34,7 @@ const SquarePaymentForm = memo(({
 }) => {
   const cardContainerRef = useRef(null);
   const cardRef = useRef(null);
+  const initInProgressRef = useRef(false);
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
   const [initError, setInitError] = useState('');
@@ -54,19 +55,33 @@ const SquarePaymentForm = memo(({
 
     let mounted = true;
 
+    // Guard against React StrictMode double-invoke (destroys first card before second init)
+    if (initInProgressRef.current) return;
+    initInProgressRef.current = true;
+
     const init = async () => {
       try {
+        // Destroy any existing card instance before creating a new one
+        if (cardRef.current) {
+          cardRef.current.destroy?.();
+          cardRef.current = null;
+        }
         const payments = await initSquarePayments();
         const card = await createSquareCard(payments, 'sq-card-container');
         if (mounted) {
           cardRef.current = card;
           setLoading(false);
+        } else {
+          // Component unmounted during async init — clean up immediately
+          card.destroy?.();
         }
       } catch (err) {
         if (mounted) {
           setInitError(err.message || 'Failed to initialize payment form.');
           setLoading(false);
         }
+      } finally {
+        initInProgressRef.current = false;
       }
     };
 
@@ -74,6 +89,7 @@ const SquarePaymentForm = memo(({
 
     return () => {
       mounted = false;
+      initInProgressRef.current = false;
       if (cardRef.current) {
         cardRef.current.destroy?.();
         cardRef.current = null;
