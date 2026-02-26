@@ -4,7 +4,7 @@ import PageLayout from "../components/layout/PageLayout";
 import horseRidingOne from "../assets/horse riding/horse riding/horse riding 1.jpg";
 import swimmingPoolThree from "../assets/swimming pool/swimming pool/swimming pool 3.jpg";
 import atvAdventureImage from "../assets/ATV Adventure.webp";
-import firepitImage from "../assets/firepit/firepit.jpg";
+import firepitImage from "../assets/firepit/Firepit.jpg";
 
 const EXPERIENCE_SECTIONS = [
   {
