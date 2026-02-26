@@ -24,27 +24,54 @@ const SDK_URL =
 
 let sdkPromise = null;
 
+const delay = (ms) => new Promise((r) => setTimeout(r, ms));
+
 /**
  * Load the Square Web Payments SDK script once.
  * Subsequent calls return the cached promise.
+ * Falls back gracefully if already preloaded in index.html.
  */
 export const loadSquareSDK = () => {
   if (sdkPromise) return sdkPromise;
 
   sdkPromise = new Promise((resolve, reject) => {
+    // SDK already preloaded (via index.html script tag)
     if (window.Square) {
       resolve(window.Square);
       return;
     }
 
+    // Check if script tag already exists but Square not ready yet — wait for it
+    const existing = document.querySelector(`script[src="${SDK_URL}"]`);
+    if (existing) {
+      let waited = 0;
+      const poll = setInterval(() => {
+        waited += 100;
+        if (window.Square) {
+          clearInterval(poll);
+          resolve(window.Square);
+        } else if (waited >= 8000) {
+          clearInterval(poll);
+          reject(new Error('Square SDK timed out loading.'));
+        }
+      }, 100);
+      return;
+    }
+
+    // Dynamically inject script if not present
     const script = document.createElement('script');
     script.src = SDK_URL;
     script.async = true;
-    script.onload = () => {
+    script.onload = async () => {
+      // Small delay to let Square fully bootstrap
+      await delay(200);
       if (window.Square) resolve(window.Square);
       else reject(new Error('Square SDK loaded but window.Square is unavailable.'));
     };
-    script.onerror = () => reject(new Error('Failed to load Square Web Payments SDK.'));
+    script.onerror = () => {
+      sdkPromise = null; // allow retry on next call
+      reject(new Error('Failed to load Square Web Payments SDK.'));
+    };
     document.head.appendChild(script);
   });
 
@@ -53,6 +80,7 @@ export const loadSquareSDK = () => {
 
 /**
  * Initialize a Square Payments instance.
+ * Retries up to 3 times with increasing delay to handle SDK init timeouts.
  * @returns {Promise<object>} Square Payments instance
  */
 export const initSquarePayments = async () => {
@@ -63,7 +91,17 @@ export const initSquarePayments = async () => {
   }
 
   const Square = await loadSquareSDK();
-  return Square.payments(SQUARE_APP_ID, SQUARE_LOCATION_ID);
+
+  let lastError;
+  for (let attempt = 0; attempt < 3; attempt++) {
+    try {
+      if (attempt > 0) await delay(600 * attempt); // 600ms, 1200ms
+      return await Square.payments(SQUARE_APP_ID, SQUARE_LOCATION_ID);
+    } catch (err) {
+      lastError = err;
+    }
+  }
+  throw lastError;
 };
 
 /**
