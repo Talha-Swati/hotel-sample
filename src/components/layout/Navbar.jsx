@@ -22,17 +22,16 @@ const Navbar = ({ isDarkMode, mobileMenuOpen, setMobileMenuOpen }) => {
         : 'border-[rgba(231,240,233,0.18)] bg-[rgba(20,55,40,0.95)]'
     }`}>
       <div className="mx-auto flex w-full max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-4 xl:px-6 py-2 lg:py-2 xl:py-4">
-        {/* Logo */}
+
+        {/* Logo — white on transparent */}
         <Link to="/" className="flex items-center group flex-shrink-0">
-          <div className="relative">
-            <div className="relative flex h-11 w-11 lg:h-12 lg:w-12 xl:h-16 xl:w-16 items-center justify-center overflow-hidden rounded-2xl bg-linear-to-br from-[#C9A36A] via-[#E7CFA2] to-[#8A6B45] transition-all">
-              <img
-                src={logo}
-                alt="The Tiny Escape logo"
-                className="h-full w-full object-cover"
-                loading="eager"
-              />
-            </div>
+          <div className="relative flex h-11 w-11 lg:h-12 lg:w-12 xl:h-16 xl:w-16 items-center justify-center">
+            <img
+              src={logo}
+              alt="The Tiny Escape logo"
+              className="h-full w-full object-contain transition-opacity duration-300 group-hover:opacity-80"
+              loading="eager"
+            />
           </div>
         </Link>
 
@@ -64,7 +63,7 @@ const Navbar = ({ isDarkMode, mobileMenuOpen, setMobileMenuOpen }) => {
                 )}
                 <span className="absolute bottom-0 left-0 h-0.5 w-0 rounded-full bg-linear-to-r from-[#A8C9B1] to-[#E0F0E3] transition-all duration-300 group-hover/link:w-full" />
               </Link>
-              
+
               {item.hasDropdown && item.dropdownItems && (
                 <div className={`absolute left-0 top-full mt-2 ${item.name === 'Stays' ? 'w-[320px]' : 'w-64'} rounded-xl border shadow-2xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 overflow-hidden z-50 backdrop-blur-xl ${
                   isDarkMode
@@ -96,8 +95,18 @@ const Navbar = ({ isDarkMode, mobileMenuOpen, setMobileMenuOpen }) => {
         </nav>
 
         {/* Right Actions */}
-        <div className="flex items-center gap-0.5 xl:gap-3 flex-shrink-0 ml-auto">
-          <button 
+        <div className="flex items-center gap-2 xl:gap-3 flex-shrink-0 ml-auto">
+
+          {/* BOOK NOW button — desktop only */}
+          <Link
+            to="/tours"
+            className="hidden lg:inline-flex items-center gap-1.5 rounded-xl bg-[#E7F0E6] px-3 xl:px-5 py-2 xl:py-2.5 text-[10px] xl:text-sm font-black uppercase tracking-wider text-[#1F3A2A] shadow-md transition-all duration-300 hover:bg-white hover:shadow-lg hover:scale-105"
+          >
+            Book Now
+          </Link>
+
+          {/* Mobile hamburger */}
+          <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             className={`flex lg:hidden h-11 w-11 items-center justify-center rounded-xl border backdrop-blur-sm transition-colors duration-300 ${
               isDarkMode
@@ -150,7 +159,7 @@ const Navbar = ({ isDarkMode, mobileMenuOpen, setMobileMenuOpen }) => {
                       onClick={() => toggleDropdown(index)}
                       className={`p-3 transition-transform duration-200 ${
                         openDropdowns[index] ? 'rotate-180' : ''
-                      }`}
+                      } ${isDarkMode ? 'text-[#D6C5AE]' : 'text-[#E7F0E6]'}`}
                     >
                       <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
@@ -183,6 +192,17 @@ const Navbar = ({ isDarkMode, mobileMenuOpen, setMobileMenuOpen }) => {
                 )}
               </div>
             ))}
+
+            {/* Mobile BOOK NOW */}
+            <div className="pt-4 pb-2">
+              <Link
+                to="/tours"
+                onClick={() => setMobileMenuOpen(false)}
+                className="block w-full text-center rounded-xl bg-[#E7F0E6] px-5 py-3 text-sm font-black uppercase tracking-wider text-[#1F3A2A] shadow-md transition-all duration-300 hover:bg-white"
+              >
+                Book Now
+              </Link>
+            </div>
           </nav>
         </div>
       )}

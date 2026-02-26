@@ -24,9 +24,9 @@ const CreeksCafe = () => {
   return (
     <PageLayout
       seo={{
-        title: 'Creeks Cafe | The Tiny Escape',
+        title: 'Creekside Cafe | The Tiny Escape',
         description:
-          'Visit Creeks Cafe at Tiny Escape for handcrafted coffee, fresh meals, and a premium creekside cafe experience.',
+          'Visit Creekside Cafe at The Tiny Escape for handcrafted coffee, fresh meals, and a premium creekside cafe experience.',
         keywords: 'Tiny Escape cafe, creekside cafe, artisan coffee, fresh meals',
         url: '/creeks-cafe'
       }}
@@ -48,7 +48,7 @@ const CreeksCafe = () => {
           <span className="inline-flex rounded-full border border-[#A8C9B1]/70 bg-[#1F3A2A]/65 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-[#E7F0E6]">
             Food • Coffee • Lounge
           </span>
-          <h1 className="mt-5 text-4xl md:text-6xl font-bold text-white">Creeks Cafe</h1>
+          <h1 className="mt-5 text-4xl md:text-6xl font-bold text-white">Creekside Cafe</h1>
           <p className="mt-4 max-w-3xl text-lg md:text-xl text-white/90 leading-relaxed">
             A premium cafe space with handcrafted drinks, fresh comfort food, and relaxed seating inspired by nature.
           </p>
@@ -60,7 +60,7 @@ const CreeksCafe = () => {
           <div className="grid grid-cols-2 gap-4">
             <img
               src={cafeOne}
-              alt="Coffee at Creeks Cafe"
+              alt="Coffee at Creekside Cafe"
               className="h-44 md:h-56 w-full rounded-2xl object-cover"
               loading="lazy"
               decoding="async"
@@ -83,7 +83,7 @@ const CreeksCafe = () => {
 
           <div>
             <h2 className={`text-3xl md:text-4xl font-bold mb-5 ${isDarkMode ? 'text-[#E0E7EE]' : 'text-[#0F172A]'}`}>
-              The Creeks Cafe experience
+              The Creekside Cafe experience
             </h2>
             <div className="space-y-4">
               {menuHighlights.map((item) => (
@@ -161,7 +161,7 @@ const CreeksCafe = () => {
             </div>
             <img
               src={cafeTwo}
-              alt="Creeks Cafe seating"
+              alt="Creekside Cafe seating"
               className="w-full h-64 md:h-80 rounded-2xl object-cover"
               loading="lazy"
               decoding="async"

@@ -1,14 +1,57 @@
-import { useState, useCallback, memo } from "react";
+import { useState, useCallback, useEffect, memo } from "react";
+import { Link } from "react-router-dom";
 import { DayPicker } from "react-day-picker";
 import "react-day-picker/dist/style.css";
 import { checkBookingAvailability } from "../../services/bookings";
+import { getUnavailableDatesBySlug } from "../../services/houses";
 
+/**
+ * AvailabilityCalendar
+ * Hostfully-ready: fetches unavailable/blocked dates from the API and disables
+ * them in the picker. Falls back gracefully when the backend is offline.
+ */
 const AvailabilityCalendar = memo(({ isDarkMode, staySlug, stayName, onDatesSelected }) => {
   const [dateRange, setDateRange] = useState({ from: undefined, to: undefined });
   const [status, setStatus] = useState({ loading: false, result: null, error: "" });
 
+  // Hostfully unavailable dates
+  const [blockedDates, setBlockedDates] = useState([]);
+  const [loadingBlocked, setLoadingBlocked] = useState(false);
+
   const today = new Date();
   today.setHours(0, 0, 0, 0);
+
+  // Fetch blocked/unavailable dates on mount (Hostfully integration)
+  useEffect(() => {
+    if (!staySlug) return;
+    let mounted = true;
+
+    const loadBlockedDates = async () => {
+      setLoadingBlocked(true);
+      try {
+        const response = await getUnavailableDatesBySlug(staySlug);
+        const rawDates = response?.data || response || [];
+
+        const parsed = rawDates
+          .map((d) => {
+            if (d instanceof Date) return d;
+            const parsed = new Date(d);
+            return Number.isNaN(parsed.getTime()) ? null : parsed;
+          })
+          .filter(Boolean);
+
+        if (mounted) setBlockedDates(parsed);
+      } catch {
+        // Silently fail — backend not yet connected
+        if (mounted) setBlockedDates([]);
+      } finally {
+        if (mounted) setLoadingBlocked(false);
+      }
+    };
+
+    loadBlockedDates();
+    return () => { mounted = false; };
+  }, [staySlug]);
 
   const formatDateToYMD = useCallback((date) => {
     if (!date) return "";
@@ -17,6 +60,11 @@ const AvailabilityCalendar = memo(({ isDarkMode, staySlug, stayName, onDatesSele
     const day = String(date.getDate()).padStart(2, "0");
     return `${year}-${month}-${day}`;
   }, []);
+
+  const formatDisplay = (date) =>
+    date
+      ? date.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })
+      : "";
 
   const handleSelect = useCallback(
     async (range) => {
@@ -64,6 +112,26 @@ const AvailabilityCalendar = memo(({ isDarkMode, staySlug, stayName, onDatesSele
       ? Math.ceil((dateRange.to - dateRange.from) / (1000 * 60 * 60 * 24))
       : 0;
 
+  const bookNowState =
+    dateRange?.from && dateRange?.to
+      ? {
+          packageData: {
+            title: stayName ? `${stayName} – Stay Request` : "Stay Request",
+            prefillDates: {
+              checkIn: formatDateToYMD(dateRange.from),
+              checkOut: formatDateToYMD(dateRange.to),
+              nights: nightCount,
+            },
+          },
+        }
+      : undefined;
+
+  // Build disabled matcher: past dates + blocked dates from Hostfully
+  const disabledDays = [
+    { before: today },
+    ...blockedDates.map((d) => d),
+  ];
+
   return (
     <div
       className={`rounded-2xl border overflow-hidden ${
@@ -90,7 +158,9 @@ const AvailabilityCalendar = memo(({ isDarkMode, staySlug, stayName, onDatesSele
             isDarkMode ? "text-[#8A9BAC]" : "text-[#64748B]"
           }`}
         >
-          Select check-in and check-out dates
+          {loadingBlocked
+            ? "Loading available dates…"
+            : "Select check-in and check-out dates"}
         </p>
       </div>
 
@@ -101,7 +171,7 @@ const AvailabilityCalendar = memo(({ isDarkMode, staySlug, stayName, onDatesSele
           selected={dateRange}
           onSelect={handleSelect}
           numberOfMonths={1}
-          disabled={{ before: today }}
+          disabled={disabledDays}
           modifiersStyles={{
             selected: {
               backgroundColor: "#2F5D3A",
@@ -133,39 +203,54 @@ const AvailabilityCalendar = memo(({ isDarkMode, staySlug, stayName, onDatesSele
                 isDarkMode ? "text-[#CDBEAC]" : "text-[#4B5F4B]"
               }`}
             >
-              Checking availability...
+              Checking availability…
             </span>
           </div>
         )}
 
         {!status.loading && status.result === "available" && (
-          <div
-            className={`flex items-center gap-2 p-3 rounded-xl ${
-              isDarkMode ? "bg-[#1A2E1A]" : "bg-[#EAF3EA]"
-            }`}
-          >
-            <svg
-              className="h-5 w-5 text-[#2F5D3A]"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
+          <div className="space-y-3">
+            <div
+              className={`flex items-center gap-2 p-3 rounded-xl ${
+                isDarkMode ? "bg-[#1A2E1A]" : "bg-[#EAF3EA]"
+              }`}
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M5 13l4 4L19 7"
-              />
-            </svg>
-            <div>
-              <p
-                className={`text-sm font-semibold ${
-                  isDarkMode ? "text-[#6BAF7A]" : "text-[#2F5D3A]"
-                }`}
+              <svg
+                className="h-5 w-5 text-[#2F5D3A]"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
               >
-                Available for {nightCount} night{nightCount !== 1 ? "s" : ""}
-              </p>
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M5 13l4 4L19 7"
+                />
+              </svg>
+              <div>
+                <p
+                  className={`text-sm font-semibold ${
+                    isDarkMode ? "text-[#6BAF7A]" : "text-[#2F5D3A]"
+                  }`}
+                >
+                  Available for {nightCount} night{nightCount !== 1 ? "s" : ""}
+                </p>
+                {dateRange?.from && dateRange?.to && (
+                  <p className={`text-xs mt-0.5 ${isDarkMode ? "text-[#8A9BAC]" : "text-[#64748B]"}`}>
+                    {formatDisplay(dateRange.from)} → {formatDisplay(dateRange.to)}
+                  </p>
+                )}
+              </div>
             </div>
+            {/* Book Now CTA */}
+            <Link
+              to="/book-now"
+              state={bookNowState}
+              className="block w-full text-center rounded-xl py-2.5 text-sm font-semibold bg-[#1F3A2A] text-[#F7FBF7] hover:bg-[#2F5D3A] transition-colors duration-200"
+            >
+              Book These Dates
+            </Link>
           </div>
         )}
 
@@ -259,6 +344,8 @@ const AvailabilityCalendar = memo(({ isDarkMode, staySlug, stayName, onDatesSele
         }
         .rdp-day[disabled] {
           color: ${isDarkMode ? "#3A3A3A" : "#C0C8C0"} !important;
+          text-decoration: line-through;
+          opacity: 0.5;
         }
       `}</style>
     </div>

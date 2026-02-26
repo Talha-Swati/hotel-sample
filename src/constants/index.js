@@ -6,8 +6,9 @@
 // Navigation Links
 export const QUICK_LINKS = [
   { name: 'Stays', path: '/tours' },
-  { name: 'Pavillion', path: '/pavillion' },
   { name: 'Experiences', path: '/destinations' },
+  { name: 'Creekside Cafe', path: '/creeks-cafe' },
+  { name: 'Fireside Pavilion', path: '/pavillion' },
   { name: 'Gallery', path: '/gallery' },
   { name: 'Contact', path: '/contact' }
 ];

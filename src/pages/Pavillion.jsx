@@ -1,3 +1,7 @@
+import { useState, useCallback } from 'react';
+import { Link } from 'react-router-dom';
+import { DayPicker } from 'react-day-picker';
+import 'react-day-picker/dist/style.css';
 import PageLayout from '../components/layout/PageLayout';
 import { useTheme } from '../context/ThemeContext';
 import pavilionHero from '../assets/Pavilion images/Pavilion images/pavilion 2.jpg';
@@ -8,134 +12,292 @@ import pavilionFive from '../assets/Pavilion images/Pavilion images/pavilion 5.j
 
 const pavilionHighlights = [
   {
+    icon: '🏛',
     title: 'Architectural Open-Air Design',
     text: 'Vaulted timber structure with an elegant, resort-style look for events and premium gatherings.'
   },
   {
+    icon: '🔥',
     title: 'Evening Fire-Lit Ambience',
     text: 'Soft lighting and fire features create a warm setting for dinners, celebrations, and late-night conversations.'
   },
   {
+    icon: '✦',
     title: 'Flexible Event Layout',
     text: 'Suitable for private dinners, birthdays, mini functions, and curated guest experiences.'
   },
   {
+    icon: '🌿',
     title: 'Scenic Backdrop',
     text: 'Manicured surroundings and clean sight-lines make every moment photo-ready.'
   }
 ];
 
 const pavilionStats = [
-  { label: 'Event Capacity', value: '40-60 Guests' },
+  { label: 'Event Capacity', value: '40–60 Guests' },
   { label: 'Best Time', value: 'Sunset to Night' },
   { label: 'Use Cases', value: 'Celebrations, Dining, Socials' }
 ];
 
 const Pavillion = () => {
   const { isDarkMode } = useTheme();
+  const [dateRange, setDateRange] = useState({ from: undefined, to: undefined });
+
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  const formatDateToYMD = useCallback((date) => {
+    if (!date) return '';
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  }, []);
+
+  const formatDisplayDate = (date) => {
+    if (!date) return '';
+    return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+  };
+
+  const nightCount =
+    dateRange?.from && dateRange?.to
+      ? Math.ceil((dateRange.to - dateRange.from) / (1000 * 60 * 60 * 24))
+      : 0;
+
+  const bookNowState = dateRange?.from && dateRange?.to
+    ? {
+        packageData: {
+          title: 'Fireside Pavilion Booking',
+          prefillDates: {
+            checkIn: formatDateToYMD(dateRange.from),
+            checkOut: formatDateToYMD(dateRange.to),
+            nights: nightCount
+          }
+        }
+      }
+    : undefined;
 
   return (
     <PageLayout
       seo={{
-        title: 'Pavillion | The Tiny Escape',
+        title: 'Fireside Pavilion | The Tiny Escape',
         description:
-          'Discover the Tiny Escape Pavillion — a premium open-air venue for scenic gatherings, fire-lit evenings, and memorable events.',
-        keywords: 'Tiny Escape pavilion, open air venue, resort pavilion, private events, fire-lit evenings',
+          'Discover the Fireside Pavilion at Tiny Escape — a premium open-air venue for scenic gatherings, fire-lit evenings, and memorable events in the Texas Hill Country.',
+        keywords: 'Tiny Escape pavilion, open air venue, Texas Hill Country events, private events, fire-lit evenings, event venue',
         url: '/pavillion'
       }}
     >
-      <section
-        className={`relative min-h-[62vh] flex items-end ${
-          isDarkMode ? 'bg-[#0B0C0E]' : 'bg-[#F8FAFC]'
-        }`}
-      >
+      {/* ── Hero ── */}
+      <section className="relative min-h-[65vh] flex items-end overflow-hidden">
         <div
-          className="absolute inset-0 bg-cover bg-center"
-          style={{
-            backgroundImage: `url(${pavilionHero})`
-          }}
+          className="absolute inset-0 bg-cover bg-center scale-[1.03]"
+          style={{ backgroundImage: `url(${pavilionHero})` }}
         />
-        <div className="absolute inset-0 bg-linear-to-t from-black/85 via-black/45 to-black/15" />
+        <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/40 to-black/10" />
 
-        <div className="relative container mx-auto px-4 pb-14 md:pb-20">
-          <span className="inline-flex rounded-full border border-[#A8C9B1]/70 bg-[#1F3A2A]/65 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-[#E7F0E6]">
+        <div className="relative container mx-auto px-6 pb-16 md:pb-24">
+          <span className="inline-flex items-center gap-2 rounded-full border border-[#A8C9B1]/60 bg-[#1F3A2A]/70 px-4 py-1.5 text-xs font-semibold uppercase tracking-widest text-[#D4EDDA] backdrop-blur-sm">
+            <span className="h-1.5 w-1.5 rounded-full bg-[#6BAF7A]" />
             Signature Venue
           </span>
-          <h1 className="mt-5 text-4xl md:text-6xl font-bold text-white">Pavillion</h1>
-          <p className="mt-4 max-w-3xl text-lg md:text-xl text-white/90 leading-relaxed">
-            A premium open-air destination designed for elegant evenings, celebrations, and curated guest experiences.
+          <h1
+            className="mt-5 text-4xl sm:text-5xl md:text-7xl font-bold text-white leading-tight"
+            style={{ fontFamily: 'Playfair Display, serif' }}
+          >
+            Fireside Pavilion
+          </h1>
+          <p className="mt-4 max-w-2xl text-base sm:text-lg md:text-xl text-white/85 leading-relaxed font-light">
+            A premium open-air destination for elegant evenings, celebrations, and curated guest experiences in the Texas Hill Country.
           </p>
         </div>
       </section>
 
-      <section className="container mx-auto px-4 py-14 md:py-20">
-        <div className="grid lg:grid-cols-[1.1fr_0.9fr] gap-10 items-start">
-          <div>
-            <h2 className={`text-3xl md:text-4xl font-bold mb-5 ${isDarkMode ? 'text-[#E0E7EE]' : 'text-[#0F172A]'}`}>
-              Why this pavilion stands out
-            </h2>
-            <div className="space-y-4">
-              {pavilionHighlights.map((item) => (
-                <div
-                  key={item.title}
-                  className={`rounded-2xl p-5 border ${
-                    isDarkMode
-                      ? 'bg-[#0F1419] border-[#1F2A33]'
-                      : 'bg-white border-[#DDE8DD]'
-                  }`}
-                >
-                  <h3 className={`text-lg font-semibold ${isDarkMode ? 'text-[#E0E7EE]' : 'text-[#1F2A1F]'}`}>{item.title}</h3>
-                  <p className={`mt-1 ${isDarkMode ? 'text-[#C9D6DF]' : 'text-[#475569]'}`}>{item.text}</p>
-                </div>
-              ))}
+      {/* ── Highlights + Gallery ── */}
+      <section className={`py-16 md:py-24 ${isDarkMode ? 'bg-[#0B0F0B]' : 'bg-white'}`}>
+        <div className="container mx-auto px-6">
+          <div className="grid lg:grid-cols-2 gap-12 items-start">
+
+            {/* Left — Highlights */}
+            <div>
+              <p className={`text-xs uppercase tracking-widest font-semibold mb-3 ${isDarkMode ? 'text-[#6BAF7A]' : 'text-[#2F5D3A]'}`}>
+                Why it stands out
+              </p>
+              <h2
+                className={`text-3xl md:text-4xl font-bold mb-8 leading-snug ${isDarkMode ? 'text-[#E8F0E8]' : 'text-[#0F1F0F]'}`}
+                style={{ fontFamily: 'Playfair Display, serif' }}
+              >
+                Designed for <br />memorable moments
+              </h2>
+              <div className="space-y-4">
+                {pavilionHighlights.map((item) => (
+                  <div
+                    key={item.title}
+                    className={`group rounded-2xl p-5 border transition-all duration-300 hover:border-[#2F5D3A]/40 ${
+                      isDarkMode
+                        ? 'bg-[#0F1A0F] border-[#1A2A1A] hover:bg-[#132013]'
+                        : 'bg-[#F8FBF8] border-[#E0EBE0] hover:bg-[#F0F7F0]'
+                    }`}
+                  >
+                    <div className="flex items-start gap-4">
+                      <span className="text-xl mt-0.5 shrink-0">{item.icon}</span>
+                      <div>
+                        <h3 className={`text-base font-semibold mb-1 ${isDarkMode ? 'text-[#D4E8D4]' : 'text-[#1A3A1A]'}`}>
+                          {item.title}
+                        </h3>
+                        <p className={`text-sm leading-relaxed ${isDarkMode ? 'text-[#8FA88F]' : 'text-[#4A6A4A]'}`}>
+                          {item.text}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Stats */}
+              <div className="mt-8 grid grid-cols-3 gap-3">
+                {pavilionStats.map((stat) => (
+                  <div
+                    key={stat.label}
+                    className={`rounded-xl border p-4 text-center ${
+                      isDarkMode
+                        ? 'bg-[#0B0F0B] border-[#1A2A1A]'
+                        : 'bg-[#F3F8F3] border-[#DDE8DD]'
+                    }`}
+                  >
+                    <p className={`text-xs uppercase tracking-wider mb-1 ${isDarkMode ? 'text-[#6A8A6A]' : 'text-[#5A7A5A]'}`}>
+                      {stat.label}
+                    </p>
+                    <p className={`text-sm font-bold ${isDarkMode ? 'text-[#D4E8D4]' : 'text-[#1F3A2A]'}`}>
+                      {stat.value}
+                    </p>
+                  </div>
+                ))}
+              </div>
             </div>
 
-            <div className="mt-8 grid sm:grid-cols-3 gap-3">
-              {pavilionStats.map((stat) => (
-                <div
-                  key={stat.label}
-                  className={`rounded-xl border p-4 ${
-                    isDarkMode
-                      ? 'bg-[#0B0C0E] border-[#1F2A33]'
-                      : 'bg-[#F8FAFC] border-[#DDE8DD]'
-                  }`}
-                >
-                  <p className={`text-xs uppercase tracking-wider ${isDarkMode ? 'text-[#8B949E]' : 'text-[#64748B]'}`}>{stat.label}</p>
-                  <p className={`mt-1 text-sm font-semibold ${isDarkMode ? 'text-[#E0E7EE]' : 'text-[#0F172A]'}`}>{stat.value}</p>
-                </div>
-              ))}
+            {/* Right — Photo grid */}
+            <div className="grid grid-cols-2 gap-3">
+              <img
+                src={pavilionOne}
+                alt="Pavillion seating area"
+                className="h-48 md:h-60 w-full rounded-2xl object-cover"
+                loading="lazy"
+                decoding="async"
+              />
+              <img
+                src={pavilionThree}
+                alt="Pavillion scenic view"
+                className="h-48 md:h-60 w-full rounded-2xl object-cover"
+                loading="lazy"
+                decoding="async"
+              />
+              <img
+                src={pavilionFour}
+                alt="Pavillion at sunset"
+                className="col-span-2 h-56 md:h-72 w-full rounded-2xl object-cover"
+                loading="lazy"
+                decoding="async"
+              />
             </div>
-          </div>
-
-          <div className="grid grid-cols-2 gap-4">
-            <img
-              src={pavilionOne}
-              alt="Pavillion seating area"
-              className="h-44 md:h-56 w-full rounded-2xl object-cover"
-              loading="lazy"
-              decoding="async"
-            />
-            <img
-              src={pavilionThree}
-              alt="Pavillion scenic view"
-              className="h-44 md:h-56 w-full rounded-2xl object-cover"
-              loading="lazy"
-              decoding="async"
-            />
-            <img
-              src={pavilionFour}
-              alt="Pavillion at sunset"
-              className="col-span-2 h-52 md:h-64 w-full rounded-2xl object-cover"
-              loading="lazy"
-              decoding="async"
-            />
           </div>
         </div>
       </section>
 
-      <section className={`py-16 ${isDarkMode ? 'bg-[#141A1F]' : 'bg-[#F3F8F3]'}`}>
-        <div className="container mx-auto px-4">
-          <div className="grid lg:grid-cols-[0.9fr_1.1fr] gap-8 items-center">
+      {/* ── Availability Calendar ── */}
+      <section className={`py-16 md:py-24 ${isDarkMode ? 'bg-[#0F1A0F]' : 'bg-[#F3F8F3]'}`}>
+        <div className="container mx-auto px-6">
+          <div className="max-w-4xl mx-auto">
+            <div className="text-center mb-10">
+              <p className={`text-xs uppercase tracking-widest font-semibold mb-3 ${isDarkMode ? 'text-[#6BAF7A]' : 'text-[#2F5D3A]'}`}>
+                Plan your event
+              </p>
+              <h2
+                className={`text-3xl md:text-4xl font-bold ${isDarkMode ? 'text-[#E8F0E8]' : 'text-[#0F1F0F]'}`}
+                style={{ fontFamily: 'Playfair Display, serif' }}
+              >
+                Check Availability
+              </h2>
+              <p className={`mt-3 text-base ${isDarkMode ? 'text-[#8FA88F]' : 'text-[#4A6A4A]'}`}>
+                Select your event dates below, then reach out to our team to confirm and plan.
+              </p>
+            </div>
+
+            <div className={`rounded-3xl border overflow-hidden ${isDarkMode ? 'bg-[#0B0F0B] border-[#1A2A1A]' : 'bg-white border-[#DDE8DD]'}`}>
+              {/* Calendar */}
+              <div className="flex justify-center p-6">
+                <DayPicker
+                  mode="range"
+                  selected={dateRange}
+                  onSelect={(range) => setDateRange(range || { from: undefined, to: undefined })}
+                  numberOfMonths={2}
+                  disabled={{ before: today }}
+                  modifiersStyles={{
+                    selected: {
+                      backgroundColor: '#2F5D3A',
+                      color: '#ffffff',
+                    },
+                    range_middle: {
+                      backgroundColor: isDarkMode ? '#1A2E1A' : '#EAF3EA',
+                      color: isDarkMode ? '#C9D6DF' : '#1F3A2A',
+                    },
+                  }}
+                />
+              </div>
+
+              {/* Date summary + CTAs */}
+              <div className={`px-6 py-5 border-t ${isDarkMode ? 'border-[#1A2A1A]' : 'border-[#E0EBE0]'}`}>
+                {dateRange?.from && dateRange?.to ? (
+                  <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                    <div>
+                      <p className={`text-xs uppercase tracking-wider mb-1 ${isDarkMode ? 'text-[#6A8A6A]' : 'text-[#5A7A5A]'}`}>
+                        Selected dates
+                      </p>
+                      <p className={`text-sm font-semibold ${isDarkMode ? 'text-[#D4E8D4]' : 'text-[#1F3A2A]'}`}>
+                        {formatDisplayDate(dateRange.from)} → {formatDisplayDate(dateRange.to)}
+                        <span className={`ml-2 font-normal ${isDarkMode ? 'text-[#8FA88F]' : 'text-[#4A6A4A]'}`}>
+                          ({nightCount} night{nightCount !== 1 ? 's' : ''})
+                        </span>
+                      </p>
+                    </div>
+                    <div className="flex gap-3">
+                      <Link
+                        to="/book-now"
+                        state={bookNowState}
+                        className="px-5 py-2.5 rounded-xl text-sm font-semibold bg-[#1F3A2A] text-[#F7FBF7] hover:bg-[#2F5D3A] transition-colors duration-200"
+                      >
+                        Request Availability
+                      </Link>
+                      <Link
+                        to="/contact"
+                        className={`px-5 py-2.5 rounded-xl text-sm font-semibold border transition-colors duration-200 ${
+                          isDarkMode
+                            ? 'border-[#2F5D3A] text-[#6BAF7A] hover:bg-[#1A2A1A]'
+                            : 'border-[#1F3A2A] text-[#1F3A2A] hover:bg-[#F0F7F0]'
+                        }`}
+                      >
+                        Contact Team
+                      </Link>
+                    </div>
+                  </div>
+                ) : dateRange?.from ? (
+                  <p className={`text-sm ${isDarkMode ? 'text-[#8FA88F]' : 'text-[#4A6A4A]'}`}>
+                    Now select your event end date
+                  </p>
+                ) : (
+                  <p className={`text-sm ${isDarkMode ? 'text-[#6A8A6A]' : 'text-[#7A9A7A]'}`}>
+                    Click a start date to begin — then select your end date
+                  </p>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Plan your evening ── */}
+      <section className={`py-16 md:py-24 ${isDarkMode ? 'bg-[#0B0F0B]' : 'bg-white'}`}>
+        <div className="container mx-auto px-6">
+          <div className="grid lg:grid-cols-[1fr_1fr] gap-10 items-center">
             <img
               src={pavilionFive}
               alt="Pavillion event layout"
@@ -144,38 +306,78 @@ const Pavillion = () => {
               decoding="async"
             />
             <div>
-              <h2 className={`text-3xl md:text-4xl font-bold ${isDarkMode ? 'text-[#E0E7EE]' : 'text-[#0F172A]'}`}>
-                Plan your pavilion evening
-              </h2>
-              <p className={`mt-3 text-lg ${isDarkMode ? 'text-[#C9D6DF]' : 'text-[#475569]'}`}>
-                Tell us your occasion, preferred setup, and guest count. Our team will help you shape a smooth and memorable experience.
+              <p className={`text-xs uppercase tracking-widest font-semibold mb-3 ${isDarkMode ? 'text-[#6BAF7A]' : 'text-[#2F5D3A]'}`}>
+                Get in touch
               </p>
-              <div className="mt-6 flex flex-wrap gap-3">
-                <a
-                  href="/book-now"
-                  className={`px-6 py-3 rounded-xl font-semibold ${
+              <h2
+                className={`text-3xl md:text-4xl font-bold leading-snug mb-4 ${isDarkMode ? 'text-[#E8F0E8]' : 'text-[#0F1F0F]'}`}
+                style={{ fontFamily: 'Playfair Display, serif' }}
+              >
+                Plan your <br />pavilion evening
+              </h2>
+              <p className={`text-base leading-relaxed ${isDarkMode ? 'text-[#8FA88F]' : 'text-[#4A6A4A]'}`}>
+                Tell us your occasion, preferred setup, and guest count. Our team will help you shape a smooth and memorable experience tailored to your vision.
+              </p>
+              <div className="mt-7 flex flex-wrap gap-3">
+                <Link
+                  to="/book-now"
+                  state={bookNowState}
+                  className={`px-6 py-3 rounded-xl text-sm font-semibold transition-all duration-200 hover:scale-[1.02] ${
                     isDarkMode
-                      ? 'bg-linear-to-r from-[#1F3A2A] to-[#5F8C6A] text-[#F7FBF7]'
-                      : 'bg-[#1F3A2A] text-[#F7FBF7]'
+                      ? 'bg-[#1F3A2A] text-[#D4EDDA] hover:bg-[#2F5D3A]'
+                      : 'bg-[#1F3A2A] text-[#F7FBF7] hover:bg-[#2F5D3A]'
                   }`}
                 >
                   Request Availability
-                </a>
-                <a
-                  href="/contact"
-                  className={`px-6 py-3 rounded-xl font-semibold border ${
+                </Link>
+                <Link
+                  to="/contact"
+                  className={`px-6 py-3 rounded-xl text-sm font-semibold border transition-all duration-200 hover:scale-[1.02] ${
                     isDarkMode
-                      ? 'border-[#5F8C6A] text-[#A8C9B1]'
-                      : 'border-[#1F3A2A] text-[#1F3A2A]'
+                      ? 'border-[#2F5D3A] text-[#6BAF7A] hover:bg-[#0F1A0F]'
+                      : 'border-[#1F3A2A] text-[#1F3A2A] hover:bg-[#F0F7F0]'
                   }`}
                 >
                   Contact Team
-                </a>
+                </Link>
               </div>
             </div>
           </div>
         </div>
       </section>
+
+      {/* DayPicker theme */}
+      <style>{`
+        .rdp {
+          --rdp-cell-size: 38px;
+          --rdp-accent-color: #2F5D3A;
+          --rdp-background-color: ${isDarkMode ? '#1A2E1A' : '#EAF3EA'};
+          margin: 0;
+          font-size: 0.82rem;
+        }
+        .rdp-day_range_middle {
+          background-color: ${isDarkMode ? '#1A2E1A' : '#EAF3EA'} !important;
+          color: ${isDarkMode ? '#C9D6DF' : '#1F3A2A'} !important;
+        }
+        .rdp-day_selected:not(.rdp-day_range_middle) {
+          background-color: #2F5D3A !important;
+          color: white !important;
+        }
+        .rdp-button:hover:not([disabled]) {
+          background-color: ${isDarkMode ? '#1A2E1A' : '#EAF3EA'} !important;
+        }
+        .rdp-caption_label {
+          color: ${isDarkMode ? '#E0E7EE' : '#1F2A1F'};
+          font-weight: 700;
+          font-size: 0.82rem;
+        }
+        .rdp-day {
+          color: ${isDarkMode ? '#C9D6DF' : '#334155'};
+        }
+        .rdp-day[disabled] {
+          color: ${isDarkMode ? '#3A3A3A' : '#C0C8C0'} !important;
+        }
+      `}</style>
     </PageLayout>
   );
 };

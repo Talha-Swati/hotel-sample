@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { useTheme } from '../context/ThemeContext';
 import PageLayout from '../components/layout/PageLayout';
 import BookingCalendar from '../components/BookingCalendar';
+import SquarePaymentForm from '../components/booking/SquarePaymentForm';
 import { contactInfo } from '../data/contactData';
 import { getAllStays } from '../data/staysData';
 import { useHousesData } from '../hooks/useHousesData';
@@ -11,12 +12,15 @@ import { getHousePackagesBySlug } from '../services/houses';
 import { getWhatsAppLink } from '../utils/helpers';
 import { getFAQSchema } from '../utils/structuredData';
 import { countWeekdayWeekendNights, getRatePlanBySlug } from '../utils/stayPricing';
-import { 
+import { isSquareConfigured } from '../services/square';
+import {
   FaCheckCircle,
   FaLock,
   FaInfoCircle,
   FaWhatsapp
 } from 'react-icons/fa';
+
+const PAYMENTS_ENABLED = import.meta.env.VITE_ENABLE_PAYMENTS === 'true';
 
 const BookNow = () => {
   const location = useLocation();
@@ -94,6 +98,8 @@ const BookNow = () => {
 
   const [bookingConfirmed, setBookingConfirmed] = useState(false);
   const [confirmedBookingId, setConfirmedBookingId] = useState('');
+  const [depositPaid, setDepositPaid] = useState(false);
+  const [depositError, setDepositError] = useState('');
   const [submissionState, setSubmissionState] = useState({
     loading: false,
     error: '',
@@ -569,6 +575,48 @@ const BookNow = () => {
                   </a>
                 </div>
               </div>
+
+              {/* ── Square Deposit Payment (enabled when VITE_ENABLE_PAYMENTS=true) ── */}
+              {PAYMENTS_ENABLED && !depositPaid && (
+                <div className={`p-8 rounded-xl mb-8 text-left ${
+                  isDarkMode ? 'bg-[#141A1F]' : 'bg-white border border-[#E2E8F0]'
+                } shadow-[0_10px_24px_-18px_rgba(0,0,0,0.12)]`}>
+                  <h2 className={`text-xl font-bold mb-1 ${isDarkMode ? 'text-[#E0E7EE]' : 'text-[#0F172A]'}`}>
+                    Secure your booking with a deposit
+                  </h2>
+                  <p className={`text-sm mb-5 ${isDarkMode ? 'text-[#8A9BAC]' : 'text-[#64748B]'}`}>
+                    A refundable deposit holds your dates while we confirm availability.
+                  </p>
+                  {depositError && (
+                    <p className="mb-4 text-sm text-red-500">{depositError}</p>
+                  )}
+                  <SquarePaymentForm
+                    isDarkMode={isDarkMode}
+                    amount={10000}
+                    currency="USD"
+                    label="Pay $100 Deposit"
+                    onToken={(nonce) => {
+                      // Send nonce to backend → POST /api/payments/deposit
+                      // with { nonce, bookingId: confirmedBookingId, amount: 10000 }
+                      console.log('Square deposit nonce:', nonce);
+                      setDepositPaid(true);
+                      setDepositError('');
+                    }}
+                    onError={(msg) => setDepositError(msg)}
+                  />
+                </div>
+              )}
+
+              {depositPaid && (
+                <div className={`flex items-center gap-3 p-5 rounded-xl mb-8 ${
+                  isDarkMode ? 'bg-[#1A2E1A]' : 'bg-[#EAF3EA]'
+                }`}>
+                  <FaCheckCircle className="text-[#2F5D3A] h-5 w-5 shrink-0" />
+                  <p className={`text-sm font-semibold ${isDarkMode ? 'text-[#6BAF7A]' : 'text-[#1F3A2A]'}`}>
+                    Deposit received — your booking is being confirmed!
+                  </p>
+                </div>
+              )}
 
               <div className="flex gap-4 justify-center">
                 <button

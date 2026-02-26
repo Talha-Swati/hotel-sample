@@ -2,9 +2,9 @@ const UNDER_DEVELOPMENT_PATH = '/under-development';
 
 const NAV_ITEMS = [
   { name: "Home", path: "/" },
-  { 
-    name: "Stays", 
-    path: "/tours", 
+  {
+    name: "Stays",
+    path: "/tours",
     hasDropdown: true,
     dropdownItems: [
       { name: "Razoo Creek", path: "/stay/apple-1-razoo-creek", icon: "" },
@@ -13,13 +13,13 @@ const NAV_ITEMS = [
       { name: "Rani Ridge", path: "/stay/triangle-2-rani-ridge", icon: "" },
     ]
   },
-  { name: "Pavillion", path: "/pavillion" },
-  { name: "Creeks cafe", path: "/creeks-cafe" },
-  { 
-    name: "Experiences", 
+  {
+    name: "Experiences",
     path: "/destinations",
     hasDropdown: false
   },
+  { name: "Creekside Cafe", path: "/creeks-cafe" },
+  { name: "Fireside Pavilion", path: "/pavillion" },
   { name: "Gallery", path: "/gallery" },
   { name: "About", path: "/about" },
   { name: "Contact", path: "/contact" },
@@ -30,8 +30,8 @@ export const getNavItems = () =>
     const isAllowedLiveRoute =
       item.name === 'Home' ||
       item.name === 'Stays' ||
-      item.name === 'Pavillion' ||
-      item.name === 'Creeks cafe' ||
+      item.name === 'Fireside Pavilion' ||
+      item.name === 'Creekside Cafe' ||
       item.name === 'Experiences' ||
       item.name === 'Gallery' ||
       item.name === 'About' ||

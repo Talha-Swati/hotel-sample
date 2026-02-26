@@ -14,11 +14,11 @@ const Footer = ({ isDarkMode }) => {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12 mb-12">
           <div>
             <div className="flex items-center gap-3 mb-4">
-              <div className="h-12 w-12 overflow-hidden rounded-xl bg-linear-to-br from-[#C9A36A] via-[#E7CFA2] to-[#8A6B45]">
+              <div className="h-14 w-14 flex-shrink-0">
                 <img
                   src={logo}
                   alt="The Tiny Escape logo"
-                  className="h-full w-full object-cover"
+                  className="h-full w-full object-contain"
                   loading="lazy"
                 />
               </div>

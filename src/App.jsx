@@ -5,6 +5,7 @@ import { ThemeProvider } from './context/ThemeContext';
 import UnderDevelopment from './pages/UnderDevelopment';
 import TrackingScripts from './components/common/TrackingScripts';
 import ScrollToTop from './components/common/ScrollToTop';
+import RouteTracker from './components/common/RouteTracker';
 
 const Home = lazy(() => import('./pages/Home'));
 const Tours = lazy(() => import('./pages/Tours'));
@@ -31,6 +32,7 @@ const App = () => {
         <TrackingScripts />
         <BrowserRouter>
           <ScrollToTop />
+          <RouteTracker />
           <Suspense fallback={null}>
             <Routes>
               <Route path="/" element={<Home />} />
@@ -39,7 +41,9 @@ const App = () => {
               <Route path="/stay/:slug" element={<DestinationDetail />} />
               <Route path="/destination/:slug" element={<LegacyDestinationRedirect />} />
               <Route path="/pavillion" element={<Pavillion />} />
+              <Route path="/fireside-pavilion" element={<Pavillion />} />
               <Route path="/creeks-cafe" element={<CreeksCafe />} />
+              <Route path="/creekside-cafe" element={<CreeksCafe />} />
               <Route path="/gallery" element={<Gallery />} />
               <Route path="/about" element={<About />} />
               <Route path="/contact" element={<Contact />} />

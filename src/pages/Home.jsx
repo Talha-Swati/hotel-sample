@@ -1,5 +1,5 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useEffect, useMemo } from "react";
+import { Link } from "react-router-dom";
 import { useTheme } from "../context/ThemeContext";
 import {
   getOrganizationSchema,
@@ -12,176 +12,105 @@ import PageLayout from "../components/layout/PageLayout";
 
 // Home Components
 import HeroSection from "../components/home/HeroSection";
-import DateSearchBar from "../components/home/DateSearchBar";
-import StayResultsGrid from "../components/home/StayResultsGrid";
-import FeaturedTours from "../components/home/FeaturedTours";
-import { getAllStays } from "../data/staysData";
-import { useHousesData } from "../hooks/useHousesData";
-import { checkBookingAvailability } from "../services/bookings";
 
-// Data
+// Assets
 import tinyEscape7 from "../assets/tiny escape 7.jpeg";
-import horseRidingOne from "../assets/horse riding/horse riding/horse riding 1.jpg";
-import swimmingPoolThree from "../assets/swimming pool/swimming pool/swimming pool 3.jpg";
-import atvAdventureImage from "../assets/ATV Adventure.webp";
-import firepitImage from "../assets/firepit/firepit.jpg";
+import tinyEscape3 from "../assets/tiny escape 3.jpg";
+import cafeImage from "../assets/prefab house portable container cafe/prefab house portable container cafe/cafe 1.avif";
+import firepitImage from "../assets/firepit/Firepit.jpg";
+import poolImage from "../assets/swimming pool/swimming pool/swimming pool 1.webp";
+import horseImage from "../assets/horse riding/horse riding/horse riding 1.jpg";
+import pavilionImage from "../assets/Pavilion images/Pavilion images/pavilion 1.webp";
 
-const EXPERIENCE_ADDONS = [
+const AMENITIES = [
   {
-    title: "Horseback Riding",
-    note: "Scenic guided rides through peaceful countryside routes near the property.",
-    image: horseRidingOne,
-    count: "Add-on activity",
+    title: "Creekside Cafe",
+    description: "Start your mornings right with fresh coffee and bites at our on-site café, nestled right at the property.",
+    image: cafeImage,
+    link: "/creeks-cafe",
+  },
+  {
+    title: "Grand Fire Pit",
+    description: "Gather under the stars around our grand communal fire pit — perfect for evenings with good company.",
+    image: firepitImage,
+    link: "/destinations",
+  },
+  {
+    title: "Container Pools",
+    description: "Cool off in our unique container pools, a refreshing way to unwind during warm Texas days.",
+    image: poolImage,
+    link: "/destinations",
+  },
+  {
+    title: "Guided Horseback Riding",
+    description: "Explore scenic countryside trails on horseback with our guided riding experience.",
+    image: horseImage,
     link: "/destinations#horseback-riding",
   },
   {
-    title: "Swimming Pool",
-    note: "Cool off and unwind with pool time as part of your stay experience.",
-    image: swimmingPoolThree,
-    count: "Add-on activity",
-    link: "/destinations",
+    title: "Open-Air Pavilion",
+    description: "Host events or simply relax in our beautiful open-air pavilion surrounded by nature.",
+    image: pavilionImage,
+    link: "/pavillion",
   },
   {
-    title: "ATV Adventure",
-    note: "Add an ATV session for a fun, high-energy outdoor ride.",
-    image: atvAdventureImage,
-    count: "Add-on activity",
-    link: "/destinations#atv-adventure",
-  },
-  {
-    title: "Trails",
-    note: "Explore nearby nature trails at your own pace for morning or sunset walks.",
-    image:
-      "https://images.unsplash.com/photo-1501554728187-ce583db33af7?auto=format&fit=crop&w=1400&q=80",
-    count: "Included experience",
+    title: "Walking Trails",
+    description: "Wander at your own pace along peaceful nature trails — ideal for morning or sunset strolls.",
+    image: "https://images.unsplash.com/photo-1501554728187-ce583db33af7?auto=format&fit=crop&w=800&q=80",
     link: "/destinations#trails",
   },
   {
-    title: "Fire Pit (Included with Stay)",
-    note: "Your stay includes a fire pit for relaxed nights and meaningful conversations.",
-    image: firepitImage,
-    count: "Included with stay",
-    link: "/destinations",
+    title: "On-Site Guest Parking",
+    description: "Ample, convenient parking right at the property so your arrival is effortless.",
+    image: tinyEscape3,
+    link: "/contact",
   },
 ];
 
+
+const TESTIMONIALS = [
+  {
+    name: "Sarah M.",
+    rating: 5,
+    date: "December 2024",
+    text: "Absolutely magical! The tiny home was perfectly designed — cozy, clean, and surrounded by nature. Waking up to the sound of birds and sipping coffee on the deck was everything we needed. Will definitely be back.",
+    avatar: "S",
+  },
+  {
+    name: "James & Linda R.",
+    rating: 5,
+    date: "November 2024",
+    text: "We came for a weekend anniversary trip and ended up wishing we could stay longer. The fire pit nights were unforgettable. The Creekside Café was a wonderful bonus — great coffee and a cozy vibe.",
+    avatar: "J",
+  },
+  {
+    name: "Carlos T.",
+    rating: 5,
+    date: "October 2024",
+    text: "The horseback riding was a highlight of our trip. The tiny home itself felt like a luxury treehouse. Very well maintained, super clean, and the hosts were incredibly responsive. Highly recommend!",
+    avatar: "C",
+  },
+  {
+    name: "Priya N.",
+    rating: 5,
+    date: "September 2024",
+    text: "I needed a true digital detox and this place delivered. No distractions, just beautiful nature, comfy beds, and the most stunning starry skies. The location between Waco and Temple is also super convenient.",
+    avatar: "P",
+  },
+];
+
+const StarRating = ({ count }) => (
+  <div className="flex gap-0.5">
+    {Array.from({ length: count }).map((_, i) => (
+      <svg key={i} className="h-4 w-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+      </svg>
+    ))}
+  </div>
+);
+
 const Home = () => {
-  const navigate = useNavigate();
   const { isDarkMode } = useTheme();
-  const { houses } = useHousesData({ fallbackData: getAllStays() });
-
-  // Date range for the search bar calendar
-  const [dateRange, setDateRange] = useState({ from: undefined, to: undefined });
-  const [availabilityState, setAvailabilityState] = useState({
-    loading: false,
-    error: "",
-    searched: false,
-    availableBySlug: {},
-  });
-
-  const topStays = useMemo(() => houses.slice(0, 4), [houses]);
-
-  const formatDateToYMD = useCallback((date) => {
-    if (!date) return "";
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, "0");
-    const day = String(date.getDate()).padStart(2, "0");
-    return `${year}-${month}-${day}`;
-  }, []);
-
-  // Perform availability search when user clicks Search
-  const handleSearch = useCallback(
-    async (range) => {
-      // If clearing
-      if (!range || !range.from || !range.to) {
-        setAvailabilityState({
-          loading: false,
-          error: "",
-          searched: false,
-          availableBySlug: {},
-        });
-        return;
-      }
-
-      const checkIn = formatDateToYMD(range.from);
-      const checkOut = formatDateToYMD(range.to);
-
-      if (!checkIn || !checkOut) return;
-
-      setAvailabilityState((prev) => ({
-        ...prev,
-        loading: true,
-        error: "",
-        searched: false,
-      }));
-
-      try {
-        const checks = await Promise.all(
-          topStays.map(async (stay) => {
-            try {
-              const response = await checkBookingAvailability({
-                houseSlug: stay.slug,
-                checkIn,
-                checkOut,
-              });
-              return [
-                stay.slug,
-                {
-                  status:
-                    response?.available === true ? "available" : "unavailable",
-                  available: Boolean(response?.available),
-                  reason: response?.reason || "",
-                },
-              ];
-            } catch (error) {
-              return [
-                stay.slug,
-                {
-                  status: "unknown",
-                  available: null,
-                  reason: error?.message || "Unable to check availability.",
-                },
-              ];
-            }
-          }),
-        );
-
-        setAvailabilityState({
-          loading: false,
-          error: "",
-          searched: true,
-          availableBySlug: Object.fromEntries(checks),
-        });
-      } catch (_error) {
-        setAvailabilityState({
-          loading: false,
-          error: "Something went wrong checking availability.",
-          searched: false,
-          availableBySlug: {},
-        });
-      }
-    },
-    [formatDateToYMD, topStays],
-  );
-
-  // Filtered stays based on availability
-  const visibleStays = useMemo(() => {
-    if (!availabilityState.searched) return topStays;
-    return topStays.filter((stay) => {
-      const status = availabilityState.availableBySlug[stay.slug];
-      if (!status) return true;
-      return status.available !== false;
-    });
-  }, [availabilityState.availableBySlug, availabilityState.searched, topStays]);
-
-  // Selected dates for passing to detail pages
-  const selectedDates = useMemo(() => {
-    if (!dateRange?.from || !dateRange?.to) return null;
-    return {
-      checkIn: formatDateToYMD(dateRange.from),
-      checkOut: formatDateToYMD(dateRange.to),
-    };
-  }, [dateRange, formatDateToYMD]);
 
   // Reveal-on-scroll observer
   useEffect(() => {
@@ -197,7 +126,7 @@ const Home = () => {
           }
         });
       },
-      { threshold: 0.15, rootMargin: "0px 0px -10% 0px" },
+      { threshold: 0.12, rootMargin: "0px 0px -8% 0px" },
     );
 
     elements.forEach((el) => {
@@ -221,7 +150,6 @@ const Home = () => {
     [],
   );
 
-  // All CTA links now point to live pages
   const viewStaysPath = "/tours";
   const requestAvailabilityPath = "/book-now";
 
@@ -240,134 +168,115 @@ const Home = () => {
       {/* Hero Section */}
       <HeroSection isDarkMode={isDarkMode} videoSrc={heroVideo} />
 
-      {/* ── Date Search Bar — directly below hero ── */}
+      {/* ── A Different Kind of Escape ── */}
       <section
-        className={`relative py-10 md:py-14 transition-colors duration-500 border-b ${
+        className={`relative py-16 md:py-24 lg:py-28 transition-colors duration-500 ${
+          isDarkMode ? "bg-[#0F0D0A]" : "bg-[#F5F9F3]"
+        }`}
+      >
+        <div className="mx-auto max-w-5xl px-4 sm:px-6 text-center" data-reveal>
+          <p
+            className={`text-xs uppercase tracking-[0.22em] font-bold mb-4 ${
+              isDarkMode ? "text-[#C9A36A]" : "text-[#2F5D3A]"
+            }`}
+          >
+            Welcome
+          </p>
+          <h2
+            className={`text-3xl sm:text-4xl md:text-5xl font-bold mb-6 sm:mb-8 ${
+              isDarkMode ? "text-[#F2EEE7]" : "text-[#1F2A1F]"
+            }`}
+            style={{ fontFamily: "Playfair Display, serif" }}
+          >
+            A Different Kind of Escape
+          </h2>
+          <p
+            className={`text-base sm:text-lg md:text-xl leading-relaxed max-w-3xl mx-auto mb-5 ${
+              isDarkMode ? "text-[#C4B9A8]" : "text-[#3E4F3E]"
+            }`}
+          >
+            Nestled between Waco and Temple in the heart of Central Texas, The Tiny Escape is a thoughtfully designed tiny home village created to help you unplug, unwind, and reconnect with nature.
+          </p>
+          <p
+            className={`text-base sm:text-lg md:text-xl leading-relaxed max-w-3xl mx-auto mb-10 ${
+              isDarkMode ? "text-[#C4B9A8]" : "text-[#3E4F3E]"
+            }`}
+          >
+            Enjoy slow mornings at the Creekside Café, gather under the stars at the grand fire pit, cool off in our two container pools, or explore the property with guided horseback riding. Every detail is designed to help you slow down and breathe a little deeper.
+          </p>
+          <div className="flex flex-wrap gap-4 justify-center">
+            <Link
+              to={viewStaysPath}
+              className={`inline-flex items-center gap-2 rounded-xl px-7 py-3.5 text-sm font-bold uppercase tracking-wider transition-all duration-300 hover:scale-105 shadow-lg ${
+                isDarkMode
+                  ? "bg-[#C9A36A] text-[#1A120A] hover:bg-[#E7CFA2]"
+                  : "bg-[#1F3A2A] text-white hover:bg-[#2F5D3A]"
+              }`}
+            >
+              View Our Stays
+            </Link>
+            <Link
+              to={requestAvailabilityPath}
+              className={`inline-flex items-center gap-2 rounded-xl border-2 px-7 py-3.5 text-sm font-bold uppercase tracking-wider transition-all duration-300 hover:scale-105 ${
+                isDarkMode
+                  ? "border-[#C9A36A] text-[#C9A36A] hover:bg-[rgba(201,163,106,0.1)]"
+                  : "border-[#1F3A2A] text-[#1F3A2A] hover:bg-[rgba(31,58,42,0.08)]"
+              }`}
+            >
+              Book Now
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Tiny Home Amenities ── */}
+      <section
+        className={`relative py-16 md:py-24 lg:py-28 transition-colors duration-500 ${
           isDarkMode
-            ? "bg-[#120F0C] border-[#2A2119]"
-            : "bg-[#F5F9F3] border-[#DDE8DD]"
+            ? "bg-linear-to-b from-[#0F0D0A] via-[#171310] to-[#0F0D0A]"
+            : "bg-linear-to-b from-[#EAF3EA] via-[#F3F7F2] to-[#EAF3EA]"
         }`}
       >
         <div className="mx-auto max-w-7xl px-4 sm:px-6">
-          {/* Section heading */}
-          <div className="text-center mb-8">
+          <header className="text-center mb-12 md:mb-16" data-reveal>
             <p
-              className={`text-xs uppercase tracking-[0.2em] font-bold mb-3 ${
+              className={`text-xs uppercase tracking-[0.22em] font-bold mb-4 ${
                 isDarkMode ? "text-[#C9A36A]" : "text-[#2F5D3A]"
               }`}
             >
-              Search All Cabins
+              On-Site
             </p>
             <h2
-              className={`text-2xl sm:text-3xl md:text-4xl font-bold ${
+              className={`text-3xl sm:text-4xl md:text-5xl font-bold mb-4 ${
                 isDarkMode ? "text-[#F2EEE7]" : "text-[#1F2A1F]"
               }`}
               style={{ fontFamily: "Playfair Display, serif" }}
             >
-              Find Your Perfect Stay
+              Tiny Home Amenities
             </h2>
             <p
-              className={`mt-3 text-sm max-w-lg mx-auto ${
+              className={`text-base sm:text-lg max-w-xl mx-auto ${
                 isDarkMode ? "text-[#A79C8C]" : "text-[#4B5F4B]"
               }`}
             >
-              Select your dates and we will show you only the homes available
-              for your trip
-            </p>
-          </div>
-
-          {/* Search bar */}
-          <DateSearchBar
-            isDarkMode={isDarkMode}
-            onSearch={handleSearch}
-            isLoading={availabilityState.loading}
-            selectedRange={dateRange}
-            onRangeChange={setDateRange}
-          />
-
-          {/* Error message */}
-          {availabilityState.error && (
-            <p
-              className={`mt-4 text-center text-sm ${
-                isDarkMode ? "text-red-300" : "text-red-600"
-              }`}
-            >
-              {availabilityState.error}
-            </p>
-          )}
-        </div>
-      </section>
-
-      {/* ── Search Results ── */}
-      <StayResultsGrid
-        isDarkMode={isDarkMode}
-        stays={visibleStays}
-        isSearched={availabilityState.searched}
-        isLoading={availabilityState.loading}
-        totalCount={topStays.length}
-        selectedDates={selectedDates}
-      />
-
-      {/* Featured Stays Section */}
-      <FeaturedTours isDarkMode={isDarkMode} />
-
-      {/* Experiences Grid */}
-      <section
-        aria-labelledby="destinations"
-        className={`relative py-16 md:py-24 lg:py-32 overflow-hidden transition-colors duration-500 ${
-          isDarkMode
-            ? "bg-linear-to-b from-[#0F0D0A] via-[#171310] to-[#0F0D0A]"
-            : "bg-linear-to-b from-[#F6FAF4] via-[#EAF3EA] to-[#F3F7F2]"
-        }`}
-      >
-        <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6">
-          <header
-            className="text-center mb-12 md:mb-20 reveal-on-scroll"
-            data-reveal
-          >
-            <h2
-              id="destinations"
-              className="text-3xl sm:text-4xl md:text-5xl font-bold mb-5 sm:mb-6"
-            >
-              <span
-                className={isDarkMode ? "text-[#F2F6F9]" : "text-[#1F2A1F]"}
-              >
-                Explore{" "}
-              </span>
-              <span
-                className={`bg-clip-text text-transparent ${
-                  isDarkMode
-                    ? "bg-linear-to-r from-[#C9A36A] to-[#E7CFA2]"
-                    : "bg-linear-to-r from-[#2F5D3A] to-[#7BAF7C]"
-                }`}
-              >
-                Experiences
-              </span>
-            </h2>
-            <p
-              className={`text-base sm:text-lg md:text-xl ${isDarkMode ? "text-[#A79C8C]" : "text-[#3E4F3E]"}`}
-            >
-              Add a little adventure to your escape — relax or roam with
-              activities for every mood
+              Everything you need for a perfect escape — all in one place.
             </p>
           </header>
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-5">
-            {EXPERIENCE_ADDONS.map((item, index) => (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 md:gap-6">
+            {AMENITIES.map((item, index) => (
               <Link
                 key={item.title}
                 to={item.link}
-                className={`group flex flex-col md:flex-row overflow-hidden rounded-3xl border transition-all duration-500 hover:-translate-y-1 reveal-on-scroll ${
+                className={`group flex flex-col overflow-hidden rounded-2xl border transition-all duration-500 hover:-translate-y-1 hover:shadow-xl ${
                   isDarkMode
-                    ? "bg-[#16120F] border-[rgba(201,163,106,0.25)] hover:border-[rgba(201,163,106,0.45)]"
-                    : "bg-white border-[#DDE8DD] hover:border-[#CFE3CF]"
+                    ? "bg-[#16120F] border-[rgba(201,163,106,0.2)] hover:border-[rgba(201,163,106,0.4)]"
+                    : "bg-white border-[#DDE8DD] hover:border-[#B8D9B8]"
                 }`}
                 data-reveal
-                style={{ transitionDelay: `${120 + index * 80}ms` }}
+                style={{ transitionDelay: `${index * 60}ms` }}
               >
-                <div
-                  className={`md:w-2/5 min-h-[140px] sm:min-h-[160px] md:min-h-[180px] ${isDarkMode ? "bg-[#1A140F]" : "bg-[#E3EFE3]"}`}
-                >
+                <div className="relative h-44 overflow-hidden">
                   <img
                     src={item.image}
                     alt={item.title}
@@ -375,39 +284,31 @@ const Home = () => {
                     decoding="async"
                     className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
                   />
+                  <div className="absolute inset-0 bg-linear-to-t from-black/30 to-transparent" />
                 </div>
-                <div className="flex-1 p-4 sm:p-5 flex flex-col justify-between">
-                  <div>
-                    <p
-                      className={`text-xs font-semibold uppercase tracking-widest ${
-                        isDarkMode ? "text-[#C9A36A]" : "text-[#2F5D3A]"
-                      }`}
-                    >
-                      Add-On
-                    </p>
-                    <h3
-                      className={`text-lg sm:text-xl font-bold mb-1.5 ${isDarkMode ? "text-[#F2EEE7]" : "text-[#1F2A1F]"}`}
-                    >
-                      {item.title}
-                    </h3>
-                    <p
-                      className={`text-sm leading-relaxed ${isDarkMode ? "text-[#A79C8C]" : "text-[#4B5F4B]"}`}
-                    >
-                      {item.note}
-                    </p>
-                  </div>
-                  <div className="mt-4 flex items-center justify-between">
-                    <span
-                      className={`text-sm ${isDarkMode ? "text-[#CDBEAC]" : "text-[#6B7C6B]"}`}
-                    >
-                      {item.count}
-                    </span>
-                    <span
-                      className={`text-sm font-semibold ${isDarkMode ? "text-[#E7CFA2]" : "text-[#2F5D3A]"}`}
-                    >
-                      Request →
-                    </span>
-                  </div>
+                <div className="p-4 flex-1 flex flex-col">
+                  <h3
+                    className={`text-base font-bold mb-1.5 ${
+                      isDarkMode ? "text-[#F2EEE7]" : "text-[#1F2A1F]"
+                    }`}
+                    style={{ fontFamily: "Playfair Display, serif" }}
+                  >
+                    {item.title}
+                  </h3>
+                  <p
+                    className={`text-sm leading-relaxed flex-1 ${
+                      isDarkMode ? "text-[#A79C8C]" : "text-[#4B5F4B]"
+                    }`}
+                  >
+                    {item.description}
+                  </p>
+                  <span
+                    className={`mt-3 text-xs font-semibold uppercase tracking-wider ${
+                      isDarkMode ? "text-[#C9A36A]" : "text-[#2F5D3A]"
+                    }`}
+                  >
+                    Learn more →
+                  </span>
                 </div>
               </Link>
             ))}
@@ -415,28 +316,46 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Map Section */}
+      {/* ── Location Section ── */}
       <section
         className={`relative py-16 md:py-20 overflow-hidden transition-colors duration-500 ${
           isDarkMode ? "bg-[#120F0C]" : "bg-[#F3F7F2]"
         }`}
       >
         <div className="mx-auto max-w-7xl px-4 sm:px-6">
-          <div className="mb-10 text-center">
+          <div className="mb-10 text-center" data-reveal>
+            <p
+              className={`text-xs uppercase tracking-[0.22em] font-bold mb-4 ${
+                isDarkMode ? "text-[#C9A36A]" : "text-[#2F5D3A]"
+              }`}
+            >
+              Find Us
+            </p>
             <h2
-              className={`text-3xl md:text-4xl font-bold mb-3 ${isDarkMode ? "text-[#F2EEE7]" : "text-[#1F2A1F]"}`}
+              className={`text-3xl md:text-4xl font-bold mb-4 ${
+                isDarkMode ? "text-[#F2EEE7]" : "text-[#1F2A1F]"
+              }`}
+              style={{ fontFamily: "Playfair Display, serif" }}
             >
               Location
             </h2>
-            <p className={isDarkMode ? "text-[#A79C8C]" : "text-[#2F5D3A]"}>
-              102 CR 499, Eddy, TX 76524
+            <p
+              className={`text-sm font-semibold mb-3 ${
+                isDarkMode ? "text-[#A79C8C]" : "text-[#2F5D3A]"
+              }`}
+            >
+              102 CR 499, Bruceville-Eddy, TX 76524
             </p>
             <p
-              className={`mt-2 max-w-3xl mx-auto ${isDarkMode ? "text-[#A79C8C]" : "text-[#3E4F3E]"}`}
+              className={`mt-2 max-w-2xl mx-auto text-base sm:text-lg leading-relaxed ${
+                isDarkMode ? "text-[#A79C8C]" : "text-[#3E4F3E]"
+              }`}
             >
-              Perfectly placed between Waco (20 minutes) and Temple (10
-              minutes), with easy access to dining, trails, river activities,
-              and small-town charm.
+              Conveniently located in Bruceville-Eddy, The Tiny Escape sits just minutes from{" "}
+              <span className={`font-semibold ${isDarkMode ? "text-[#C9A36A]" : "text-[#1F3A2A]"}`}>Waco</span>
+              {" "}and{" "}
+              <span className={`font-semibold ${isDarkMode ? "text-[#C9A36A]" : "text-[#1F3A2A]"}`}>Temple</span>
+              {" "}— close enough for easy access, yet far enough to truly unplug and unwind.
             </p>
           </div>
           <div
@@ -446,19 +365,132 @@ const Home = () => {
           >
             <iframe
               title="Tiny Escape location map"
-              src="https://www.google.com/maps?q=cr498%20Bruceville-Eddy%20TX%20United%20States&output=embed"
-              className="h-[280px] sm:h-[360px] w-full"
+              src="https://www.google.com/maps?q=Bruceville-Eddy+TX+76524&output=embed"
+              className="h-[300px] sm:h-[400px] w-full"
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
             />
+          </div>
+          <p
+            className={`mt-4 text-center text-sm ${
+              isDarkMode ? "text-[#6B6055]" : "text-[#7B917B]"
+            }`}
+          >
+            20 min from Waco · 10 min from Temple
+          </p>
+        </div>
+      </section>
+
+      {/* ── Guest Testimonials ── */}
+      <section
+        className={`relative py-16 md:py-24 lg:py-28 transition-colors duration-500 ${
+          isDarkMode
+            ? "bg-linear-to-b from-[#0F0D0A] to-[#171310]"
+            : "bg-linear-to-b from-[#EAF3EA] to-[#F5F9F3]"
+        }`}
+      >
+        <div className="mx-auto max-w-7xl px-4 sm:px-6">
+          <header className="text-center mb-12 md:mb-16" data-reveal>
+            <p
+              className={`text-xs uppercase tracking-[0.22em] font-bold mb-4 ${
+                isDarkMode ? "text-[#C9A36A]" : "text-[#2F5D3A]"
+              }`}
+            >
+              Google Reviews
+            </p>
+            <h2
+              className={`text-3xl sm:text-4xl md:text-5xl font-bold mb-4 ${
+                isDarkMode ? "text-[#F2EEE7]" : "text-[#1F2A1F]"
+              }`}
+              style={{ fontFamily: "Playfair Display, serif" }}
+            >
+              Guest Testimonials
+            </h2>
+            <div className="flex items-center justify-center gap-2 mt-3">
+              <StarRating count={5} />
+              <span
+                className={`text-sm font-bold ${
+                  isDarkMode ? "text-[#C9A36A]" : "text-[#1F3A2A]"
+                }`}
+              >
+                4.9 / 5
+              </span>
+              <span
+                className={`text-sm ${
+                  isDarkMode ? "text-[#A79C8C]" : "text-[#4B5F4B]"
+                }`}
+              >
+                · Based on Google Reviews
+              </span>
+            </div>
+          </header>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 md:gap-6">
+            {TESTIMONIALS.map((review, index) => (
+              <div
+                key={review.name}
+                className={`flex flex-col rounded-2xl border p-5 transition-all duration-500 hover:-translate-y-1 hover:shadow-xl ${
+                  isDarkMode
+                    ? "bg-[#16120F] border-[rgba(201,163,106,0.2)]"
+                    : "bg-white border-[#DDE8DD]"
+                }`}
+                data-reveal
+                style={{ transitionDelay: `${index * 80}ms` }}
+              >
+                {/* Google G icon */}
+                <div className="flex items-center justify-between mb-4">
+                  <StarRating count={review.rating} />
+                  <svg viewBox="0 0 24 24" className="h-5 w-5 flex-shrink-0" aria-label="Google">
+                    <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                    <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                    <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                    <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                  </svg>
+                </div>
+
+                <p
+                  className={`text-sm leading-relaxed flex-1 italic ${
+                    isDarkMode ? "text-[#C4B9A8]" : "text-[#3E4F3E]"
+                  }`}
+                >
+                  "{review.text}"
+                </p>
+
+                <div className="mt-4 flex items-center gap-3">
+                  <div
+                    className={`h-9 w-9 rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0 ${
+                      isDarkMode
+                        ? "bg-[#2F5D3A] text-[#A8E6A3]"
+                        : "bg-[#1F3A2A] text-[#EAF3EA]"
+                    }`}
+                  >
+                    {review.avatar}
+                  </div>
+                  <div>
+                    <p
+                      className={`text-sm font-semibold ${
+                        isDarkMode ? "text-[#F2EEE7]" : "text-[#1F2A1F]"
+                      }`}
+                    >
+                      {review.name}
+                    </p>
+                    <p
+                      className={`text-xs ${
+                        isDarkMode ? "text-[#6B6055]" : "text-[#7B917B]"
+                      }`}
+                    >
+                      {review.date}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
       {/* Section Separator */}
-      <div
-        className={`border-b ${isDarkMode ? "border-gray-800" : "border-[#DDE8DD]"}`}
-      />
+      <div className={`border-b ${isDarkMode ? "border-gray-800" : "border-[#DDE8DD]"}`} />
 
       {/* CTA Section */}
       <section
@@ -491,12 +523,8 @@ const Home = () => {
               "--cta-btn-primary-text": isDarkMode ? "#0E1A12" : "#F7FBF7",
               "--cta-btn-secondary-border": isDarkMode ? "#9FD7AE" : "#1F3A2A",
               "--cta-btn-secondary-text": isDarkMode ? "#DFF4E5" : "#1F3A2A",
-              "--cta-btn-secondary-hover-bg": isDarkMode
-                ? "#9FD7AE"
-                : "#1F3A2A",
-              "--cta-btn-secondary-hover-text": isDarkMode
-                ? "#0E1A12"
-                : "#F7FBF7",
+              "--cta-btn-secondary-hover-bg": isDarkMode ? "#9FD7AE" : "#1F3A2A",
+              "--cta-btn-secondary-hover-text": isDarkMode ? "#0E1A12" : "#F7FBF7",
             }}
           >
             <div>
@@ -528,13 +556,7 @@ const Home = () => {
                   label: "Early Bird Savings",
                   text: "Reserve early to unlock calm-season pricing.",
                   icon: (
-                    <svg
-                      className="h-5 w-5"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="1.8"
-                    >
+                    <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
                       <circle cx="12" cy="12" r="4" />
                       <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" />
                     </svg>
@@ -544,13 +566,7 @@ const Home = () => {
                   label: "Extended Stay Rewards",
                   text: "Stay 3+ nights for extra savings and perks.",
                   icon: (
-                    <svg
-                      className="h-5 w-5"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="1.8"
-                    >
+                    <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
                       <path d="M12 3l3 6 6 .8-4.5 4.4 1 6-5.5-3-5.5 3 1-6L3 9.8 9 9l3-6z" />
                     </svg>
                   ),
@@ -559,13 +575,7 @@ const Home = () => {
                   label: "Seasonal Nature Offers",
                   text: "Limited-time stays for blooms, stars, and cool nights.",
                   icon: (
-                    <svg
-                      className="h-5 w-5"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="1.8"
-                    >
+                    <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
                       <path d="M12 2v20M4 12h16" />
                       <path d="M7 5c1.5 2 8.5 2 10 0M7 19c1.5-2 8.5-2 10 0" />
                     </svg>

@@ -58,7 +58,7 @@ export const normalizeHouseToStay = ({ house, packages = [], fallbackStay = null
     sleeps: house.capacity ?? fallbackStay?.sleeps ?? 1,
     bedrooms: house.beds ?? fallbackStay?.bedrooms ?? 1,
     baths: house.baths ?? fallbackStay?.baths ?? 1,
-    amenities: house.amenities?.length ? house.amenities : fallbackStay?.amenities || [],
+    amenities: fallbackStay?.amenities?.length ? fallbackStay.amenities : house.amenities || [],
     highlights: fallbackStay?.highlights || house.amenities || [],
     policies: fallbackStay?.policies || ['Quiet hours after 10:00 PM'],
     houseRules: fallbackStay?.houseRules || [`Maximum ${house.capacity ?? 2} guests`],

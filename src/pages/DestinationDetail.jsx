@@ -8,7 +8,6 @@ import { getHouseBySlug, getHousePackagesBySlug } from "../services/houses";
 import { getDestinationSchema } from "../utils/structuredData";
 import { normalizeHouseToStay } from "../utils/houseDataNormalizer";
 import { getRatePlanBySlug } from "../utils/stayPricing";
-import AvailabilityCalendar from "../components/stays/AvailabilityCalendar";
 import {
   FaMapMarkerAlt,
   FaStar,
@@ -539,7 +538,7 @@ const DestinationDetail = memo(() => {
                       : "border-[#1F3A2A] text-[#1F3A2A] hover:bg-[#EAF3EA]"
                   }`}
                 >
-                  <span>Show all {totalAmenitiesCount} amenities</span>
+                  <span>View all Amenities ({totalAmenitiesCount})</span>
                   <span
                     className={`w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold ${
                       isDarkMode
@@ -624,13 +623,6 @@ const DestinationDetail = memo(() => {
           {/* Right column — pricing */}
           <div className="lg:col-span-1">
             <div className="space-y-6">
-              {/* Availability Calendar */}
-              <AvailabilityCalendar
-                isDarkMode={isDarkMode}
-                staySlug={stay.slug}
-                stayName={stay.name}
-              />
-
               {displayRate && (
                 <div
                   id="pricing-card"
