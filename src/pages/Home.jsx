@@ -365,7 +365,7 @@ const Home = () => {
           >
             <iframe
               title="Tiny Escape location map"
-              src="https://www.google.com/maps?q=102+CR+499,+Bruceville-Eddy,+TX+76524&z=10&output=embed"
+              src="https://www.google.com/maps?q=The+Tiny+Escape,+102+County+Rd+499,+Eddy,+TX+76524&z=9&output=embed"
               className="h-[300px] sm:h-[400px] w-full"
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
