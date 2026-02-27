@@ -113,7 +113,7 @@ const Tours = () => {
       }}
     >
       {/* ── Page Hero + Search Bar (one unified section) ── */}
-      <section className="relative overflow-hidden pt-24 md:pt-28 pb-12">
+      <section className="relative pt-24 md:pt-28 pb-12">
         {/* Background image */}
         <div
           className="absolute inset-0"
@@ -324,7 +324,7 @@ const Tours = () => {
       </section>
 
       {/* ── Stays Grid ── */}
-      <section className={`py-12 md:py-16 transition-colors duration-500 ${isDarkMode ? 'bg-[#0F0D0A]' : 'bg-[#F5F9F3]'}`}>
+      <section className={`relative z-0 py-12 md:py-16 transition-colors duration-500 ${isDarkMode ? 'bg-[#0F0D0A]' : 'bg-[#F5F9F3]'}`}>
         <div className="mx-auto max-w-7xl px-4 sm:px-6">
 
           {isFallback && (

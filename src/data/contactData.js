@@ -16,7 +16,7 @@ export const contactInfo = [
   {
     iconKey: 'location',
     title: 'Office Location',
-    details: 'Texas Hill Country, USA',
+    details: 'Bruceville-Eddy, TX',
     subtext: 'Serving Texas travelers',
     link: null
   },
@@ -48,19 +48,20 @@ export const countryCodes = [
 ];
 
 export const tourInterests = [
-  'Hunza Valley Tours',
-  'Skardu & K2 Base Camp',
-  'Fairy Meadows Trek',
-  'Naran Kaghan Package',
-  'Siran Valley Getaway',
-  'Swat Valley Heritage',
-  'Complete Northern Pakistan Tour',
-  'Customized Itinerary',
-  'Adventure & Trekking',
-  'Photography Tours',
-  'Honeymoon Package',
-  'Family Vacation',
-  'Corporate Team Building'
+  'Razoo Creek',
+  'Kona Meadows',
+  'Catalina Ridge',
+  'Rani Ridge',
+  'Couples Getaway',
+  'Family Stay',
+  'Group Retreat',
+  'Remote Work Escape',
+  'Stargazing Weekend',
+  'Creek & Nature Experience',
+  'ATV & Outdoor Adventure',
+  'Fireside & Relaxation',
+  'Corporate / Team Building',
+  'Not Sure – Help Me Choose'
 ];
 
 export const months = [

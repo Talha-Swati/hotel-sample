@@ -25,7 +25,7 @@ export const POPULAR_DESTINATIONS = [
 export const CONTACT_INFO = {
   email: 'hello@tinyescape.com',
   phone: '+1 (512) 555-0189',
-  location: 'Texas Hill Country'
+  location: 'Bruceville-Eddy, TX'
 };
 
 // Social Media Links

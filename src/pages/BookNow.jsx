@@ -64,8 +64,6 @@ const BookNow = () => {
     phone: '',
     countryCode: '+1',
     country: '',
-    nationality: '',
-
     // Stay Details
     adults: '1',
     children: '0',
@@ -393,7 +391,6 @@ const BookNow = () => {
             email: bookingData.email,
             phone: `${bookingData.countryCode}${bookingData.phone}`,
             country: bookingData.country,
-            nationality: bookingData.nationality,
           },
           stay: {
             checkIn: bookingData.checkIn,
@@ -829,20 +826,6 @@ const BookNow = () => {
                             />
                           </div>
 
-                          <div>
-                            <label className={`block mb-2 font-semibold ${labelClass}`}>
-                              Nationality *
-                            </label>
-                            <input
-                              type="text"
-                              name="nationality"
-                              value={bookingData.nationality}
-                              onChange={handleInputChange}
-                              required
-                              placeholder="American"
-                              className={fieldBaseClass}
-                            />
-                          </div>
                         </div>
 
                         <div>

@@ -4,17 +4,15 @@ import PageLayout from '../components/layout/PageLayout';
 import config from '../config';
 import { contactInfo, countryCodes, tourInterests, months } from '../data/contactData';
 import { getWhatsAppLink } from '../utils/helpers';
-import { 
-  FaPhone, 
-  FaEnvelope, 
-  FaMapMarkerAlt, 
-  FaClock, 
-  FaWhatsapp, 
-  FaFacebook, 
-  FaInstagram, 
+import {
+  FaPhone,
+  FaEnvelope,
+  FaMapMarkerAlt,
+  FaClock,
+  FaWhatsapp,
+  FaFacebook,
+  FaInstagram,
   FaTwitter,
-  FaGlobe,
-  FaUsers,
   FaCalendarAlt,
   FaPaperPlane
 } from 'react-icons/fa';
@@ -27,14 +25,12 @@ const Contact = () => {
   const [formData, setFormData] = useState({
     fullName: '',
     email: '',
-    country: '',
     phone: '',
     countryCode: '+1',
     numberOfTravelers: '1',
     travelType: '',
-    tourInterest: '',
+    stayInterest: '',
     preferredMonth: '',
-    budgetRange: '',
     message: ''
   });
 
@@ -47,23 +43,19 @@ const Contact = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Here you would typically send data to your backend
     console.log('Form submitted:', formData);
     setFormStatus({ submitted: true, error: false });
-    
-    // Reset form after submission
+
     setTimeout(() => {
       setFormData({
         fullName: '',
         email: '',
-        country: '',
         phone: '',
         countryCode: '+1',
         numberOfTravelers: '1',
         travelType: '',
-        tourInterest: '',
+        stayInterest: '',
         preferredMonth: '',
-        budgetRange: '',
         message: ''
       });
       setFormStatus({ submitted: false, error: false });
@@ -77,7 +69,6 @@ const Contact = () => {
     hours: <FaClock />
   };
 
-  // SEO structured data
   const structuredData = useMemo(() => ({
     "@context": "https://schema.org",
     "@type": "LodgingBusiness",
@@ -86,488 +77,473 @@ const Contact = () => {
     "email": config.site.email,
     "address": {
       "@type": "PostalAddress",
-      "addressLocality": "Texas Hill Country",
+      "addressLocality": "Bruceville-Eddy",
+      "addressRegion": "TX",
       "addressCountry": "USA"
     },
     "openingHours": "Mo-Sa 09:00-18:00"
   }), []);
 
+  /* ── shared input className ── */
+  const inputCls = isDarkMode
+    ? 'bg-[#0F1B14] border-[#2A4030] text-[#F2EEE7] placeholder-[#6B8570] focus:border-[#6AAF7E]'
+    : 'bg-white border-[#C6D9C0] text-[#1F3A2A] placeholder-[#8FAF8A] focus:border-[#2F5D3A]';
+
+  const labelCls = `block mb-2 text-sm font-semibold tracking-wide ${isDarkMode ? 'text-[#A8C8A8]' : 'text-[#2F5D3A]'}`;
+
   return (
     <PageLayout
       seo={{
         title: 'Contact The Tiny Escape | Request Availability',
-        description: 'Contact The Tiny Escape team to request availability, ask stay questions, and plan a calm Hill Country getaway.',
-        keywords: 'The Tiny Escape contact, request availability, tiny home stay inquiry, Hill Country getaway planning',
+        description: 'Contact The Tiny Escape team to request availability, ask stay questions, and plan a calm Texas getaway near Waco.',
+        keywords: 'The Tiny Escape contact, request availability, tiny home stay inquiry, Texas getaway, Bruceville-Eddy',
         url: "/contact",
         structuredData
       }}
     >
-      {/* Hero Section */}
-        <section
-          className={`relative py-20 overflow-hidden ${
-            isDarkMode ? 'bg-linear-to-br from-[#0B0C0E] via-[#0A3A67] to-[#0B0C0E]' : 'bg-linear-to-br from-white via-[#EBF8FF] to-white'
-          }`}
-        >
-          <div className="container mx-auto px-4">
-            <div className="max-w-4xl mx-auto text-center">
-              <div className={`inline-block p-4 rounded-full mb-6 ${isDarkMode ? 'bg-[#22D3EE]/10' : 'bg-blue-50'}`}>
-                <FaPaperPlane className={`text-5xl ${isDarkMode ? 'text-[#22D3EE]' : 'text-[#3B82F6]'}`} />
-              </div>
-              <h1
-                className={`text-4xl md:text-5xl lg:text-6xl font-bold mb-6 ${
-                  isDarkMode ? 'bg-linear-to-r from-[#22D3EE] to-[#4DBBFF]' : 'bg-linear-to-r from-[#3B82F6] to-[#60A5FA]'
-                } bg-clip-text text-transparent`}
-              >
-                Plan Your Tiny Escape
-              </h1>
-              <p className={`text-lg md:text-xl mb-4 ${isDarkMode ? 'text-[#C4CCD4]' : 'text-[#374151]'}`}>
-                Share your dates and preferences, and our team will match you with the right stay.
-              </p>
-              <p className={`text-base ${isDarkMode ? 'text-[#8B949E]' : 'text-[#64748B]'}`}>
-                Fast response • WhatsApp support available
-              </p>
-            </div>
-          </div>
-        </section>
+      {/* ── Hero ── */}
+      <section
+        className={`relative py-24 overflow-hidden ${
+          isDarkMode
+            ? 'bg-[#0F1B14]'
+            : 'bg-[#EAF3EA]'
+        }`}
+      >
+        {/* decorative leaf shapes */}
+        <div
+          className="absolute -top-16 -right-16 w-72 h-72 rounded-full opacity-10 pointer-events-none"
+          style={{ background: 'radial-gradient(circle, #A8E6A3, transparent 70%)' }}
+        />
+        <div
+          className="absolute -bottom-12 -left-12 w-56 h-56 rounded-full opacity-10 pointer-events-none"
+          style={{ background: 'radial-gradient(circle, #6AAF7E, transparent 70%)' }}
+        />
 
-        {/* Contact Info Cards */}
-        <section className={`py-12 ${isDarkMode ? 'bg-[#0F1419]' : 'bg-[#F8FAFC]'}`}>
-          <div className="container mx-auto px-4">
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {contactInfo.map((info, idx) => (
+        <div className="container mx-auto px-4 relative z-10">
+          <div className="max-w-3xl mx-auto text-center">
+            {/* icon badge */}
+            <div
+              className="inline-flex items-center justify-center w-16 h-16 rounded-full mb-6"
+              style={{ background: isDarkMode ? 'rgba(168,230,163,0.12)' : 'rgba(47,93,58,0.10)' }}
+            >
+              <FaEnvelope
+                className="text-2xl"
+                style={{ color: isDarkMode ? '#A8E6A3' : '#2F5D3A' }}
+              />
+            </div>
+
+            <h1
+              className="text-4xl md:text-5xl lg:text-6xl font-bold mb-5"
+              style={{
+                fontFamily: 'Playfair Display, serif',
+                color: isDarkMode ? '#EAF3EA' : '#1F3A2A'
+              }}
+            >
+              Get in Touch
+            </h1>
+            <p
+              className="text-lg md:text-xl mb-3"
+              style={{ color: isDarkMode ? '#A8C8A8' : '#2F5D3A' }}
+            >
+              Share your dates and preferences — we'll find the right stay for you.
+            </p>
+            <p
+              className="text-sm font-medium tracking-wide"
+              style={{ color: isDarkMode ? '#6B8570' : '#5A7A5A' }}
+            >
+              Fast response · WhatsApp support available
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Contact Info Cards ── */}
+      <section
+        className={`py-12 ${isDarkMode ? 'bg-[#0A1610]' : 'bg-white'}`}
+      >
+        <div className="container mx-auto px-4">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+            {contactInfo.map((info, idx) => (
+              <div
+                key={idx}
+                className={`p-6 rounded-2xl text-center transition-all duration-300 ${
+                  isDarkMode
+                    ? 'bg-[#0F1B14] border border-[#1E3528] hover:border-[#2F5D3A]'
+                    : 'bg-[#F5FAF5] border border-[#D4E8D4] hover:border-[#6AAF7E]'
+                } hover:shadow-lg`}
+              >
                 <div
-                  key={idx}
-                  className={`p-6 rounded-xl text-center transition-all duration-300 ${
-                    isDarkMode
-                      ? 'bg-[#0B0C0E] hover:shadow-[0_22px_26px_-18px_rgba(148,163,184,0.24)]'
-                      : 'bg-white border border-[#E2E8F0] hover:shadow-[0_22px_26px_-18px_rgba(71,85,105,0.16)]'
-                  }`}
+                  className="inline-flex items-center justify-center w-14 h-14 rounded-full mb-4"
+                  style={{ background: isDarkMode ? 'rgba(168,230,163,0.10)' : 'rgba(47,93,58,0.08)' }}
                 >
-                  <div className={`inline-flex items-center justify-center w-16 h-16 rounded-full mb-4 ${
-                    isDarkMode ? 'bg-[#22D3EE]/10' : 'bg-blue-50'
-                  }`}>
-                    <div className={`text-3xl ${isDarkMode ? 'text-[#22D3EE]' : 'text-[#3B82F6]'}`}>
-                      {iconMap[info.iconKey]}
+                  <div
+                    className="text-2xl"
+                    style={{ color: isDarkMode ? '#A8E6A3' : '#2F5D3A' }}
+                  >
+                    {iconMap[info.iconKey]}
+                  </div>
+                </div>
+                <h3
+                  className="text-base font-bold mb-1"
+                  style={{ color: isDarkMode ? '#EAF3EA' : '#1F3A2A' }}
+                >
+                  {info.title}
+                </h3>
+                {info.link ? (
+                  <a
+                    href={info.link}
+                    className="block text-sm font-semibold mb-1 transition-colors"
+                    style={{ color: isDarkMode ? '#A8E6A3' : '#2F5D3A' }}
+                  >
+                    {info.details}
+                  </a>
+                ) : (
+                  <p
+                    className="text-sm font-semibold mb-1"
+                    style={{ color: isDarkMode ? '#C8DEC8' : '#2F5D3A' }}
+                  >
+                    {info.details}
+                  </p>
+                )}
+                <p
+                  className="text-xs"
+                  style={{ color: isDarkMode ? '#6B8570' : '#5A7A5A' }}
+                >
+                  {info.subtext}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── Form + Sidebar ── */}
+      <section
+        className={`py-16 ${isDarkMode ? 'bg-[#0F1B14]' : 'bg-[#F2F8F2]'}`}
+      >
+        <div className="container mx-auto px-4">
+          <div className="grid lg:grid-cols-3 gap-8 items-start">
+
+            {/* ── Contact Form ── */}
+            <div className="lg:col-span-2">
+              <div
+                className={`p-8 rounded-2xl ${
+                  isDarkMode
+                    ? 'bg-[#0A1610] border border-[#1E3528]'
+                    : 'bg-white border border-[#D4E8D4]'
+                } shadow-xl`}
+              >
+                <h2
+                  className="text-3xl font-bold mb-2"
+                  style={{ fontFamily: 'Playfair Display, serif', color: isDarkMode ? '#EAF3EA' : '#1F3A2A' }}
+                >
+                  Request Availability
+                </h2>
+                <p
+                  className="mb-8 text-sm"
+                  style={{ color: isDarkMode ? '#6B8570' : '#5A7A5A' }}
+                >
+                  Tell us about your trip and we'll get back to you within 24 hours.
+                </p>
+
+                {formStatus.submitted && (
+                  <div
+                    className="mb-6 p-4 rounded-xl border"
+                    style={{
+                      background: 'rgba(106,175,126,0.10)',
+                      borderColor: 'rgba(106,175,126,0.30)'
+                    }}
+                  >
+                    <p className="font-semibold" style={{ color: '#6AAF7E' }}>
+                      ✓ Thanks! We received your request and will reach out soon.
+                    </p>
+                  </div>
+                )}
+
+                <form onSubmit={handleSubmit} className="space-y-6">
+                  {/* Name + Email */}
+                  <div className="grid md:grid-cols-2 gap-5">
+                    <div>
+                      <label className={labelCls}>Full Name *</label>
+                      <input
+                        type="text"
+                        name="fullName"
+                        value={formData.fullName}
+                        onChange={handleInputChange}
+                        required
+                        placeholder="Jane Smith"
+                        className={`w-full px-4 py-3 rounded-xl border transition-all focus:outline-none focus:ring-2 focus:ring-[#6AAF7E]/20 ${inputCls}`}
+                      />
+                    </div>
+                    <div>
+                      <label className={labelCls}>Email Address *</label>
+                      <input
+                        type="email"
+                        name="email"
+                        value={formData.email}
+                        onChange={handleInputChange}
+                        required
+                        placeholder="jane@example.com"
+                        className={`w-full px-4 py-3 rounded-xl border transition-all focus:outline-none focus:ring-2 focus:ring-[#6AAF7E]/20 ${inputCls}`}
+                      />
                     </div>
                   </div>
-                  <h3 className={`text-lg font-bold mb-2 ${isDarkMode ? 'text-[#E0E7EE]' : 'text-[#0F172A]'}`}>
-                    {info.title}
-                  </h3>
-                  {info.link ? (
-                    <a
-                      href={info.link}
-                      className={`block text-base font-semibold mb-1 transition-colors ${
-                        isDarkMode ? 'text-[#22D3EE] hover:text-[#4DBBFF]' : 'text-[#3B82F6] hover:text-[#60A5FA]'
-                      }`}
-                    >
-                      {info.details}
-                    </a>
-                  ) : (
-                      <p className={`text-base font-semibold mb-1 ${isDarkMode ? 'text-[#C4CCD4]' : 'text-[#374151]'}`}>
-                      {info.details}
-                    </p>
-                  )}
-                  <p className={`text-sm ${isDarkMode ? 'text-[#8B949E]' : 'text-[#64748B]'}`}>
-                    {info.subtext}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
 
-        {/* Contact Form & Social Section */}
-        <section className="py-16">
-          <div className="container mx-auto px-4">
-            <div className="grid lg:grid-cols-3 gap-8">
-              {/* Contact Form */}
-              <div className="lg:col-span-2">
-                <div
-                  className={`p-8 rounded-2xl ${
-                    isDarkMode
-                      ? 'bg-[#141A1F] shadow-[0_10px_24px_-18px_rgba(0,0,0,0.7)]'
-                      : 'bg-white border border-[#E2E8F0] shadow-[0_10px_24px_-18px_rgba(15,23,42,0.18)]'
-                  }`}
-                >
-                  <h2 className={`text-3xl font-bold mb-6 ${isDarkMode ? 'text-[#E0E7EE]' : 'text-[#0F172A]'}`}>
-                    Request Your Pakistan Tour Plan
-                  </h2>
-                  <p className={`mb-8 ${isDarkMode ? 'text-[#C4CCD4]' : 'text-[#374151]'}`}>
-                    Share your plans and our travel experts will reply within 24 hours
-                  </p>
-
-                  {formStatus.submitted && (
-                    <div className="mb-6 p-4 rounded-lg bg-green-500/10 border border-green-500/20">
-                      <p className="text-green-500 font-semibold">
-                        ✓ Thank you! Your inquiry has been received. We'll contact you soon.
-                      </p>
-                    </div>
-                  )}
-
-                  <form onSubmit={handleSubmit} className="space-y-6">
-                    {/* Personal Information */}
-                    <div className="grid md:grid-cols-2 gap-6">
-                      <div>
-                        <label className={`block mb-2 font-semibold ${isDarkMode ? 'text-[#C4CCD4]' : 'text-[#475569]'}`}>
-                          Full Name *
-                        </label>
-                        <input
-                          type="text"
-                          name="fullName"
-                          value={formData.fullName}
-                          onChange={handleInputChange}
-                          required
-                          placeholder="John Smith"
-                          className={`w-full px-4 py-3 rounded-lg border transition-all ${
-                            isDarkMode
-                              ? 'bg-[#0F1419] border-[#1E242B] text-[#E0E7EE] placeholder-[#8B949E] focus:border-[#22D3EE]'
-                              : 'bg-white border-[#CBD5E1] text-[#0F172A] placeholder-[#94A3B8] focus:border-[#2563EB]'
-                          } focus:outline-none focus:ring-2 focus:ring-opacity-20`}
-                        />
-                      </div>
-
-                      <div>
-                        <label className={`block mb-2 font-semibold ${isDarkMode ? 'text-[#C4CCD4]' : 'text-[#475569]'}`}>
-                          Email Address *
-                        </label>
-                        <input
-                          type="email"
-                          name="email"
-                          value={formData.email}
-                          onChange={handleInputChange}
-                          required
-                          placeholder="john@example.com"
-                          className={`w-full px-4 py-3 rounded-lg border transition-all ${
-                            isDarkMode
-                              ? 'bg-[#0F1419] border-[#1E242B] text-[#E0E7EE] placeholder-[#8B949E] focus:border-[#22D3EE]'
-                              : 'bg-white border-[#CBD5E1] text-[#0F172A] placeholder-[#94A3B8] focus:border-[#2563EB]'
-                          } focus:outline-none focus:ring-2 focus:ring-opacity-20`}
-                        />
-                      </div>
-                    </div>
-
-                    <div className="grid md:grid-cols-2 gap-6">
-                      <div>
-                        <label className={`block mb-2 font-semibold ${isDarkMode ? 'text-[#C4CCD4]' : 'text-[#475569]'}`}>
-                          Country *
-                        </label>
-                        <input
-                          type="text"
-                          name="country"
-                          value={formData.country}
-                          onChange={handleInputChange}
-                          required
-                          placeholder="United States"
-                          className={`w-full px-4 py-3 rounded-lg border transition-all ${
-                            isDarkMode
-                              ? 'bg-[#0F1419] border-[#1E242B] text-[#E0E7EE] placeholder-[#8B949E] focus:border-[#22D3EE]'
-                              : 'bg-white border-[#CBD5E1] text-[#0F172A] placeholder-[#94A3B8] focus:border-[#2563EB]'
-                          } focus:outline-none focus:ring-2 focus:ring-opacity-20`}
-                        />
-                      </div>
-
-                      <div>
-                        <label className={`block mb-2 font-semibold ${isDarkMode ? 'text-[#C4CCD4]' : 'text-[#475569]'}`}>
-                          Phone Number (with WhatsApp)
-                        </label>
-                        <div className="flex gap-2">
-                          <select
-                            name="countryCode"
-                            value={formData.countryCode}
-                            onChange={handleInputChange}
-                            className={`px-3 py-3 rounded-lg border transition-all ${
-                              isDarkMode
-                                ? 'bg-[#0F1419] border-[#1E242B] text-[#E0E7EE]'
-                                : 'bg-white border-[#CBD5E1] text-[#0F172A]'
-                            } focus:outline-none`}
-                          >
-                            {countryCodes.map((item) => (
-                              <option key={item.code} value={item.code}>
-                                {item.code}
-                              </option>
-                            ))}
-                          </select>
-                          <input
-                            type="tel"
-                            name="phone"
-                            value={formData.phone}
-                            onChange={handleInputChange}
-                            placeholder="1234567890"
-                            className={`flex-1 px-4 py-3 rounded-lg border transition-all ${
-                              isDarkMode
-                                ? 'bg-[#0F1419] border-[#1E242B] text-[#E0E7EE] placeholder-[#8B949E] focus:border-[#22D3EE]'
-                                : 'bg-white border-[#CBD5E1] text-[#0F172A] placeholder-[#94A3B8] focus:border-[#2563EB]'
-                            } focus:outline-none focus:ring-2 focus:ring-opacity-20`}
-                          />
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Travel Details */}
-                    <div className="grid md:grid-cols-2 gap-6">
-                      <div>
-                        <label className={`block mb-2 font-semibold ${isDarkMode ? 'text-[#C4CCD4]' : 'text-[#475569]'}`}>
-                          Number of Travelers *
-                        </label>
-                        <select
-                          name="numberOfTravelers"
-                          value={formData.numberOfTravelers}
-                          onChange={handleInputChange}
-                          required
-                          className={`w-full px-4 py-3 rounded-lg border transition-all ${
-                            isDarkMode
-                              ? 'bg-[#0F1419] border-[#1E242B] text-[#E0E7EE]'
-                              : 'bg-white border-[#CBD5E1] text-[#0F172A]'
-                          } focus:outline-none focus:ring-2 focus:ring-opacity-20`}
-                        >
-                          <option value="1">1 Person</option>
-                          <option value="2">2 People</option>
-                          <option value="3-5">3 to 5 People</option>
-                          <option value="6-10">6 to 10 People</option>
-                          <option value="10+">More than 10</option>
-                        </select>
-                      </div>
-
-                      <div>
-                        <label className={`block mb-2 font-semibold ${isDarkMode ? 'text-[#C4CCD4]' : 'text-[#475569]'}`}>
-                          Travel Type *
-                        </label>
-                        <select
-                          name="travelType"
-                          value={formData.travelType}
-                          onChange={handleInputChange}
-                          required
-                          className={`w-full px-4 py-3 rounded-lg border transition-all ${
-                            isDarkMode
-                              ? 'bg-[#0F1419] border-[#1E242B] text-[#E0E7EE]'
-                              : 'bg-white border-[#CBD5E1] text-[#0F172A]'
-                          } focus:outline-none focus:ring-2 focus:ring-opacity-20`}
-                        >
-                          <option value="">Select Travel Type</option>
-                          <option value="solo">Solo Traveler</option>
-                          <option value="couple">Couple, Honeymoon</option>
-                          <option value="family">Family Vacation</option>
-                          <option value="friends">Friends Group</option>
-                          <option value="corporate">Corporate, Team Building</option>
-                        </select>
-                      </div>
-                    </div>
-
-                    <div className="grid md:grid-cols-2 gap-6">
-                      <div>
-                        <label className={`block mb-2 font-semibold ${isDarkMode ? 'text-[#C4CCD4]' : 'text-[#475569]'}`}>
-                          Tour Interest *
-                        </label>
-                        <select
-                          name="tourInterest"
-                          value={formData.tourInterest}
-                          onChange={handleInputChange}
-                          required
-                          className={`w-full px-4 py-3 rounded-lg border transition-all ${
-                            isDarkMode
-                              ? 'bg-[#0F1419] border-[#1E242B] text-[#E0E7EE]'
-                              : 'bg-white border-[#CBD5E1] text-[#0F172A]'
-                          } focus:outline-none focus:ring-2 focus:ring-opacity-20`}
-                        >
-                          <option value="">Select Your Interest</option>
-                          {tourInterests.map((interest) => (
-                            <option key={interest} value={interest}>
-                              {interest}
-                            </option>
-                          ))}
-                        </select>
-                      </div>
-
-                      <div>
-                        <label className={`block mb-2 font-semibold ${isDarkMode ? 'text-[#C4CCD4]' : 'text-[#475569]'}`}>
-                          Preferred Travel Month
-                        </label>
-                        <select
-                          name="preferredMonth"
-                          value={formData.preferredMonth}
-                          onChange={handleInputChange}
-                          className={`w-full px-4 py-3 rounded-lg border transition-all ${
-                            isDarkMode
-                              ? 'bg-[#0F1419] border-[#1E242B] text-[#E0E7EE]'
-                              : 'bg-white border-[#CBD5E1] text-[#0F172A]'
-                          } focus:outline-none focus:ring-2 focus:ring-opacity-20`}
-                        >
-                          <option value="">Select Month</option>
-                          {months.map((month) => (
-                            <option key={month} value={month}>
-                              {month} 2026
-                            </option>
-                          ))}
-                        </select>
-                      </div>
-                    </div>
-
-                    <div>
-                      <label className={`block mb-2 font-semibold ${isDarkMode ? 'text-[#C4CCD4]' : 'text-[#475569]'}`}>
-                        Budget Range (USD per person)
-                      </label>
+                  {/* Phone */}
+                  <div>
+                    <label className={labelCls}>Phone (WhatsApp welcome)</label>
+                    <div className="flex gap-2">
                       <select
-                        name="budgetRange"
-                        value={formData.budgetRange}
+                        name="countryCode"
+                        value={formData.countryCode}
                         onChange={handleInputChange}
-                        className={`w-full px-4 py-3 rounded-lg border transition-all ${
-                          isDarkMode
-                            ? 'bg-[#0F1419] border-[#1E242B] text-[#E0E7EE]'
-                            : 'bg-white border-[#CBD5E1] text-[#0F172A]'
-                        } focus:outline-none focus:ring-2 focus:ring-opacity-20`}
+                        className={`px-3 py-3 rounded-xl border transition-all focus:outline-none ${inputCls}`}
                       >
-                        <option value="">Select Budget Range</option>
-                        <option value="500-1000">$500 to $1,000</option>
-                        <option value="1000-2000">$1,000 to $2,000</option>
-                        <option value="2000-3000">$2,000 to $3,000</option>
-                        <option value="3000-5000">$3,000 to $5,000</option>
-                        <option value="5000+">$5,000+</option>
+                        {countryCodes.map((item) => (
+                          <option key={item.code} value={item.code}>
+                            {item.code}
+                          </option>
+                        ))}
+                      </select>
+                      <input
+                        type="tel"
+                        name="phone"
+                        value={formData.phone}
+                        onChange={handleInputChange}
+                        placeholder="512 555 0189"
+                        className={`flex-1 px-4 py-3 rounded-xl border transition-all focus:outline-none focus:ring-2 focus:ring-[#6AAF7E]/20 ${inputCls}`}
+                      />
+                    </div>
+                  </div>
+
+                  {/* Travelers + Travel Type */}
+                  <div className="grid md:grid-cols-2 gap-5">
+                    <div>
+                      <label className={labelCls}>Number of Guests *</label>
+                      <select
+                        name="numberOfTravelers"
+                        value={formData.numberOfTravelers}
+                        onChange={handleInputChange}
+                        required
+                        className={`w-full px-4 py-3 rounded-xl border transition-all focus:outline-none focus:ring-2 focus:ring-[#6AAF7E]/20 ${inputCls}`}
+                      >
+                        <option value="1">1 Guest</option>
+                        <option value="2">2 Guests</option>
+                        <option value="3-4">3 – 4 Guests</option>
+                        <option value="5-6">5 – 6 Guests</option>
+                        <option value="7+">7+ Guests</option>
                       </select>
                     </div>
-
                     <div>
-                      <label className={`block mb-2 font-semibold ${isDarkMode ? 'text-[#C4CCD4]' : 'text-[#475569]'}`}>
-                        Additional Details / Special Requests
-                      </label>
-                      <textarea
-                        name="message"
-                        value={formData.message}
+                      <label className={labelCls}>Trip Type *</label>
+                      <select
+                        name="travelType"
+                        value={formData.travelType}
                         onChange={handleInputChange}
-                        rows="5"
-                        placeholder="Tell us about your travel preferences, any specific requirements, dietary restrictions, accessibility needs, or special occasions..."
-                        className={`w-full px-4 py-3 rounded-lg border transition-all ${
-                          isDarkMode
-                            ? 'bg-[#0F1419] border-[#1E242B] text-[#E0E7EE] placeholder-[#8B949E] focus:border-[#22D3EE]'
-                            : 'bg-white border-[#CBD5E1] text-[#0F172A] placeholder-[#94A3B8] focus:border-[#2563EB]'
-                        } focus:outline-none focus:ring-2 focus:ring-opacity-20`}
-                      ></textarea>
+                        required
+                        className={`w-full px-4 py-3 rounded-xl border transition-all focus:outline-none focus:ring-2 focus:ring-[#6AAF7E]/20 ${inputCls}`}
+                      >
+                        <option value="">Select Trip Type</option>
+                        <option value="solo">Solo Retreat</option>
+                        <option value="couple">Couples Getaway</option>
+                        <option value="family">Family Stay</option>
+                        <option value="friends">Friends Group</option>
+                        <option value="corporate">Corporate / Team Retreat</option>
+                      </select>
                     </div>
-
-                    <button
-                      type="submit"
-                      className={`w-full px-8 py-4 rounded-lg font-bold transition-all duration-300 flex items-center justify-center gap-3 ${
-                        isDarkMode
-                          ? 'bg-linear-to-r from-[#22D3EE] to-[#4DBBFF] text-[#0B0C0E] hover:shadow-lg hover:shadow-[#22D3EE]/50'
-                          : 'bg-linear-to-r from-[#3B82F6] to-[#60A5FA] text-white hover:shadow-lg hover:shadow-blue-500/50'
-                      } transform hover:scale-105`}
-                    >
-                      <FaPaperPlane />
-                      <span>Send Inquiry</span>
-                    </button>
-                  </form>
-                </div>
-              </div>
-
-              {/* Sidebar - Quick Info & Social */}
-              <div className="space-y-6">
-                {/* Why Choose Us */}
-                <div
-                  className={`p-6 rounded-xl ${
-                    isDarkMode ? 'bg-[#141A1F]' : 'bg-white border border-[#E2E8F0]'
-                  } shadow-xl`}
-                >
-                  <h3 className={`text-xl font-bold mb-4 ${isDarkMode ? 'text-[#E0E7EE]' : 'text-[#0F172A]'}`}>
-                    Why Contact Us?
-                  </h3>
-                  <ul className={`space-y-3 ${isDarkMode ? 'text-[#C4CCD4]' : 'text-[#475569]'}`}>
-                    <li className="flex items-start gap-2">
-                      <span className={`mt-1 ${isDarkMode ? 'text-[#22D3EE]' : 'text-[#3B82F6]'}`}>✓</span>
-                      <span>24-hour response guarantee</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <span className={`mt-1 ${isDarkMode ? 'text-[#22D3EE]' : 'text-[#3B82F6]'}`}>✓</span>
-                      <span>Free customized itinerary planning</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <span className={`mt-1 ${isDarkMode ? 'text-[#22D3EE]' : 'text-[#3B82F6]'}`}>✓</span>
-                      <span>Expert advice from local specialists</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <span className={`mt-1 ${isDarkMode ? 'text-[#22D3EE]' : 'text-[#3B82F6]'}`}>✓</span>
-                      <span>Transparent pricing with no hidden fees</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <span className={`mt-1 ${isDarkMode ? 'text-[#22D3EE]' : 'text-[#3B82F6]'}`}>✓</span>
-                      <span>Multilingual support available</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <span className={`mt-1 ${isDarkMode ? 'text-[#22D3EE]' : 'text-[#3B82F6]'}`}>✓</span>
-                      <span>Secure booking & payment options</span>
-                    </li>
-                  </ul>
-                </div>
-
-                {/* Quick Contact via WhatsApp */}
-                <div
-                  className={`p-6 rounded-xl text-center ${
-                    isDarkMode ? 'bg-linear-to-br from-green-900/20 to-green-800/20 border border-green-500/20' : 'bg-linear-to-br from-green-50 to-green-100 border border-green-200'
-                  }`}
-                >
-                  <FaWhatsapp className="text-5xl text-green-500 mx-auto mb-4" />
-                  <h3 className={`text-xl font-bold mb-2 ${isDarkMode ? 'text-[#E0E7EE]' : 'text-[#0F172A]'}`}>
-                    Need Instant Response?
-                  </h3>
-                  <p className={`mb-4 ${isDarkMode ? 'text-[#C4CCD4]' : 'text-[#475569]'}`}>
-                    Chat with us directly on WhatsApp
-                  </p>
-                  <a
-                    href={whatsappLink}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-block px-6 py-3 bg-green-500 text-white rounded-lg font-bold hover:bg-green-600 transition-colors"
-                  >
-                    Chat on WhatsApp
-                  </a>
-                </div>
-
-                {/* Social Media */}
-                <div
-                  className={`p-6 rounded-xl ${
-                    isDarkMode ? 'bg-[#141A1F]' : 'bg-white border border-[#E2E8F0]'
-                  } shadow-xl`}
-                >
-                  <h3 className={`text-xl font-bold mb-4 ${isDarkMode ? 'text-[#E0E7EE]' : 'text-[#0F172A]'}`}>
-                    Follow Us
-                  </h3>
-                  <div className="flex gap-4 justify-center">
-                    <a
-                      href="#"
-                      className={`w-12 h-12 rounded-full flex items-center justify-center transition-all ${
-                        isDarkMode
-                          ? 'bg-[#0F1419] hover:bg-blue-600 text-[#22D3EE]'
-                          : 'bg-[#F8FAFC] hover:bg-blue-600 text-[#2563EB]'
-                      } hover:text-white`}
-                    >
-                      <FaFacebook className="text-xl" />
-                    </a>
-                    <a
-                      href="#"
-                      className={`w-12 h-12 rounded-full flex items-center justify-center transition-all ${
-                        isDarkMode
-                          ? 'bg-[#0F1419] hover:bg-pink-600 text-[#22D3EE]'
-                          : 'bg-[#F8FAFC] hover:bg-pink-600 text-[#2563EB]'
-                      } hover:text-white`}
-                    >
-                      <FaInstagram className="text-xl" />
-                    </a>
-                    <a
-                      href="#"
-                      className={`w-12 h-12 rounded-full flex items-center justify-center transition-all ${
-                        isDarkMode
-                          ? 'bg-[#0F1419] hover:bg-blue-400 text-[#22D3EE]'
-                          : 'bg-[#F8FAFC] hover:bg-blue-400 text-[#2563EB]'
-                      } hover:text-white`}
-                    >
-                      <FaTwitter className="text-xl" />
-                    </a>
                   </div>
-                </div>
+
+                  {/* Stay Interest + Month */}
+                  <div className="grid md:grid-cols-2 gap-5">
+                    <div>
+                      <label className={labelCls}>Stay Interest</label>
+                      <select
+                        name="stayInterest"
+                        value={formData.stayInterest}
+                        onChange={handleInputChange}
+                        className={`w-full px-4 py-3 rounded-xl border transition-all focus:outline-none focus:ring-2 focus:ring-[#6AAF7E]/20 ${inputCls}`}
+                      >
+                        <option value="">Select an Option</option>
+                        {tourInterests.map((interest) => (
+                          <option key={interest} value={interest}>
+                            {interest}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                    <div>
+                      <label className={labelCls}>Preferred Month</label>
+                      <select
+                        name="preferredMonth"
+                        value={formData.preferredMonth}
+                        onChange={handleInputChange}
+                        className={`w-full px-4 py-3 rounded-xl border transition-all focus:outline-none focus:ring-2 focus:ring-[#6AAF7E]/20 ${inputCls}`}
+                      >
+                        <option value="">Select Month</option>
+                        {months.map((month) => (
+                          <option key={month} value={month}>
+                            {month} 2026
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+
+                  {/* Message */}
+                  <div>
+                    <label className={labelCls}>Additional Details / Special Requests</label>
+                    <textarea
+                      name="message"
+                      value={formData.message}
+                      onChange={handleInputChange}
+                      rows="5"
+                      placeholder="Tell us about your plans, any special occasions, accessibility needs, or anything else we should know..."
+                      className={`w-full px-4 py-3 rounded-xl border transition-all focus:outline-none focus:ring-2 focus:ring-[#6AAF7E]/20 resize-none ${inputCls}`}
+                    />
+                  </div>
+
+                  {/* Submit */}
+                  <button
+                    type="submit"
+                    className="w-full px-8 py-4 rounded-xl font-bold text-base tracking-wide transition-all duration-300 flex items-center justify-center gap-3 hover:opacity-90 active:scale-[0.99]"
+                    style={{
+                      background: 'linear-gradient(135deg, #2F5D3A 0%, #1F3A2A 100%)',
+                      color: '#EAF3EA',
+                      boxShadow: '0 6px 24px rgba(31,58,42,0.35)'
+                    }}
+                  >
+                    <FaPaperPlane />
+                    <span>Send Inquiry</span>
+                  </button>
+                </form>
               </div>
             </div>
-          </div>
-        </section>
 
-        {/* Footer */}
+            {/* ── Sidebar ── */}
+            <div className="space-y-5">
+
+              {/* Why Contact Us */}
+              <div
+                className={`p-6 rounded-2xl border ${
+                  isDarkMode ? 'bg-[#0A1610] border-[#1E3528]' : 'bg-white border-[#D4E8D4]'
+                } shadow-lg`}
+              >
+                <h3
+                  className="text-lg font-bold mb-4"
+                  style={{ fontFamily: 'Playfair Display, serif', color: isDarkMode ? '#EAF3EA' : '#1F3A2A' }}
+                >
+                  Why Reach Out?
+                </h3>
+                <ul className="space-y-3">
+                  {[
+                    'Reply within 24 hours',
+                    'Help matching you to the right cabin',
+                    'Local tips and experience planning',
+                    'Transparent, no-surprise pricing',
+                    'WhatsApp support for quick questions',
+                    'Flexible stay customization'
+                  ].map((item, i) => (
+                    <li key={i} className="flex items-start gap-2">
+                      <span
+                        className="mt-0.5 font-bold"
+                        style={{ color: isDarkMode ? '#A8E6A3' : '#2F5D3A' }}
+                      >
+                        ✓
+                      </span>
+                      <span
+                        className="text-sm"
+                        style={{ color: isDarkMode ? '#A8C8A8' : '#374151' }}
+                      >
+                        {item}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* WhatsApp CTA */}
+              <div
+                className="p-6 rounded-2xl text-center border"
+                style={{
+                  background: isDarkMode ? 'rgba(31,58,42,0.40)' : 'rgba(168,230,163,0.20)',
+                  borderColor: isDarkMode ? 'rgba(106,175,126,0.25)' : 'rgba(47,93,58,0.20)'
+                }}
+              >
+                <FaWhatsapp
+                  className="text-5xl mx-auto mb-3"
+                  style={{ color: '#25D366' }}
+                />
+                <h3
+                  className="text-lg font-bold mb-1"
+                  style={{ fontFamily: 'Playfair Display, serif', color: isDarkMode ? '#EAF3EA' : '#1F3A2A' }}
+                >
+                  Prefer to Chat?
+                </h3>
+                <p
+                  className="text-sm mb-4"
+                  style={{ color: isDarkMode ? '#A8C8A8' : '#5A7A5A' }}
+                >
+                  Reach us directly on WhatsApp — fast and friendly.
+                </p>
+                <a
+                  href={whatsappLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-block px-6 py-3 rounded-xl font-bold text-sm transition-all hover:opacity-90"
+                  style={{ background: '#25D366', color: '#fff' }}
+                >
+                  Open WhatsApp
+                </a>
+              </div>
+
+              {/* Social Media */}
+              <div
+                className={`p-6 rounded-2xl border ${
+                  isDarkMode ? 'bg-[#0A1610] border-[#1E3528]' : 'bg-white border-[#D4E8D4]'
+                } shadow-lg`}
+              >
+                <h3
+                  className="text-lg font-bold mb-4"
+                  style={{ fontFamily: 'Playfair Display, serif', color: isDarkMode ? '#EAF3EA' : '#1F3A2A' }}
+                >
+                  Follow Along
+                </h3>
+                <div className="flex gap-3 justify-center">
+                  {[
+                    { icon: <FaFacebook className="text-xl" />, href: 'https://facebook.com/tinyescape', hover: '#1877F2' },
+                    { icon: <FaInstagram className="text-xl" />, href: 'https://instagram.com/tinyescape', hover: '#E1306C' },
+                    { icon: <FaTwitter className="text-xl" />, href: 'https://twitter.com/tinyescape', hover: '#1DA1F2' }
+                  ].map((s, i) => (
+                    <a
+                      key={i}
+                      href={s.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="w-12 h-12 rounded-full flex items-center justify-center transition-all duration-200 hover:scale-110"
+                      style={{
+                        background: isDarkMode ? 'rgba(168,230,163,0.08)' : 'rgba(47,93,58,0.08)',
+                        color: isDarkMode ? '#A8E6A3' : '#2F5D3A'
+                      }}
+                      onMouseEnter={e => {
+                        e.currentTarget.style.background = s.hover;
+                        e.currentTarget.style.color = '#fff';
+                      }}
+                      onMouseLeave={e => {
+                        e.currentTarget.style.background = isDarkMode ? 'rgba(168,230,163,0.08)' : 'rgba(47,93,58,0.08)';
+                        e.currentTarget.style.color = isDarkMode ? '#A8E6A3' : '#2F5D3A';
+                      }}
+                    >
+                      {s.icon}
+                    </a>
+                  ))}
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </section>
+
     </PageLayout>
   );
 };

@@ -72,28 +72,28 @@ const TESTIMONIALS = [
   {
     name: "Sarah M.",
     rating: 5,
-    date: "December 2024",
+    date: "January 2026",
     text: "Absolutely magical! The tiny home was perfectly designed — cozy, clean, and surrounded by nature. Waking up to the sound of birds and sipping coffee on the deck was everything we needed. Will definitely be back.",
     avatar: "S",
   },
   {
     name: "James & Linda R.",
     rating: 5,
-    date: "November 2024",
+    date: "February 2026",
     text: "We came for a weekend anniversary trip and ended up wishing we could stay longer. The fire pit nights were unforgettable. The Creekside Café was a wonderful bonus — great coffee and a cozy vibe.",
     avatar: "J",
   },
   {
     name: "Carlos T.",
     rating: 5,
-    date: "October 2024",
+    date: "January 2026",
     text: "The horseback riding was a highlight of our trip. The tiny home itself felt like a luxury treehouse. Very well maintained, super clean, and the hosts were incredibly responsive. Highly recommend!",
     avatar: "C",
   },
   {
     name: "Priya N.",
     rating: 5,
-    date: "September 2024",
+    date: "February 2026",
     text: "I needed a true digital detox and this place delivered. No distractions, just beautiful nature, comfy beds, and the most stunning starry skies. The location between Waco and Temple is also super convenient.",
     avatar: "P",
   },
@@ -365,7 +365,7 @@ const Home = () => {
           >
             <iframe
               title="Tiny Escape location map"
-              src="https://www.google.com/maps?q=Bruceville-Eddy+TX+76524&output=embed"
+              src="https://www.google.com/maps?q=102+CR+499,+Bruceville-Eddy,+TX+76524&z=10&output=embed"
               className="h-[300px] sm:h-[400px] w-full"
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"

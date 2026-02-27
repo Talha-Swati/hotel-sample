@@ -378,10 +378,6 @@ const DestinationDetail = memo(() => {
               </h1>
               <div className="flex flex-wrap gap-6 text-white/90 mb-6">
                 <div className="flex items-center gap-2">
-                  <FaMapMarkerAlt className="text-[#22D3EE]" />
-                  <span>{stay.location}</span>
-                </div>
-                <div className="flex items-center gap-2">
                   <FaStar className="text-yellow-400" />
                   <span>
                     {stay.rating} ({stay.reviews} reviews)

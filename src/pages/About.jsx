@@ -1,8 +1,9 @@
 import { useMemo } from 'react';
+import { Link } from 'react-router-dom';
 import { useTheme } from '../context/ThemeContext';
 import PageLayout from '../components/layout/PageLayout';
 import config from '../config';
-import { FaQuoteLeft, FaMountain, FaUsers, FaHeart, FaAward, FaGlobeAsia, FaHandshake, FaLinkedin, FaTwitter, FaEnvelope } from 'react-icons/fa';
+import tinyEscape3 from '../assets/tiny escape 3.jpg';
 
 const About = () => {
   const { isDarkMode } = useTheme();
@@ -12,455 +13,485 @@ const About = () => {
       id: 1,
       name: 'Avery Cole',
       position: 'Founder',
-      avatar: 'https://ui-avatars.com/api/?name=Avery+Cole&background=22D3EE&color=fff&size=300&bold=true',
+      avatar: 'https://ui-avatars.com/api/?name=Avery+Cole&background=2F5D3A&color=fff&size=300&bold=true',
       bio: 'Shapes the Tiny Escape vision with a focus on calm, quality, and thoughtful guest experiences across Texas.',
-      expertise: ['Hospitality Design', 'Guest Experience', 'Brand Strategy', 'Operations'],
-      achievements: [
-        'Built a collection of design-forward tiny homes',
-        'Launched guest-first operations across Texas',
-        'Introduced low-impact, nature-friendly stays',
-        'Featured in regional travel guides'
-      ]
+      expertise: ['Hospitality Design', 'Guest Experience', 'Brand Strategy'],
     },
     {
       id: 2,
       name: 'Jordan Reed',
       position: 'Operations Lead',
-      avatar: 'https://ui-avatars.com/api/?name=Jordan+Reed&background=4DBBFF&color=fff&size=300&bold=true',
+      avatar: 'https://ui-avatars.com/api/?name=Jordan+Reed&background=1F3A2A&color=A8E6A3&size=300&bold=true',
       bio: 'Leads day-to-day operations, ensuring every stay is smooth, clean, and ready for arrival.',
-      expertise: ['Operations Management', 'Quality Assurance', 'Vendor Coordination', 'Guest Care'],
-      achievements: [
-        'Maintains a 4.9+ guest satisfaction score',
-        'Built a reliable local support network',
-        'Streamlined self check-in processes',
-        'Developed property care standards'
-      ]
+      expertise: ['Operations', 'Quality Assurance', 'Guest Care'],
     },
     {
       id: 3,
       name: 'Maya Patel',
       position: 'Experience Designer',
-      avatar: 'https://ui-avatars.com/api/?name=Maya+Patel&background=60A5FA&color=fff&size=300&bold=true',
+      avatar: 'https://ui-avatars.com/api/?name=Maya+Patel&background=3A7048&color=fff&size=300&bold=true',
       bio: 'Designs stay details that feel calm, intentional, and premium from arrival to checkout.',
-      expertise: ['Interior Styling', 'Service Design', 'Content Direction', 'Guest Journey'],
-      achievements: [
-        'Curated signature stay themes',
-        'Built welcome experiences with local makers',
-        'Introduced seasonal stay updates',
-        'Improved guest communication flows'
-      ]
-    }
+      expertise: ['Interior Styling', 'Service Design', 'Guest Journey'],
+    },
   ];
 
-  const companyValues = [
+  const values = [
     {
-      icon: <FaHeart />,
-      title: 'Calm and Care',
-      description: 'Every stay is designed for comfort, quiet, and an easy pace.'
+      icon: (
+        <svg className="h-7 w-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+        </svg>
+      ),
+      title: 'Calm & Care',
+      description: 'Every stay is designed for comfort, quiet, and an easy pace.',
     },
     {
-      icon: <FaHandshake />,
+      icon: (
+        <svg className="h-7 w-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+        </svg>
+      ),
       title: 'Trust & Transparency',
-      description: 'Clear policies, responsive support, and no surprises.'
+      description: 'Clear policies, responsive support, and no surprises.',
     },
     {
-      icon: <FaAward />,
+      icon: (
+        <svg className="h-7 w-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+        </svg>
+      ),
       title: 'Excellence',
-      description: 'Thoughtful design, clean spaces, and consistent quality.'
+      description: 'Thoughtful design, clean spaces, and consistent quality.',
     },
     {
-      icon: <FaGlobeAsia />,
+      icon: (
+        <svg className="h-7 w-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064" />
+        </svg>
+      ),
       title: 'Local Roots',
-      description: 'We work with local makers and partners across Texas.'
-    }
+      description: 'We work with local makers and partners across Central Texas.',
+    },
   ];
 
   const stats = [
-    { number: '6+', label: 'Years Experience' },
+    { number: '4', label: 'Tiny Homes' },
     { number: '4.9★', label: 'Guest Rating' },
-    { number: '20+', label: 'Unique Stays' },
-    { number: '12', label: 'Miles to Town' }
+    { number: '60+', label: 'Guest Reviews' },
+    { number: '25mi', label: 'From Waco' },
   ];
 
-  // SEO structured data
   const structuredData = useMemo(() => {
     const siteUrl = (config.site.url || '').replace(/\/$/, '');
-
     return {
-    "@context": "https://schema.org",
-    "@type": "LodgingBusiness",
-    "name": "Tiny Escape",
-    "description": "Design-forward tiny homes and cabin stays in Texas.",
-    "url": siteUrl,
-    "logo": `${siteUrl}/logo.png`,
-    "foundingDate": "2019",
-    "founders": [
-      {
-        "@type": "Person",
-        "name": "Avery Cole",
-        "jobTitle": "Founder"
-      },
-      {
-        "@type": "Person",
-        "name": "Jordan Reed",
-        "jobTitle": "Operations Lead"
-      },
-      {
-        "@type": "Person",
-        "name": "Maya Patel",
-        "jobTitle": "Experience Designer"
-      }
-    ]
+      '@context': 'https://schema.org',
+      '@type': 'LodgingBusiness',
+      name: 'The Tiny Escape',
+      description: 'Design-forward tiny homes and cabin stays in Central Texas.',
+      url: siteUrl,
+      foundingDate: '2022',
     };
   }, []);
 
   return (
     <PageLayout
       seo={{
-        title: "About The Tiny Escape | Tiny Home Stays",
-        description: "Meet the team behind Tiny Escape. We design calm, design-forward tiny home stays across Texas.",
-        keywords: "Tiny Escape team, Texas tiny home stays, cabin resort, hill country lodging",
-        url: "/about",
-        structuredData
+        title: 'About The Tiny Escape | Tiny Home Stays in Texas',
+        description:
+          'Meet the team behind The Tiny Escape. We design calm, design-forward tiny home stays in Bruceville-Eddy, Texas.',
+        keywords: 'Tiny Escape team, Texas tiny home stays, cabin resort, Central Texas lodging',
+        url: '/about',
+        structuredData,
       }}
     >
-      {/* Hero Section */}
-        <section
-          id="top"
-          className={`relative py-20 overflow-hidden ${
-            isDarkMode ? 'bg-linear-to-br from-[#0B0C0E] via-[#0A3A67] to-[#0B0C0E]' : 'bg-linear-to-br from-[#F8FAFF] via-[#E6F4FF] to-[#F8FAFF]'
+      {/* ── Hero ── */}
+      <section
+        className={`relative min-h-[52vh] flex items-center justify-center overflow-hidden pt-24 pb-16 ${
+          isDarkMode ? 'bg-[#0F0D0A]' : 'bg-[#F5F9F3]'
+        }`}
+      >
+        {/* Subtle background texture */}
+        <div
+          className="absolute inset-0 opacity-10"
+          style={{
+            backgroundImage: `url(${tinyEscape3})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+          }}
+        />
+        <div
+          className={`absolute inset-0 ${
+            isDarkMode
+              ? 'bg-gradient-to-b from-[#0F0D0A]/90 via-[#0F0D0A]/80 to-[#0F0D0A]/95'
+              : 'bg-gradient-to-b from-[#F5F9F3]/90 via-[#F5F9F3]/80 to-[#F5F9F3]/95'
           }`}
-        >
-          <div className="container mx-auto px-4">
-            <div className="max-w-4xl mx-auto text-center">
-              <div className={`inline-block p-4 rounded-full mb-6 ${isDarkMode ? 'bg-[#22D3EE]/10' : 'bg-blue-50'}`}>
-                <FaUsers className={`text-5xl ${isDarkMode ? 'text-[#22D3EE]' : 'text-[#3B82F6]'}`} />
+        />
+
+        <div className="relative z-10 mx-auto max-w-4xl px-4 sm:px-6 text-center">
+          <p
+            className={`text-xs uppercase tracking-[0.22em] font-bold mb-5 ${
+              isDarkMode ? 'text-[#A8E6A3]' : 'text-[#2F5D3A]'
+            }`}
+          >
+            Our Story
+          </p>
+          <h1
+            className={`text-4xl sm:text-5xl md:text-6xl font-bold mb-6 ${
+              isDarkMode ? 'text-[#F2EEE7]' : 'text-[#1F2A1F]'
+            }`}
+            style={{ fontFamily: 'Playfair Display, serif' }}
+          >
+            About The Tiny Escape
+          </h1>
+          <p
+            className={`text-lg sm:text-xl leading-relaxed max-w-2xl mx-auto mb-10 ${
+              isDarkMode ? 'text-[#C4B9A8]' : 'text-[#3E4F3E]'
+            }`}
+          >
+            A curated collection of tiny homes designed for slow mornings, wide skies, and genuine rest — nestled in Bruceville-Eddy, Texas.
+          </p>
+
+          <div className="flex flex-wrap gap-4 justify-center">
+            <Link
+              to="/tours"
+              className={`inline-flex items-center gap-2 rounded-xl px-7 py-3.5 text-sm font-bold uppercase tracking-wider transition-all duration-300 hover:scale-105 shadow-lg ${
+                isDarkMode
+                  ? 'bg-[#2F5D3A] text-white hover:bg-[#3A7048]'
+                  : 'bg-[#1F3A2A] text-white hover:bg-[#2F5D3A]'
+              }`}
+            >
+              View Our Stays
+            </Link>
+            <Link
+              to="/contact"
+              className={`inline-flex items-center gap-2 rounded-xl border-2 px-7 py-3.5 text-sm font-bold uppercase tracking-wider transition-all duration-300 hover:scale-105 ${
+                isDarkMode
+                  ? 'border-[#A8E6A3] text-[#A8E6A3] hover:bg-[rgba(168,230,163,0.1)]'
+                  : 'border-[#1F3A2A] text-[#1F3A2A] hover:bg-[rgba(31,58,42,0.08)]'
+              }`}
+            >
+              Get in Touch
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Stats ── */}
+      <section
+        className={`py-12 border-y ${
+          isDarkMode
+            ? 'bg-[#120F0C] border-[rgba(201,163,106,0.15)]'
+            : 'bg-white border-[#DDE8DD]'
+        }`}
+      >
+        <div className="mx-auto max-w-5xl px-4 sm:px-6">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+            {stats.map((stat, idx) => (
+              <div key={idx} className="text-center">
+                <div
+                  className={`text-3xl sm:text-4xl font-bold mb-1 ${
+                    isDarkMode ? 'text-[#A8E6A3]' : 'text-[#2F5D3A]'
+                  }`}
+                  style={{ fontFamily: 'Playfair Display, serif' }}
+                >
+                  {stat.number}
+                </div>
+                <div
+                  className={`text-sm font-medium ${
+                    isDarkMode ? 'text-[#A79C8C]' : 'text-[#4B5F4B]'
+                  }`}
+                >
+                  {stat.label}
+                </div>
               </div>
-              <h1
-                className={`text-4xl md:text-5xl lg:text-6xl font-bold mb-6 ${
-                  isDarkMode ? 'bg-linear-to-r from-[#22D3EE] to-[#4DBBFF]' : 'bg-linear-to-r from-[#3B82F6] to-[#60A5FA]'
-                } bg-clip-text text-transparent`}
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── Mission ── */}
+      <section
+        className={`py-16 md:py-24 ${
+          isDarkMode ? 'bg-[#0F0D0A]' : 'bg-[#F5F9F3]'
+        }`}
+      >
+        <div className="mx-auto max-w-7xl px-4 sm:px-6">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            <div>
+              <p
+                className={`text-xs uppercase tracking-[0.22em] font-bold mb-4 ${
+                  isDarkMode ? 'text-[#A8E6A3]' : 'text-[#2F5D3A]'
+                }`}
               >
-                About Tiny Escape
-              </h1>
-              <p className={`text-lg md:text-xl mb-10 ${isDarkMode ? 'text-[#C4CCD4]' : 'text-[#475569]'}`}>
-                Design-forward tiny homes and calm escapes across Texas since 2019
+                Why We Exist
               </p>
-
-              <div className="grid gap-6 md:grid-cols-2 max-w-4xl mx-auto">
-                <div className={`rounded-2xl p-[1px] ${isDarkMode ? 'bg-[#1A2129]' : 'bg-[#DCE7F3]'}`}>
-                  <div className={`h-full rounded-2xl p-6 ${isDarkMode ? 'bg-[#0B0C0E]' : 'bg-white border border-[#E2E8F0]'} text-left`}>
-                    <div className="flex items-center gap-3 mb-3">
-                      <FaQuoteLeft className={`${isDarkMode ? 'text-[#22D3EE]' : 'text-[#3B82F6]'} text-xl`} />
-                      <h3 className={`text-lg font-semibold ${isDarkMode ? 'text-[#E0E7EE]' : 'text-[#0F172A]'}`}>
-                        Our Mission
-                      </h3>
-                    </div>
-                    <p className={`${isDarkMode ? 'text-[#C4CCD4]' : 'text-[#475569]'} text-sm leading-relaxed`}>
-                      Create calm, intentional stays that help guests slow down and reconnect.
-                    </p>
-                  </div>
-                </div>
-
-                <div className={`rounded-2xl p-[1px] ${isDarkMode ? 'bg-[#1A2129]' : 'bg-[#DCE7F3]'}`}>
-                  <div className={`h-full rounded-2xl p-6 ${isDarkMode ? 'bg-[#0B0C0E]' : 'bg-white border border-[#E2E8F0]'} text-left`}>
-                    <div className="flex items-center gap-3 mb-3">
-                      <FaMountain className={`${isDarkMode ? 'text-[#22D3EE]' : 'text-[#3B82F6]'} text-xl`} />
-                      <h3 className={`text-lg font-semibold ${isDarkMode ? 'text-[#E0E7EE]' : 'text-[#0F172A]'}`}>
-                        Experience Promise
-                      </h3>
-                    </div>
-                    <p className={`${isDarkMode ? 'text-[#C4CCD4]' : 'text-[#475569]'} text-sm leading-relaxed`}>
-                      Clean spaces, clear details, and quiet nights from first message to checkout.
-                    </p>
-                  </div>
-                </div>
-              </div>
+              <h2
+                className={`text-3xl sm:text-4xl font-bold mb-6 ${
+                  isDarkMode ? 'text-[#F2EEE7]' : 'text-[#1F2A1F]'
+                }`}
+                style={{ fontFamily: 'Playfair Display, serif' }}
+              >
+                Built for Rest & Reconnection
+              </h2>
+              <p
+                className={`text-base sm:text-lg leading-relaxed mb-5 ${
+                  isDarkMode ? 'text-[#C4B9A8]' : 'text-[#3E4F3E]'
+                }`}
+              >
+                The Tiny Escape was born from a simple belief: that people deserve a place to slow down. We designed a thoughtful tiny home village in Central Texas where guests can unplug, breathe, and reconnect with what matters.
+              </p>
+              <p
+                className={`text-base sm:text-lg leading-relaxed ${
+                  isDarkMode ? 'text-[#C4B9A8]' : 'text-[#3E4F3E]'
+                }`}
+              >
+                Every home is designed with intention — from the warm interiors to the private fire pits, the creek-side trails, and the guided horseback rides. We handle every detail so our guests can simply arrive and unwind.
+              </p>
             </div>
-          </div>
-        </section>
 
-        {/* Section Index */}
-        <section className={`py-4 ${isDarkMode ? 'bg-[#0F1419]' : 'bg-white'} border-y ${isDarkMode ? 'border-[#1F2A33]' : 'border-[#E2E8F0]'}`}>
-          <div className="container mx-auto px-4">
-            <div className="flex flex-wrap items-center justify-center gap-3">
+            <div className="grid grid-cols-2 gap-4">
               {[
-                { label: 'Leadership', href: '#team' },
-                { label: 'Stats', href: '#stats' },
-                { label: 'What We Do', href: '#what-we-do' },
-                { label: 'Values', href: '#values' },
-                { label: 'Start Now', href: '#cta' }
+                { title: 'Curated Spaces', desc: 'Design-forward interiors and calm outdoor settings.' },
+                { title: 'Local Touches', desc: 'Thoughtful details from Central Texas makers.' },
+                { title: 'Easy Arrival', desc: 'Smart self check-in and clear, simple guidance.' },
+                { title: 'Transparent Rates', desc: 'No hidden fees or surprise add-ons. Ever.' },
               ].map((item) => (
-                <a
-                  key={item.href}
-                  href={item.href}
-                  className={`px-4 py-2 rounded-full text-xs md:text-sm font-semibold transition-all ${
+                <div
+                  key={item.title}
+                  className={`rounded-2xl p-5 border ${
                     isDarkMode
-                      ? 'bg-[#0B0C0E] text-[#C4CCD4] hover:text-[#22D3EE] border border-[#1F2A33]'
-                      : 'bg-[#F8FAFC] text-[#0F172A] hover:text-[#2563EB] border border-[#E2E8F0]'
+                      ? 'bg-[#16120F] border-[rgba(201,163,106,0.2)]'
+                      : 'bg-white border-[#DDE8DD]'
                   }`}
                 >
-                  {item.label}
-                </a>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* Team Section */}
-        <section id="team" className={`py-16 ${isDarkMode ? 'bg-[#0F1419]' : 'bg-[#F1F5F9]'}`}>
-          <div className="container mx-auto px-4">
-            <h2 className={`text-3xl md:text-4xl font-bold mb-12 text-center ${isDarkMode ? 'text-[#E0E7EE]' : 'text-[#0F172A]'}`}>
-              Meet Our Leadership Team
-            </h2>
-
-            <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-              {teamMembers.map((member) => (
-                <div key={member.id}>
-                  <div
-                    className={`rounded-3xl p-[1px] ${
-                      isDarkMode
-                        ? 'bg-linear-to-br from-[#1F2A33] via-[#0F1419] to-[#1E293B]'
-                        : 'bg-linear-to-br from-[#DCE7F3] via-white to-[#E2E8F0]'
+                  <h3
+                    className={`text-sm font-bold mb-2 ${
+                      isDarkMode ? 'text-[#F2EEE7]' : 'text-[#1F2A1F]'
                     }`}
                   >
-                    <div
-                      className={`rounded-3xl h-full overflow-hidden flex flex-col ${
-                        isDarkMode ? 'bg-[#0F1419]' : 'bg-white'
-                      } shadow-xl`}
-                    >
-                      <div className="p-6">
-                        <div className="flex flex-col items-center text-center">
-                          <div className="relative">
-                            <div
-                              className={`rounded-full p-[3px] ${
-                                isDarkMode
-                                  ? 'bg-linear-to-r from-[#22D3EE] via-[#2DD4BF] to-[#4DBBFF]'
-                                  : 'bg-linear-to-r from-[#3B82F6] via-[#60A5FA] to-[#93C5FD]'
-                              }`}
-                            >
-                              <div className={`rounded-full p-1 ${isDarkMode ? 'bg-[#0F1419]' : 'bg-white'} shadow-lg`}>
-                                <img
-                                  src={member.avatar}
-                                  alt={member.name}
-                                  loading="lazy"
-                                  decoding="async"
-                                  className="h-28 w-28 md:h-32 md:w-32 rounded-full object-cover object-[50%_20%]"
-                                />
-                              </div>
-                            </div>
-                            <span
-                              className={`absolute -bottom-3 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full text-xs font-semibold shadow-md ${
-                                isDarkMode
-                                  ? 'bg-[#0B0C0E] text-[#22D3EE] border border-[#1F2A33]'
-                                  : 'bg-white text-[#1D4ED8] border border-[#E2E8F0]'
-                              }`}
-                            >
-                              {member.position}
-                            </span>
-                          </div>
-
-                          <h3 className={`mt-6 text-xl md:text-2xl font-bold ${isDarkMode ? 'text-[#E0E7EE]' : 'text-[#0F172A]'}`}>
-                            {member.name}
-                          </h3>
-
-                          <div
-                            className={`mt-4 w-full rounded-xl border-l-4 px-4 py-3 text-left ${
-                              isDarkMode
-                                ? 'bg-[#0B0C0E] border-[#22D3EE] text-[#C4CCD4]'
-                                : 'bg-[#F8FAFC] border-[#3B82F6] text-[#475569]'
-                            }`}
-                          >
-                            <p className="text-sm leading-relaxed">{member.bio}</p>
-                          </div>
-                        </div>
-
-                        <div
-                          className={`mt-5 rounded-xl p-4 ${
-                            isDarkMode
-                              ? 'bg-[#0B0C0E] border border-[#1F2A33]'
-                              : 'bg-white border border-[#E2E8F0]'
-                          }`}
-                        >
-                          <p className={`text-xs uppercase tracking-wide font-semibold ${isDarkMode ? 'text-[#8B949E]' : 'text-[#64748B]'}`}>
-                            Focus Areas
-                          </p>
-                          <div className="mt-2 flex flex-wrap gap-2">
-                            {member.expertise.slice(0, 3).map((skill, idx) => (
-                              <span
-                                key={idx}
-                                className={`px-3 py-1 rounded-full text-xs font-semibold ${
-                                  isDarkMode
-                                    ? 'bg-[#22D3EE]/10 text-[#22D3EE]'
-                                    : 'bg-[#E0F2FE] text-[#0284C7]'
-                                }`}
-                              >
-                                {skill}
-                              </span>
-                            ))}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* Stats Section */}
-        <section id="stats" className={`py-16 ${isDarkMode ? 'bg-[#0F1419]' : 'bg-white'}`}>
-          <div className="container mx-auto px-4">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-              {stats.map((stat, idx) => (
-                <div
-                  key={idx}
-                  className={`text-center p-6 rounded-xl transition-all duration-300 ${
-                    isDarkMode
-                      ? 'bg-[#0B0C0E] hover:shadow-[0_22px_26px_-18px_rgba(148,163,184,0.24)]'
-                      : 'bg-white border border-[#E2E8F0] hover:shadow-[0_22px_26px_-18px_rgba(71,85,105,0.16)]'
-                  }`}
-                >
-                  <div className={`text-4xl font-bold mb-2 ${isDarkMode ? 'text-[#22D3EE]' : 'text-[#3B82F6]'}`}>
-                    {stat.number}
-                  </div>
-                  <div className={`text-sm ${isDarkMode ? 'text-[#8B949E]' : 'text-[#475569]'}`}>
-                    {stat.label}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* What We Do */}
-        <section id="what-we-do" className={`py-16 ${isDarkMode ? 'bg-[#0F1419]' : 'bg-[#F1F5F9]'}`}>
-          <div className="container mx-auto px-4">
-            <div className="grid gap-10 lg:grid-cols-2 items-center">
-              <div>
-                <h2 className={`text-3xl md:text-4xl font-bold mb-4 ${isDarkMode ? 'text-[#E0E7EE]' : 'text-[#0F172A]'}`}>
-                  What We Do
-                </h2>
-                <p className={`text-lg leading-relaxed ${isDarkMode ? 'text-[#C4CCD4]' : 'text-[#374151]'}`}>
-                  We design tiny home stays across Texas with calm interiors, clear details, and a guest-first approach from booking to checkout.
-                </p>
-                <div className="mt-6 flex flex-wrap gap-3">
-                  {['Hill Country', 'Wimberley', 'Dripping Springs', 'Marble Falls', 'Fredericksburg', 'Canyon Lake'].map((region) => (
-                    <span
-                      key={region}
-                      className={`px-3 py-1 rounded-full text-xs font-semibold ${
-                        isDarkMode ? 'bg-[#22D3EE]/10 text-[#22D3EE]' : 'bg-white border border-[#E2E8F0] text-[#0F172A]'
-                      }`}
-                    >
-                      {region}
-                    </span>
-                  ))}
-                </div>
-              </div>
-
-              <div className="grid gap-4 sm:grid-cols-2">
-                {[
-                  { title: 'Curated Spaces', desc: 'Design-forward interiors and calm outdoor settings.' },
-                  { title: 'Local Touches', desc: 'Thoughtful details from Texas makers.' },
-                  { title: 'Easy Arrival', desc: 'Self check-in and clear, simple guidance.' },
-                  { title: 'Transparent Rates', desc: 'No hidden fees or surprise add-ons.' }
-                ].map((item) => (
-                  <div
-                    key={item.title}
-                    className={`rounded-xl p-5 transition-all duration-300 ${
-                      isDarkMode
-                        ? 'bg-[#0B0C0E] text-[#C4CCD4] hover:shadow-[0_22px_26px_-18px_rgba(148,163,184,0.22)]'
-                        : 'bg-white border border-[#E2E8F0] text-[#475569] hover:shadow-[0_22px_26px_-18px_rgba(71,85,105,0.16)]'
-                    }`}
-                  >
-                    <h3 className={`text-base font-semibold mb-2 ${isDarkMode ? 'text-[#E0E7EE]' : 'text-[#0F172A]'}`}>
-                      {item.title}
-                    </h3>
-                    <p className="text-sm leading-relaxed">{item.desc}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Company Values */}
-        <section id="values" className={`py-16 ${isDarkMode ? 'bg-[#0F1419]' : 'bg-white'}`}>
-          <div className="container mx-auto px-4">
-            <h2 className={`text-3xl md:text-4xl font-bold mb-12 text-center ${isDarkMode ? 'text-[#E0E7EE]' : 'text-[#0F172A]'}`}>
-              Our Core Values
-            </h2>
-
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {companyValues.map((value, idx) => (
-                <div
-                  key={idx}
-                  className={`p-6 rounded-xl text-center transition-all duration-300 ${
-                    isDarkMode
-                      ? 'bg-[#0B0C0E] hover:shadow-[0_26px_22px_-20px_rgba(148,163,184,0.2)]'
-                      : 'bg-white border border-[#E2E8F0] hover:shadow-[0_26px_22px_-20px_rgba(71,85,105,0.16)]'
-                  }`}
-                >
-                  <div className={`inline-flex items-center justify-center w-16 h-16 rounded-full mb-4 ${
-                    isDarkMode ? 'bg-[#22D3EE]/10' : 'bg-blue-50'
-                  }`}>
-                    <div className={`text-3xl ${isDarkMode ? 'text-[#22D3EE]' : 'text-[#3B82F6]'}`}>
-                      {value.icon}
-                    </div>
-                  </div>
-                  <h3 className={`text-xl font-bold mb-3 ${isDarkMode ? 'text-[#E0E7EE]' : 'text-[#0F172A]'}`}>
-                    {value.title}
+                    {item.title}
                   </h3>
-                  <p className={`${isDarkMode ? 'text-[#C4CCD4]' : 'text-[#374151]'}`}>
-                    {value.description}
+                  <p
+                    className={`text-sm leading-relaxed ${
+                      isDarkMode ? 'text-[#A79C8C]' : 'text-[#4B5F4B]'
+                    }`}
+                  >
+                    {item.desc}
                   </p>
                 </div>
               ))}
             </div>
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* Call to Action */}
-        <section
-          id="cta"
-          className={`py-16 ${
-            isDarkMode ? 'bg-linear-to-r from-[#0F1419] to-[#141A1F]' : 'bg-linear-to-r from-[#F8FAFC] to-[#EFF6FF]'
-          }`}
-        >
-          <div className="container mx-auto px-4 text-center">
-            <h2 className={`text-3xl font-bold mb-4 ${isDarkMode ? 'text-[#E0E7EE]' : 'text-[#0F172A]'}`}>
-              Ready for Your Tiny Escape?
-            </h2>
-            <p className={`text-lg mb-8 ${isDarkMode ? 'text-[#C4CCD4]' : 'text-[#475569]'}`}>
-              Book a calm, design-forward stay and slow down in Texas
+      {/* ── Team ── */}
+      <section
+        className={`py-16 md:py-24 ${
+          isDarkMode
+            ? 'bg-gradient-to-b from-[#120F0C] to-[#0F0D0A]'
+            : 'bg-gradient-to-b from-[#EAF3EA] to-[#F5F9F3]'
+        }`}
+      >
+        <div className="mx-auto max-w-7xl px-4 sm:px-6">
+          <div className="text-center mb-14">
+            <p
+              className={`text-xs uppercase tracking-[0.22em] font-bold mb-4 ${
+                isDarkMode ? 'text-[#A8E6A3]' : 'text-[#2F5D3A]'
+              }`}
+            >
+              The People Behind It
             </p>
-            <div className="flex flex-wrap gap-4 justify-center">
-              <a
-                href="/destinations"
-                className={`inline-block px-8 py-4 rounded-lg font-bold transition-all duration-300 ${
+            <h2
+              className={`text-3xl sm:text-4xl font-bold ${
+                isDarkMode ? 'text-[#F2EEE7]' : 'text-[#1F2A1F]'
+              }`}
+              style={{ fontFamily: 'Playfair Display, serif' }}
+            >
+              Meet Our Team
+            </h2>
+          </div>
+
+          <div className="grid gap-6 md:grid-cols-3">
+            {teamMembers.map((member) => (
+              <div
+                key={member.id}
+                className={`rounded-3xl border p-6 text-center transition-all duration-500 hover:-translate-y-1 hover:shadow-xl ${
                   isDarkMode
-                    ? 'bg-linear-to-r from-[#22D3EE] to-[#4DBBFF] text-[#0B0C0E] hover:shadow-lg hover:shadow-[#22D3EE]/50'
-                    : 'bg-linear-to-r from-[#3B82F6] to-[#60A5FA] text-white hover:shadow-lg hover:shadow-blue-500/50'
-                } transform hover:scale-105`}
-              >
-                Explore Stays
-              </a>
-              <a
-                href="/contact"
-                className={`inline-block px-8 py-4 rounded-lg font-bold transition-all duration-300 border-2 ${
-                  isDarkMode
-                    ? 'border-[#22D3EE] text-[#22D3EE] hover:bg-[#22D3EE] hover:text-[#0B0C0E]'
-                    : 'border-[#2563EB] text-[#1D4ED8] hover:bg-[#2563EB] hover:text-white'
+                    ? 'bg-[#16120F] border-[rgba(201,163,106,0.2)]'
+                    : 'bg-white border-[#DDE8DD]'
                 }`}
               >
-                Contact Us
-              </a>
-            </div>
-          </div>
-        </section>
+                <div
+                  className={`inline-block p-1 rounded-full mb-5 ${
+                    isDarkMode
+                      ? 'bg-gradient-to-br from-[#2F5D3A] to-[#A8E6A3]'
+                      : 'bg-gradient-to-br from-[#1F3A2A] to-[#6BAF7A]'
+                  }`}
+                >
+                  <img
+                    src={member.avatar}
+                    alt={member.name}
+                    className="h-24 w-24 rounded-full object-cover"
+                    loading="lazy"
+                  />
+                </div>
 
-        {/* Footer */}
+                <span
+                  className={`inline-block px-3 py-1 rounded-full text-xs font-bold mb-3 ${
+                    isDarkMode
+                      ? 'bg-[#1F3A2A] text-[#A8E6A3]'
+                      : 'bg-[#EAF3EA] text-[#1F3A2A]'
+                  }`}
+                >
+                  {member.position}
+                </span>
+
+                <h3
+                  className={`text-xl font-bold mb-3 ${
+                    isDarkMode ? 'text-[#F2EEE7]' : 'text-[#1F2A1F]'
+                  }`}
+                  style={{ fontFamily: 'Playfair Display, serif' }}
+                >
+                  {member.name}
+                </h3>
+
+                <p
+                  className={`text-sm leading-relaxed mb-4 ${
+                    isDarkMode ? 'text-[#A79C8C]' : 'text-[#4B5F4B]'
+                  }`}
+                >
+                  {member.bio}
+                </p>
+
+                <div className="flex flex-wrap gap-2 justify-center">
+                  {member.expertise.map((skill, idx) => (
+                    <span
+                      key={idx}
+                      className={`px-3 py-1 rounded-full text-xs font-medium ${
+                        isDarkMode
+                          ? 'bg-[#1F3A2A] text-[#A8E6A3]'
+                          : 'bg-[#EAF3EA] text-[#2F5D3A]'
+                      }`}
+                    >
+                      {skill}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── Values ── */}
+      <section
+        className={`py-16 md:py-24 ${
+          isDarkMode ? 'bg-[#0F0D0A]' : 'bg-white'
+        }`}
+      >
+        <div className="mx-auto max-w-7xl px-4 sm:px-6">
+          <div className="text-center mb-14">
+            <p
+              className={`text-xs uppercase tracking-[0.22em] font-bold mb-4 ${
+                isDarkMode ? 'text-[#A8E6A3]' : 'text-[#2F5D3A]'
+              }`}
+            >
+              What We Stand For
+            </p>
+            <h2
+              className={`text-3xl sm:text-4xl font-bold ${
+                isDarkMode ? 'text-[#F2EEE7]' : 'text-[#1F2A1F]'
+              }`}
+              style={{ fontFamily: 'Playfair Display, serif' }}
+            >
+              Our Core Values
+            </h2>
+          </div>
+
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {values.map((value, idx) => (
+              <div
+                key={idx}
+                className={`rounded-2xl border p-6 text-center transition-all duration-500 hover:-translate-y-1 hover:shadow-lg ${
+                  isDarkMode
+                    ? 'bg-[#16120F] border-[rgba(201,163,106,0.2)]'
+                    : 'bg-[#F5F9F3] border-[#DDE8DD]'
+                }`}
+              >
+                <div
+                  className={`inline-flex items-center justify-center w-14 h-14 rounded-full mb-4 ${
+                    isDarkMode ? 'bg-[#1F3A2A] text-[#A8E6A3]' : 'bg-[#EAF3EA] text-[#2F5D3A]'
+                  }`}
+                >
+                  {value.icon}
+                </div>
+                <h3
+                  className={`text-lg font-bold mb-3 ${
+                    isDarkMode ? 'text-[#F2EEE7]' : 'text-[#1F2A1F]'
+                  }`}
+                >
+                  {value.title}
+                </h3>
+                <p
+                  className={`text-sm leading-relaxed ${
+                    isDarkMode ? 'text-[#A79C8C]' : 'text-[#4B5F4B]'
+                  }`}
+                >
+                  {value.description}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── CTA ── */}
+      <section
+        className={`py-16 md:py-20 ${
+          isDarkMode ? 'bg-[#120F0C]' : 'bg-[#EAF3EA]'
+        }`}
+      >
+        <div className="mx-auto max-w-3xl px-4 sm:px-6 text-center">
+          <h2
+            className={`text-3xl sm:text-4xl font-bold mb-4 ${
+              isDarkMode ? 'text-[#F2EEE7]' : 'text-[#1F2A1F]'
+            }`}
+            style={{ fontFamily: 'Playfair Display, serif' }}
+          >
+            Ready for Your Tiny Escape?
+          </h2>
+          <p
+            className={`text-base sm:text-lg mb-8 ${
+              isDarkMode ? 'text-[#A79C8C]' : 'text-[#4B5F4B]'
+            }`}
+          >
+            Book a calm, design-forward stay and slow down in Central Texas.
+          </p>
+          <div className="flex flex-wrap gap-4 justify-center">
+            <Link
+              to="/tours"
+              className={`inline-flex items-center gap-2 rounded-xl px-8 py-4 text-sm font-bold uppercase tracking-wider transition-all duration-300 hover:scale-105 shadow-lg ${
+                isDarkMode
+                  ? 'bg-[#2F5D3A] text-white hover:bg-[#3A7048]'
+                  : 'bg-[#1F3A2A] text-white hover:bg-[#2F5D3A]'
+              }`}
+            >
+              Browse Stays
+            </Link>
+            <Link
+              to="/contact"
+              className={`inline-flex items-center gap-2 rounded-xl border-2 px-8 py-4 text-sm font-bold uppercase tracking-wider transition-all duration-300 hover:scale-105 ${
+                isDarkMode
+                  ? 'border-[#A8E6A3] text-[#A8E6A3] hover:bg-[rgba(168,230,163,0.1)]'
+                  : 'border-[#1F3A2A] text-[#1F3A2A] hover:bg-[rgba(31,58,42,0.08)]'
+              }`}
+            >
+              Contact Us
+            </Link>
+          </div>
+        </div>
+      </section>
     </PageLayout>
   );
 };
